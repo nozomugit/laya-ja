@@ -1,0 +1,300 @@
+{
+  "laya": {
+    "jamp": {
+      "correct": 233,
+      "n": 348
+    },
+    "jcommonsenseqa": {
+      "correct": 676,
+      "n": 1119
+    },
+    "jsem": {
+      "correct": 180,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 18,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 50,
+      "n": 96
+    }
+  },
+  "official_broad": {
+    "jamp": {
+      "correct": 329,
+      "n": 348
+    }
+  },
+  "template_hard": {
+    "jamp": {
+      "correct": 251,
+      "n": 348
+    }
+  },
+  "temporal_graph": {
+    "jamp": {
+      "correct": 278,
+      "n": 348
+    }
+  },
+  "qa_mix": {
+    "jcommonsenseqa": {
+      "correct": 1006,
+      "n": 1119
+    }
+  },
+  "combined": {
+    "jsem": {
+      "correct": 255,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 27,
+      "n": 36
+    }
+  },
+  "direct_laya": {
+    "jsem": {
+      "correct": 265,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 31,
+      "n": 36
+    }
+  },
+  "sparse_direct_laya": {
+    "jsem": {
+      "correct": 299,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 31,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 79,
+      "n": 96
+    }
+  },
+  "verifier": {
+    "jsem": {
+      "correct": 281,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 28,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 77,
+      "n": 96
+    }
+  },
+  "single_judge": {
+    "jsem": {
+      "correct": 290,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 33,
+      "n": 36
+    }
+  },
+  "fixed_mix": {
+    "jsem": {
+      "correct": 293,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 32,
+      "n": 36
+    }
+  },
+  "consensus": {
+    "jsem": {
+      "correct": 276,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 27,
+      "n": 36
+    }
+  },
+  "gemma_expert": {
+    "jsem": {
+      "correct": 170,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 22,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 48,
+      "n": 96
+    }
+  },
+  "gemma_family": {
+    "jsem": {
+      "correct": 170,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 22,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 49,
+      "n": 96
+    }
+  },
+  "gemma_combined": {
+    "jsem": {
+      "correct": 241,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 29,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 67,
+      "n": 96
+    }
+  },
+  "dense_dense_only": {
+    "jsem": {
+      "correct": 294,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 34,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 73,
+      "n": 96
+    }
+  },
+  "dense_single": {
+    "jsem": {
+      "correct": 293,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 34,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 74,
+      "n": 96
+    }
+  },
+  "dense_dual": {
+    "jsem": {
+      "correct": 305,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 33,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 79,
+      "n": 96
+    }
+  },
+  "readings_single": {
+    "jsem": {
+      "correct": 276,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 29,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 74,
+      "n": 96
+    }
+  },
+  "readings_dual": {
+    "jsem": {
+      "correct": 298,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 32,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 78,
+      "n": 96
+    }
+  },
+  "trained-vote": {
+    "challenge": {
+      "correct": 34,
+      "n": 36
+    },
+    "jsem": {
+      "correct": 303,
+      "n": 384
+    },
+    "jsem-fresh": {
+      "correct": 77,
+      "n": 96
+    }
+  },
+  "direct-calibration": {
+    "jsem": {
+      "correct": 305,
+      "n": 384
+    },
+    "challenge": {
+      "correct": 32,
+      "n": 36
+    },
+    "jsem-fresh": {
+      "correct": 78,
+      "n": 96
+    }
+  },
+  "countermodel": {
+    "challenge": {
+      "correct": 35,
+      "n": 36
+    },
+    "jsem": {
+      "correct": 238,
+      "n": 384
+    },
+    "jsem-fresh": {
+      "correct": 68,
+      "n": 96
+    }
+  },
+  "cross-family": {
+    "challenge": {
+      "correct": 30,
+      "n": 36
+    },
+    "jsem": {
+      "correct": 217,
+      "n": 384
+    },
+    "jsem-fresh": {
+      "correct": 68,
+      "n": 96
+    }
+  },
+  "temporal-transfer": {
+    "jamp": {
+      "correct": 296,
+      "n": 348
+    }
+  }
+}

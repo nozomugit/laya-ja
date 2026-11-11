@@ -53,6 +53,8 @@ def predict(a):
         prior = np.array([raw["probabilities"][c] for c in LABELS])
         labels = LABELS
         if a.task == "inference-readings":
+            if a.calibrated and a.single_judge:
+                raise ValueError("Calibration needs both external judges")
             from four_task_prompts import nli_prompt
             from four_task_reason import engine_scores
             from reading_vote import mix as reading_mix
@@ -72,7 +74,16 @@ def predict(a):
             )
             single, dual = reading_mix(prior, base, dense, first, second)
             result = single if a.single_judge else dual
+            if a.calibrated:
+                from fit_reading_vote import predict as calibrated
+
+                cfg = json.loads((weights / "trained-vote.json").read_text())
+                result = calibrated(
+                    prior, base, dense, first, second, cfg["coefficients"]
+                )
         elif a.task == "inference-dense":
+            if a.calibrated and a.single_judge:
+                raise ValueError("Calibration needs both external judges")
             from dense_transfer import mix
             from four_task_prompts import nli_prompt
             from four_task_reason import engine_scores
@@ -86,6 +97,12 @@ def predict(a):
             )
             single, dual = mix(prior, dense, sparse)
             result = single if a.single_judge else dual
+            if a.calibrated:
+                from calibrate_direct import evidence
+                from calibrate_direct import predict as calibrated
+
+                cfg = json.loads((weights / "direct-calibration.json").read_text())
+                result = calibrated(evidence(prior, dense, sparse), cfg["coefficients"])
         elif a.task == "inference-countermodel":
             from countermodel_prompts import prompt
             from four_task_reason import engine_scores
@@ -287,6 +304,12 @@ if __name__ == "__main__":
             "inference-cross-family",
         ):
             cmd.add_argument("--engine", type=Path, required=True)
+            if name in ("inference-readings", "inference-dense"):
+                cmd.add_argument(
+                    "--calibrated",
+                    action="store_true",
+                    help="Use weights fitted to separate development corpora",
+                )
             if name in ("inference-dense", "inference-readings"):
                 cmd.add_argument(
                     "--single-judge",

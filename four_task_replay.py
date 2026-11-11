@@ -65,6 +65,8 @@ def summarize(folder):
         "gemma",
         "dense",
         "readings",
+        "trained-vote",
+        "direct-calibration",
         "countermodel",
         "cross-family",
         "temporal-transfer",
@@ -97,6 +99,8 @@ def summarize(folder):
             }
     checks = [
         ("countermodel", "four-countermodel.json", "combined"),
+        ("direct-calibration", "four-direct-calibration.json", None),
+        ("trained-vote", "four-trained-vote.json", None),
         ("readings_single", "four-readings.json", "single"),
         ("readings_dual", "four-readings.json", "dual"),
         ("dense_single", "four-dense.json", "single"),
