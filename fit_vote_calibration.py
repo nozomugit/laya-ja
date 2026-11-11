@@ -31,7 +31,8 @@ def fit_one(probs, gold, groups):
 
 
 def fit(args):
-    logits = {name: read_view(getattr(args, name)) for name, _ in VOTES[1:]}
+    voters = VOTES[:3] if args.direct_only else VOTES
+    logits = {name: read_view(getattr(args, name)) for name, _ in voters[1:]}
     src, gold, groups = [], [], []
     group_ids = json.loads((args.inputs / "groups.json").read_text())["semantic-cal"]
     for split, grouping in [
@@ -43,16 +44,17 @@ def fit(args):
             raise ValueError("Incorrect development group lengths")
         for i, r in enumerate(rows):
             src.append(
-                [r["laya"]] + [softmax(logits[name][split, i]) for name, _ in VOTES[1:]]
+                [r["laya"]]
+                + [softmax(logits[name][split, i]) for name, _ in voters[1:]]
             )
             gold.append(r["gold"])
         groups.extend(grouping)
     src, y, g = np.array(src), np.array(gold), np.array(groups)
-    if src.shape != (240, 5, 3) or len(np.unique(g)) != 5:
+    if src.shape != (240, len(voters), 3) or len(np.unique(g)) != 5:
         raise ValueError("Unexpected development split")
-    hold = np.empty((len(y), 5))
+    hold = np.empty((len(y), len(voters)))
     models = {}
-    for j, (name, _) in enumerate(VOTES):
+    for j, (name, _) in enumerate(voters):
         p = src[:, j]
         for group in np.unique(g):
             out = g == group
@@ -60,7 +62,8 @@ def fit(args):
             hold[out, j] = calibrate(p[out], theta)[np.arange(out.sum()), y[out]]
         models[name] = fit_one(p, y, g).tolist()
     w = weights(y, g)
-    prior = np.array([weight / 100 for _, weight in VOTES])
+    prior = np.array([float(weight) for _, weight in voters])
+    prior /= prior.sum()
 
     def loss(v):
         return -w @ np.log(np.maximum(hold @ v, 1e-15)) + 0.02 * np.sum(
@@ -71,7 +74,7 @@ def fit(args):
         loss,
         prior,
         method="SLSQP",
-        bounds=[(0.05, 1)] + [(0, 1)] * 4,
+        bounds=[(0.05, 1)] + [(0, 1)] * (len(voters) - 1),
         constraints=[{"type": "eq", "fun": lambda v: v.sum() - 1}],
         options={"ftol": 1e-12},
     )
@@ -81,7 +84,8 @@ def fit(args):
     alpha[alpha < 1e-9] = 0
     alpha /= alpha.sum()
     config = {
-        "weights": {name: float(a) for (name, _), a in zip(VOTES, alpha)},
+        "weights": {name: 0.0 for name, _ in VOTES}
+        | {name: float(a) for (name, _), a in zip(voters, alpha)},
         "calibration": models,
         "fit_groups": {k: int((g == k).sum()) for k in np.unique(g)},
     }
@@ -100,5 +104,10 @@ if __name__ == "__main__":
         p.add_argument(
             "--" + key, type=Path, default=Path(".cache") / (default + ".jsonl")
         )
+    p.add_argument(
+        "--direct-only",
+        action="store_true",
+        help="Use only Laya and the two zero-generation Qwen scorers",
+    )
     p.add_argument("--output", type=Path, default=Path("weights/semantic-vote.json"))
     fit(p.parse_args())
