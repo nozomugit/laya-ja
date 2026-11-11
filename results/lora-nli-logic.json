@@ -1,0 +1,762 @@
+{
+  "source": "Colab A100 run of lora_nli.py --regimes mix4 mix4-logic at branch commit 2f76496 (2026-11-12). The mix4 adapters are the ones behind results/lora-nli.json, scored again on the added sets. Scored on GPU in float32; recall and loss rounded to four decimals.",
+  "config": {
+    "epochs": 2,
+    "encoder_lr": 0.0001,
+    "head_lr": 0.0001,
+    "micro_batch": 16,
+    "grad_accum": 2,
+    "extra_cap": 4000,
+    "entailment_weight": 1.0,
+    "logic_cap": 6000,
+    "lora": [
+      16,
+      32,
+      0.05
+    ]
+  },
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "counts": {
+    "train": {
+      "jnli": 18618,
+      "jsick": 4000,
+      "janli": 4000,
+      "jamp": 4000,
+      "logic": 6000
+    },
+    "eval": {
+      "jnli": 2434,
+      "reserved": 256,
+      "jsick": 512,
+      "janli": 512,
+      "jamp": 348,
+      "jsem": 384,
+      "jsem-fresh": 96,
+      "logic-held": 300,
+      "challenge": 36
+    }
+  },
+  "models": {
+    "base": {
+      "jnli": {
+        "correct": 1271,
+        "n": 2434,
+        "accuracy": 0.522186
+      },
+      "reserved": {
+        "correct": 125,
+        "n": 256,
+        "accuracy": 0.488281
+      },
+      "jsick": {
+        "correct": 229,
+        "n": 512,
+        "accuracy": 0.447266
+      },
+      "janli": {
+        "correct": 299,
+        "n": 512,
+        "accuracy": 0.583984
+      },
+      "jamp": {
+        "correct": 154,
+        "n": 348,
+        "accuracy": 0.442529
+      },
+      "jsem": {
+        "correct": 192,
+        "n": 384,
+        "accuracy": 0.5
+      },
+      "jsem-fresh": {
+        "correct": 49,
+        "n": 96,
+        "accuracy": 0.510417
+      },
+      "logic-held": {
+        "correct": 124,
+        "n": 300,
+        "accuracy": 0.413333
+      },
+      "challenge": {
+        "correct": 14,
+        "n": 36,
+        "accuracy": 0.388889
+      }
+    },
+    "prev": {
+      "jnli": {
+        "correct": 2204,
+        "n": 2434,
+        "accuracy": 0.905505
+      },
+      "reserved": {
+        "correct": 225,
+        "n": 256,
+        "accuracy": 0.878906
+      },
+      "jsick": {
+        "correct": 307,
+        "n": 512,
+        "accuracy": 0.599609
+      },
+      "janli": {
+        "correct": 289,
+        "n": 512,
+        "accuracy": 0.564453
+      },
+      "jamp": {
+        "correct": 152,
+        "n": 348,
+        "accuracy": 0.436782
+      },
+      "jsem": {
+        "correct": 208,
+        "n": 384,
+        "accuracy": 0.541667
+      },
+      "jsem-fresh": {
+        "correct": 63,
+        "n": 96,
+        "accuracy": 0.65625
+      },
+      "logic-held": {
+        "correct": 142,
+        "n": 300,
+        "accuracy": 0.473333
+      },
+      "challenge": {
+        "correct": 19,
+        "n": 36,
+        "accuracy": 0.527778
+      }
+    },
+    "mix4": {
+      "jnli": {
+        "correct": 2217,
+        "n": 2434,
+        "accuracy": 0.910846
+      },
+      "reserved": {
+        "correct": 226,
+        "n": 256,
+        "accuracy": 0.882812
+      },
+      "jsick": {
+        "correct": 456,
+        "n": 512,
+        "accuracy": 0.890625
+      },
+      "janli": {
+        "correct": 512,
+        "n": 512,
+        "accuracy": 1.0
+      },
+      "jamp": {
+        "correct": 263,
+        "n": 348,
+        "accuracy": 0.755747
+      },
+      "jsem": {
+        "correct": 225,
+        "n": 384,
+        "accuracy": 0.585938
+      },
+      "jsem-fresh": {
+        "correct": 64,
+        "n": 96,
+        "accuracy": 0.666667
+      },
+      "logic-held": {
+        "correct": 151,
+        "n": 300,
+        "accuracy": 0.503333
+      },
+      "challenge": {
+        "correct": 18,
+        "n": 36,
+        "accuracy": 0.5
+      }
+    },
+    "mix4-logic": {
+      "jnli": {
+        "correct": 2207,
+        "n": 2434,
+        "accuracy": 0.906738
+      },
+      "reserved": {
+        "correct": 226,
+        "n": 256,
+        "accuracy": 0.882812
+      },
+      "jsick": {
+        "correct": 452,
+        "n": 512,
+        "accuracy": 0.882812
+      },
+      "janli": {
+        "correct": 512,
+        "n": 512,
+        "accuracy": 1.0
+      },
+      "jamp": {
+        "correct": 262,
+        "n": 348,
+        "accuracy": 0.752874
+      },
+      "jsem": {
+        "correct": 225,
+        "n": 384,
+        "accuracy": 0.585938
+      },
+      "jsem-fresh": {
+        "correct": 65,
+        "n": 96,
+        "accuracy": 0.677083
+      },
+      "logic-held": {
+        "correct": 261,
+        "n": 300,
+        "accuracy": 0.87
+      },
+      "challenge": {
+        "correct": 21,
+        "n": 36,
+        "accuracy": 0.583333
+      }
+    }
+  },
+  "model_notes": {
+    "base": "upstream checkpoint",
+    "prev": "JNLI-only LoRA, one seed",
+    "mix4": "mean of three seeds' option scores",
+    "mix4-logic": "mean of three seeds' option scores"
+  },
+  "runs": {
+    "mix4": {
+      "42": {
+        "evaluation": {
+          "jnli": {
+            "correct": 2196,
+            "n": 2434,
+            "accuracy": 0.902219
+          },
+          "reserved": {
+            "correct": 227,
+            "n": 256,
+            "accuracy": 0.886719
+          },
+          "jsick": {
+            "correct": 453,
+            "n": 512,
+            "accuracy": 0.884766
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0
+          },
+          "jamp": {
+            "correct": 262,
+            "n": 348,
+            "accuracy": 0.752874
+          },
+          "jsem": {
+            "correct": 224,
+            "n": 384,
+            "accuracy": 0.583333
+          },
+          "jsem-fresh": {
+            "correct": 63,
+            "n": 96,
+            "accuracy": 0.65625
+          },
+          "logic-held": {
+            "correct": 152,
+            "n": 300,
+            "accuracy": 0.506667
+          },
+          "challenge": {
+            "correct": 16,
+            "n": 36,
+            "accuracy": 0.444444
+          }
+        }
+      },
+      "43": {
+        "evaluation": {
+          "jnli": {
+            "correct": 2219,
+            "n": 2434,
+            "accuracy": 0.911668
+          },
+          "reserved": {
+            "correct": 225,
+            "n": 256,
+            "accuracy": 0.878906
+          },
+          "jsick": {
+            "correct": 457,
+            "n": 512,
+            "accuracy": 0.892578
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0
+          },
+          "jamp": {
+            "correct": 262,
+            "n": 348,
+            "accuracy": 0.752874
+          },
+          "jsem": {
+            "correct": 221,
+            "n": 384,
+            "accuracy": 0.575521
+          },
+          "jsem-fresh": {
+            "correct": 62,
+            "n": 96,
+            "accuracy": 0.645833
+          },
+          "logic-held": {
+            "correct": 150,
+            "n": 300,
+            "accuracy": 0.5
+          },
+          "challenge": {
+            "correct": 18,
+            "n": 36,
+            "accuracy": 0.5
+          }
+        }
+      },
+      "44": {
+        "evaluation": {
+          "jnli": {
+            "correct": 2217,
+            "n": 2434,
+            "accuracy": 0.910846
+          },
+          "reserved": {
+            "correct": 227,
+            "n": 256,
+            "accuracy": 0.886719
+          },
+          "jsick": {
+            "correct": 450,
+            "n": 512,
+            "accuracy": 0.878906
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0
+          },
+          "jamp": {
+            "correct": 260,
+            "n": 348,
+            "accuracy": 0.747126
+          },
+          "jsem": {
+            "correct": 227,
+            "n": 384,
+            "accuracy": 0.591146
+          },
+          "jsem-fresh": {
+            "correct": 64,
+            "n": 96,
+            "accuracy": 0.666667
+          },
+          "logic-held": {
+            "correct": 153,
+            "n": 300,
+            "accuracy": 0.51
+          },
+          "challenge": {
+            "correct": 17,
+            "n": 36,
+            "accuracy": 0.472222
+          }
+        }
+      }
+    },
+    "mix4-logic": {
+      "42": {
+        "evaluation": {
+          "jnli": {
+            "correct": 2194,
+            "n": 2434,
+            "accuracy": 0.901397
+          },
+          "reserved": {
+            "correct": 224,
+            "n": 256,
+            "accuracy": 0.875
+          },
+          "jsick": {
+            "correct": 450,
+            "n": 512,
+            "accuracy": 0.878906
+          },
+          "janli": {
+            "correct": 510,
+            "n": 512,
+            "accuracy": 0.996094
+          },
+          "jamp": {
+            "correct": 263,
+            "n": 348,
+            "accuracy": 0.755747
+          },
+          "jsem": {
+            "correct": 220,
+            "n": 384,
+            "accuracy": 0.572917
+          },
+          "jsem-fresh": {
+            "correct": 65,
+            "n": 96,
+            "accuracy": 0.677083
+          },
+          "logic-held": {
+            "correct": 265,
+            "n": 300,
+            "accuracy": 0.883333
+          },
+          "challenge": {
+            "correct": 21,
+            "n": 36,
+            "accuracy": 0.583333
+          }
+        }
+      },
+      "43": {
+        "evaluation": {
+          "jnli": {
+            "correct": 2198,
+            "n": 2434,
+            "accuracy": 0.90304
+          },
+          "reserved": {
+            "correct": 227,
+            "n": 256,
+            "accuracy": 0.886719
+          },
+          "jsick": {
+            "correct": 453,
+            "n": 512,
+            "accuracy": 0.884766
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0
+          },
+          "jamp": {
+            "correct": 264,
+            "n": 348,
+            "accuracy": 0.758621
+          },
+          "jsem": {
+            "correct": 225,
+            "n": 384,
+            "accuracy": 0.585938
+          },
+          "jsem-fresh": {
+            "correct": 65,
+            "n": 96,
+            "accuracy": 0.677083
+          },
+          "logic-held": {
+            "correct": 261,
+            "n": 300,
+            "accuracy": 0.87
+          },
+          "challenge": {
+            "correct": 19,
+            "n": 36,
+            "accuracy": 0.527778
+          }
+        }
+      },
+      "44": {
+        "evaluation": {
+          "jnli": {
+            "correct": 2192,
+            "n": 2434,
+            "accuracy": 0.900575
+          },
+          "reserved": {
+            "correct": 225,
+            "n": 256,
+            "accuracy": 0.878906
+          },
+          "jsick": {
+            "correct": 453,
+            "n": 512,
+            "accuracy": 0.884766
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0
+          },
+          "jamp": {
+            "correct": 259,
+            "n": 348,
+            "accuracy": 0.744253
+          },
+          "jsem": {
+            "correct": 223,
+            "n": 384,
+            "accuracy": 0.580729
+          },
+          "jsem-fresh": {
+            "correct": 65,
+            "n": 96,
+            "accuracy": 0.677083
+          },
+          "logic-held": {
+            "correct": 262,
+            "n": 300,
+            "accuracy": 0.873333
+          },
+          "challenge": {
+            "correct": 19,
+            "n": 36,
+            "accuracy": 0.527778
+          }
+        }
+      }
+    }
+  },
+  "tuning": {
+    "mix4-logic": {
+      "42": {
+        "epoch": 2,
+        "tune_nll": [
+          0.2476,
+          0.233
+        ],
+        "logic_tune_accuracy": [
+          0.8438,
+          0.8698
+        ]
+      },
+      "43": {
+        "epoch": 2,
+        "tune_nll": [
+          0.2658,
+          0.2209
+        ],
+        "logic_tune_accuracy": [
+          0.8438,
+          0.875
+        ]
+      },
+      "44": {
+        "epoch": 2,
+        "tune_nll": [
+          0.2431,
+          0.2211
+        ],
+        "logic_tune_accuracy": [
+          0.849,
+          0.8698
+        ]
+      }
+    }
+  },
+  "jsem_recall_of_mean_scores": {
+    "mix4": {
+      "entailment": 0.7656,
+      "contradiction": 0.8047,
+      "neutral": 0.1875
+    },
+    "mix4-logic": {
+      "entailment": 0.8281,
+      "contradiction": 0.7109,
+      "neutral": 0.2188
+    }
+  },
+  "comparisons": {
+    "mix4-logic_vs_prev": {
+      "jsem": {
+        "difference": 0.0443,
+        "gained": 32,
+        "lost": 15,
+        "group_bootstrap_95pct": [
+          0.0095,
+          0.0952
+        ]
+      },
+      "jsem-fresh": {
+        "difference": 0.0208,
+        "gained": 12,
+        "lost": 10,
+        "group_bootstrap_95pct": [
+          -0.0563,
+          0.0708
+        ]
+      },
+      "challenge": {
+        "difference": 0.0556,
+        "gained": 7,
+        "lost": 5,
+        "group_bootstrap_95pct": [
+          -0.0833,
+          0.1944
+        ]
+      }
+    }
+  },
+  "fusion": {
+    "note": "Fixed shares of dense_transfer.py: 10% Laya, 45% + 45% direct judges; only the Laya share is replaced.",
+    "jsem": {
+      "n": 384,
+      "published_laya_alone": 180,
+      "published_mixture": 305,
+      "judges_without_laya": 305,
+      "base": [
+        192,
+        303
+      ],
+      "prev": [
+        208,
+        304
+      ],
+      "mix4": [
+        225,
+        304
+      ],
+      "mix4-logic": [
+        225,
+        305
+      ],
+      "mix4-s42": [
+        224,
+        304
+      ],
+      "mix4-s43": [
+        221,
+        304
+      ],
+      "mix4-s44": [
+        227,
+        304
+      ],
+      "mix4-logic-s42": [
+        220,
+        305
+      ],
+      "mix4-logic-s43": [
+        225,
+        305
+      ],
+      "mix4-logic-s44": [
+        223,
+        305
+      ]
+    },
+    "challenge": {
+      "n": 36,
+      "published_laya_alone": 18,
+      "published_mixture": 33,
+      "judges_without_laya": 32,
+      "base": [
+        14,
+        33
+      ],
+      "prev": [
+        19,
+        33
+      ],
+      "mix4": [
+        18,
+        33
+      ],
+      "mix4-logic": [
+        21,
+        33
+      ],
+      "mix4-s42": [
+        16,
+        33
+      ],
+      "mix4-s43": [
+        18,
+        33
+      ],
+      "mix4-s44": [
+        17,
+        33
+      ],
+      "mix4-logic-s42": [
+        21,
+        33
+      ],
+      "mix4-logic-s43": [
+        19,
+        33
+      ],
+      "mix4-logic-s44": [
+        19,
+        33
+      ]
+    },
+    "jsem-fresh": {
+      "n": 96,
+      "published_laya_alone": 50,
+      "published_mixture": 79,
+      "judges_without_laya": 78,
+      "base": [
+        49,
+        79
+      ],
+      "prev": [
+        63,
+        79
+      ],
+      "mix4": [
+        64,
+        79
+      ],
+      "mix4-logic": [
+        65,
+        79
+      ],
+      "mix4-s42": [
+        63,
+        79
+      ],
+      "mix4-s43": [
+        62,
+        79
+      ],
+      "mix4-s44": [
+        64,
+        79
+      ],
+      "mix4-logic-s42": [
+        65,
+        79
+      ],
+      "mix4-logic-s43": [
+        65,
+        79
+      ],
+      "mix4-logic-s44": [
+        65,
+        79
+      ]
+    },
+    "columns": "[Laya alone, mixture] correct counts"
+  },
+  "selected_seed": 43
+}
