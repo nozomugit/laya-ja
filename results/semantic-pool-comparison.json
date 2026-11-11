@@ -1,0 +1,29 @@
+{
+  "development_nll": {
+    "shared_arithmetic": 0.4261341205229714,
+    "edits_arithmetic": 0.42399443401871306,
+    "shared_geometric": 0.4142569614973151,
+    "edits_geometric": 0.41085176909702514
+  },
+  "chosen": "edits_geometric",
+  "evaluation": {
+    "jsem": {
+      "shared_arithmetic": 305,
+      "edits_arithmetic": 305,
+      "shared_geometric": 304,
+      "edits_geometric": 304
+    },
+    "jsem-fresh": {
+      "shared_arithmetic": 79,
+      "edits_arithmetic": 79,
+      "shared_geometric": 79,
+      "edits_geometric": 78
+    },
+    "challenge": {
+      "shared_arithmetic": 33,
+      "edits_arithmetic": 32,
+      "shared_geometric": 32,
+      "edits_geometric": 32
+    }
+  }
+}

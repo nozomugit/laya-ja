@@ -23,11 +23,23 @@ def digest(s):
 def prepare(args):
     from context_tasks import ContextReader
 
-    blocked = {
-        normalized(row["text"])
-        for path in args.inputs.glob("*.jsonl")
-        for row in load(path)
+    sizes = {
+        "jsem": 384,
+        "jsem-fresh": 96,
+        "challenge": 36,
+        "nli-dev": 96,
+        "semantic-cal": 144,
+        "qa-dev": 64,
+        "jcommonsenseqa": 1119,
+        "jamp": 348,
+        "jamp-dev": 192,
     }
+    blocked = set()
+    for split, n in sizes.items():
+        rows = load(args.inputs / (split + ".jsonl"))
+        if len(rows) != n:
+            raise ValueError(f"Incomplete prior data for {split}")
+        blocked.update(normalized(row["text"]) for row in rows)
     pool = sorted(
         jsem(args.corpora), key=lambda r: digest("Laya audit 36 2026-11-12 " + r[3])
     )
