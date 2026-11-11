@@ -77,6 +77,7 @@ def run(a):
     with (
         (a.out / "direct.jsonl").open("w") as f,
         (a.out / "contrast.jsonl").open("w") as g,
+        (a.out / "countermodel.jsonl").open("w") as countermodel,
         (a.out / "gemma.jsonl").open("w") as gemma,
         (a.out / "reason.jsonl").open("w") as reason,
         (a.out / "must_true.jsonl").open("w") as truth,
@@ -102,6 +103,15 @@ def run(a):
                                 )
                                 + "\n"
                             )
+                    from countermodel_prompts import prompt as counter_prompt
+
+                    countermodel.write(
+                        json.dumps(
+                            {"id": [split, i], "prompt": counter_prompt(p, h)},
+                            ensure_ascii=False,
+                        )
+                        + "\n"
+                    )
                     from gemma_prompts import prompt as gemma_prompt
 
                     gemma.write(
