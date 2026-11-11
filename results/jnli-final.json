@@ -1,0 +1,414 @@
+{
+  "task": "jnli",
+  "selected": "width48-epoch24",
+  "tune_candidates": {
+    "linear": {
+      "n": 192,
+      "correct": 102,
+      "accuracy": 0.53125,
+      "nll": 0.8796603679656982,
+      "ece_10_bins": 0.05548753775656223
+    },
+    "width16-epoch4": {
+      "n": 192,
+      "correct": 104,
+      "accuracy": 0.5416666865348816,
+      "nll": 0.8777225017547607,
+      "ece_10_bins": 0.050597685389220715
+    },
+    "width16-epoch12": {
+      "n": 192,
+      "correct": 118,
+      "accuracy": 0.6145833134651184,
+      "nll": 0.7956510186195374,
+      "ece_10_bins": 0.07148140436038375
+    },
+    "width16-epoch24": {
+      "n": 192,
+      "correct": 141,
+      "accuracy": 0.734375,
+      "nll": 0.7061710953712463,
+      "ece_10_bins": 0.13104926282539964
+    },
+    "width48-epoch4": {
+      "n": 192,
+      "correct": 106,
+      "accuracy": 0.5520833134651184,
+      "nll": 0.8739769458770752,
+      "ece_10_bins": 0.05908122844994068
+    },
+    "width48-epoch12": {
+      "n": 192,
+      "correct": 128,
+      "accuracy": 0.6666666865348816,
+      "nll": 0.7574875354766846,
+      "ece_10_bins": 0.09015474049374461
+    },
+    "width48-epoch24": {
+      "n": 192,
+      "correct": 142,
+      "accuracy": 0.7395833134651184,
+      "nll": 0.6758838295936584,
+      "ece_10_bins": 0.06587334087816998
+    }
+  },
+  "official_validation": {
+    "base": {
+      "n": 2434,
+      "correct": 1271,
+      "accuracy": 0.5221856832504272,
+      "nll": 1.2233229875564575,
+      "ece_10_bins": 0.23874972907651681
+    },
+    "linear": {
+      "n": 2434,
+      "correct": 1363,
+      "accuracy": 0.5599835515022278,
+      "nll": 0.8962666392326355,
+      "ece_10_bins": 0.06473638786701486
+    },
+    "selected": {
+      "n": 2434,
+      "correct": 1755,
+      "accuracy": 0.721035361289978,
+      "nll": 0.6928497552871704,
+      "ece_10_bins": 0.051375485491007566
+    },
+    "gained": 659,
+    "lost": 175,
+    "difference_95pct": [
+      0.17360263570263598,
+      0.22710838438151884
+    ]
+  },
+  "reversed": {
+    "base": {
+      "n": 512,
+      "correct": 266,
+      "accuracy": 0.51953125,
+      "nll": 1.2569572925567627,
+      "ece_10_bins": 0.2660335071850568
+    },
+    "linear": {
+      "n": 512,
+      "correct": 283,
+      "accuracy": 0.552734375,
+      "nll": 0.8988285064697266,
+      "ece_10_bins": 0.059007556876167655
+    },
+    "selected": {
+      "n": 512,
+      "correct": 363,
+      "accuracy": 0.708984375,
+      "nll": 0.7063949108123779,
+      "ece_10_bins": 0.03416866378393024
+    },
+    "gained": 133,
+    "lost": 36,
+    "difference_95pct": [
+      0.14038377192982457,
+      0.24056863995310995
+    ]
+  },
+  "recall": {
+    "entailment": {
+      "base": 0.7507163286209106,
+      "selected": 0.48424068093299866
+    },
+    "contradiction": {
+      "base": 0.8476190567016602,
+      "selected": 0.7428571581840515
+    },
+    "neutral": {
+      "base": 0.2859259247779846,
+      "selected": 0.770370364189148
+    }
+  },
+  "challenge": {
+    "base": {
+      "n": 36,
+      "correct": 14,
+      "accuracy": 0.3888888955116272,
+      "nll": 1.7836191654205322,
+      "ece_10_bins": 0.4157840101979673
+    },
+    "linear": {
+      "n": 36,
+      "correct": 14,
+      "accuracy": 0.3888888955116272,
+      "nll": 1.114473581314087,
+      "ece_10_bins": 0.13483827468007803
+    },
+    "selected": {
+      "n": 36,
+      "correct": 12,
+      "accuracy": 0.3333333432674408,
+      "nll": 1.2250076532363892,
+      "ece_10_bins": 0.28868556930683553
+    },
+    "gained": 4,
+    "lost": 6,
+    "difference_95pct": [
+      -0.19444444444444445,
+      0.08333333333333333
+    ]
+  },
+  "challenge_items": [
+    {
+      "id": 0,
+      "category": "否定の範囲",
+      "gold": 0,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 1,
+      "category": "否定の範囲",
+      "gold": 1,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 2,
+      "category": "否定の範囲",
+      "gold": 2,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 3,
+      "category": "助詞と役割",
+      "gold": 0,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 4,
+      "category": "助詞と役割",
+      "gold": 1,
+      "base": 0,
+      "selected": 2
+    },
+    {
+      "id": 5,
+      "category": "助詞と役割",
+      "gold": 2,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 6,
+      "category": "時点",
+      "gold": 0,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 7,
+      "category": "時点",
+      "gold": 1,
+      "base": 2,
+      "selected": 2
+    },
+    {
+      "id": 8,
+      "category": "時点",
+      "gold": 2,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 9,
+      "category": "数量境界",
+      "gold": 0,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 10,
+      "category": "数量境界",
+      "gold": 1,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 11,
+      "category": "数量境界",
+      "gold": 2,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 12,
+      "category": "伝聞と事実",
+      "gold": 0,
+      "base": 0,
+      "selected": 0
+    },
+    {
+      "id": 13,
+      "category": "伝聞と事実",
+      "gold": 1,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 14,
+      "category": "伝聞と事実",
+      "gold": 2,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 15,
+      "category": "条件推論",
+      "gold": 0,
+      "base": 2,
+      "selected": 2
+    },
+    {
+      "id": 16,
+      "category": "条件推論",
+      "gold": 1,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 17,
+      "category": "条件推論",
+      "gold": 2,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 18,
+      "category": "訂正",
+      "gold": 0,
+      "base": 2,
+      "selected": 2
+    },
+    {
+      "id": 19,
+      "category": "訂正",
+      "gold": 1,
+      "base": 2,
+      "selected": 2
+    },
+    {
+      "id": 20,
+      "category": "訂正",
+      "gold": 2,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 21,
+      "category": "限定",
+      "gold": 0,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 22,
+      "category": "限定",
+      "gold": 1,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 23,
+      "category": "限定",
+      "gold": 2,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 24,
+      "category": "並べ替え",
+      "gold": 0,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 25,
+      "category": "並べ替え",
+      "gold": 1,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 26,
+      "category": "並べ替え",
+      "gold": 2,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 27,
+      "category": "義務と実行",
+      "gold": 0,
+      "base": 0,
+      "selected": 0
+    },
+    {
+      "id": 28,
+      "category": "義務と実行",
+      "gold": 1,
+      "base": 1,
+      "selected": 2
+    },
+    {
+      "id": 29,
+      "category": "義務と実行",
+      "gold": 2,
+      "base": 2,
+      "selected": 2
+    },
+    {
+      "id": 30,
+      "category": "指示対象",
+      "gold": 0,
+      "base": 0,
+      "selected": 2
+    },
+    {
+      "id": 31,
+      "category": "指示対象",
+      "gold": 1,
+      "base": 2,
+      "selected": 2
+    },
+    {
+      "id": 32,
+      "category": "指示対象",
+      "gold": 2,
+      "base": 2,
+      "selected": 2
+    },
+    {
+      "id": 33,
+      "category": "意思と結果",
+      "gold": 0,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 34,
+      "category": "意思と結果",
+      "gold": 1,
+      "base": 1,
+      "selected": 1
+    },
+    {
+      "id": 35,
+      "category": "意思と結果",
+      "gold": 2,
+      "base": 2,
+      "selected": 2
+    }
+  ],
+  "order_agreement": {
+    "base": 0.935546875,
+    "selected": 0.9296875
+  }
+}

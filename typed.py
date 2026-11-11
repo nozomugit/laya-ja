@@ -174,7 +174,29 @@ def run(task, agent, args):
     (args.results / f"{task}.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     )
-    print(task, {k: result[k] for k in files[1:]}, flush=True)
+    from compare_heads import linear, readout, save_selected, select_head
+
+    target_y = y.float() if task == "jsts" else y
+    target_ty = ty.float() if task == "jsts" else ty
+    simple, chosen, title, tune_candidates = select_head(
+        task, x, target_y, tx, target_ty, fitted
+    )
+    save_selected(args.weights, task, params, chosen, title)
+    final = {"task": task, "selected": title, "tune_candidates": tune_candidates}
+    for name in files[1:]:
+        vx, vy = contents[name]
+        final[name] = {
+            k: diagnostic(task, readout(m, vx), vy.float() if task == "jsts" else vy)
+            for k, m in (
+                ("base", linear(original).eval()),
+                ("linear", simple),
+                ("selected", chosen),
+            )
+        }
+    (args.results / f"{task}-final.json").write_text(
+        json.dumps(final, ensure_ascii=False, indent=2) + "\n"
+    )
+    print(task, {k: final[k] for k in files[1:]}, flush=True)
 
 
 if __name__ == "__main__":

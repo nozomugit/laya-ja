@@ -61,6 +61,25 @@ def load(task, *, model_path=None, device=None, weights_dir=None):
         if weight.shape != layer.weight.shape or not torch.isfinite(weight).all():
             raise ValueError("Invalid scorer tensor.")
         layer.weight.copy_(weight)
+    residual_path = weights.with_name(f"{task}.residual.safetensors")
+    if residual_path.exists():
+        from residual import ResidualScorer
+        from safetensors import safe_open
+
+        with safe_open(str(residual_path), framework="pt") as f:
+            meta = f.metadata()
+            if meta["task"] != task or meta["base_revision"] != REVISION:
+                raise ValueError("Residual metadata mismatch.")
+            scorer = ResidualScorer(layer, int(meta["width"]))
+            state = scorer.state_dict()
+            expected = {k for k in state if not k.startswith("linear.")}
+            if set(f.keys()) != expected:
+                raise ValueError("Residual tensor names do not match architecture.")
+            state.update({k: f.get_tensor(k) for k in expected})
+            scorer.load_state_dict(state)
+        agent.model.scorer[-1] = scorer.to(
+            device=layer.weight.device, dtype=layer.weight.dtype
+        ).eval()
     return agent
 
 
