@@ -1,0 +1,152 @@
+{
+  "nli-dev": {
+    "n": 96,
+    "correct": 78,
+    "fixed": 79,
+    "changed": 1,
+    "gained": 0,
+    "lost": 1,
+    "confusion": [
+      [
+        18,
+        0,
+        2
+      ],
+      [
+        0,
+        16,
+        7
+      ],
+      [
+        3,
+        6,
+        44
+      ]
+    ]
+  },
+  "semantic-cal": {
+    "n": 144,
+    "correct": 120,
+    "fixed": 121,
+    "changed": 5,
+    "gained": 2,
+    "lost": 3,
+    "confusion": [
+      [
+        30,
+        0,
+        18
+      ],
+      [
+        0,
+        46,
+        2
+      ],
+      [
+        0,
+        4,
+        44
+      ]
+    ]
+  },
+  "jsem": {
+    "n": 384,
+    "correct": 299,
+    "fixed": 305,
+    "changed": 17,
+    "gained": 4,
+    "lost": 10,
+    "confusion": [
+      [
+        114,
+        0,
+        14
+      ],
+      [
+        20,
+        84,
+        24
+      ],
+      [
+        17,
+        10,
+        101
+      ]
+    ]
+  },
+  "challenge": {
+    "n": 36,
+    "correct": 34,
+    "fixed": 33,
+    "changed": 1,
+    "gained": 1,
+    "lost": 0,
+    "confusion": [
+      [
+        12,
+        0,
+        0
+      ],
+      [
+        0,
+        12,
+        0
+      ],
+      [
+        0,
+        2,
+        10
+      ]
+    ]
+  },
+  "jsem-fresh": {
+    "n": 96,
+    "correct": 78,
+    "fixed": 79,
+    "changed": 4,
+    "gained": 1,
+    "lost": 2,
+    "confusion": [
+      [
+        26,
+        0,
+        6
+      ],
+      [
+        2,
+        23,
+        7
+      ],
+      [
+        2,
+        1,
+        29
+      ]
+    ]
+  },
+  "audit36": {
+    "n": 36,
+    "correct": 26,
+    "fixed": 29,
+    "changed": 3,
+    "gained": 0,
+    "lost": 3,
+    "confusion": [
+      [
+        10,
+        0,
+        2
+      ],
+      [
+        2,
+        7,
+        3
+      ],
+      [
+        1,
+        2,
+        9
+      ]
+    ]
+  }
+}
