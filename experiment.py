@@ -11,6 +11,7 @@ import numpy as np
 import torch
 from laya.common import QTYPES, build_sequence, collate_items
 from laya_ja import BASE, REVISION, TASKS, load_base, nli_request, qa_request
+from scoring import metrics
 
 DATA_REV = "6f071c09316baae89c3d083a90985b4b1cb9968c"
 FILES = {
@@ -222,27 +223,6 @@ def fit_weight(x, y, original, strength):
 
     opt.step(closure)
     return (original + delta).detach()
-
-
-def metrics(scores, labels):
-    p = scores.softmax(-1)
-    conf, pred = p.max(-1)
-    correct = pred == labels
-    ece = 0.0
-    for i in range(10):
-        members = (conf > i / 10) & (conf <= (i + 1) / 10)
-        if members.any():
-            ece += (
-                members.float().mean()
-                * (conf[members].mean() - correct[members].float().mean()).abs()
-            ).item()
-    return {
-        "n": len(labels),
-        "correct": int(correct.sum()),
-        "accuracy": correct.float().mean().item(),
-        "nll": torch.nn.functional.cross_entropy(scores, labels).item(),
-        "ece_10_bins": ece,
-    }
 
 
 def bootstrap_difference(d, groups):

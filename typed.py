@@ -9,8 +9,9 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from experiment import DATA_REV, extract, fit_weight, metrics
+from experiment import DATA_REV, extract, fit_weight
 from laya_ja import BASE, GRAMMAR, REVISION, SIMILARITY, load_base, similarity_state
+from scoring import diagnostic, interpolate
 
 COLA_REV = "736d9eef3af04bb17e4cf59adf01325973234ff9"
 SOURCES = {
@@ -64,39 +65,6 @@ def load_split(task, name, folder):
     return rows
 
 
-def diagnostic(task, scores, y):
-    if task == "jcola":
-        result = metrics(scores, y)
-        pred = scores.argmax(dim=-1)
-        tp = ((pred == 1) & (y == 1)).sum().item()
-        fp = ((pred == 1) & (y == 0)).sum().item()
-        tn = ((pred == 0) & (y == 0)).sum().item()
-        fn = ((pred == 0) & (y == 1)).sum().item()
-        denom = ((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)) ** 0.5
-        result.update(
-            mcc=(tp * tn - fp * fn) / denom if denom else 0.0,
-            recall_acceptable=tp / (tp + fn),
-            recall_unacceptable=tn / (tn + fp),
-            majority_accuracy=max(tp + fn, tn + fp) / len(y),
-        )
-        return result
-    pred = scores.softmax(-1) @ torch.arange(6, dtype=scores.dtype)
-    return {
-        "n": len(y),
-        "pearson": float(torch.corrcoef(torch.stack([pred, y]))[0, 1]),
-        "mae": float((pred - y).abs().mean()),
-        "rmse": float((pred - y).square().mean().sqrt()),
-    }
-
-
-def interpolate(y):
-    low, high = y.floor().long(), y.ceil().long()
-    a = torch.nn.functional.one_hot(low, num_classes=6)
-    b = torch.nn.functional.one_hot(high, num_classes=6)
-    fraction = (y - low).unsqueeze(1)
-    return a * (1 - fraction) + b * fraction
-
-
 def run(task, agent, args):
     files = list(SOURCES[task])
     pool, *eval_sets = [load_split(task, f, args.data) for f in files]
@@ -128,6 +96,7 @@ def run(task, agent, args):
             temp.replace(cache)
         with np.load(cache) as d:
             contents[split] = (torch.from_numpy(d["x"]), torch.from_numpy(d["y"]))
+    torch.set_num_threads(1)
     x, y = contents["train"]
     soft_y = interpolate(y.float()) if task == "jsts" else y
     tx, ty = contents["tune"]
@@ -218,4 +187,5 @@ if __name__ == "__main__":
     torch.set_num_threads(args.threads)
     agent = load_base(args.model_path, device="cpu")
     for task in [args.task] if args.task else SOURCES:
+        torch.set_num_threads(args.threads)
         run(task, agent, args)

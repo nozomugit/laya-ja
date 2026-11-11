@@ -2,7 +2,8 @@ Laya-JA — Japanese typed decision adapters.
 The code in this project is licensed under Apache-2.0 (LICENSE).
 Base model: Convai Innovations, convaiinnovations/laya-multilingual, Apache-2.0.
 Upstream engine: NandhaKishorM/laya, Apache-2.0. Base weights are downloaded separately.
-Each fitted file replaces only the last option-scoring weight matrix.
+The JSON adapters replace the final option-scoring weight matrix.
+Optional safetensors files add a trained per-option residual scorer.
 
 Training and benchmark source: JGLUE v1.3, JNLI and JCommonsenseQA,
 Yahoo Japan Corporation and Kawahara Lab at Waseda University.

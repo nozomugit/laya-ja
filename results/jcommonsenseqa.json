@@ -1,0 +1,99 @@
+{
+  "task": "jcommonsenseqa",
+  "seed": 42,
+  "dataset_revision": "6f071c09316baae89c3d083a90985b4b1cb9968c",
+  "base_revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+  "train_size": 4096,
+  "tune_size": 192,
+  "selected_regularization": "0.001",
+  "tune_candidates": {
+    "base": {
+      "n": 192,
+      "correct": 108,
+      "accuracy": 0.5625,
+      "nll": 1.2423179149627686,
+      "ece_10_bins": 0.10488516790792346
+    },
+    "0.001": {
+      "n": 192,
+      "correct": 109,
+      "accuracy": 0.5677083134651184,
+      "nll": 1.1507104635238647,
+      "ece_10_bins": 0.06856520310975611
+    },
+    "0.01": {
+      "n": 192,
+      "correct": 108,
+      "accuracy": 0.5625,
+      "nll": 1.1524256467819214,
+      "ece_10_bins": 0.07441018195822835
+    },
+    "0.1": {
+      "n": 192,
+      "correct": 106,
+      "accuracy": 0.5520833134651184,
+      "nll": 1.1534792184829712,
+      "ece_10_bins": 0.06403235695324838
+    },
+    "1.0": {
+      "n": 192,
+      "correct": 106,
+      "accuracy": 0.5520833134651184,
+      "nll": 1.1547049283981323,
+      "ece_10_bins": 0.05063303583301604
+    },
+    "10.0": {
+      "n": 192,
+      "correct": 108,
+      "accuracy": 0.5625,
+      "nll": 1.1627213954925537,
+      "ece_10_bins": 0.025286085437983274
+    }
+  },
+  "official_validation": {
+    "base": {
+      "n": 1119,
+      "correct": 611,
+      "accuracy": 0.5460232496261597,
+      "nll": 1.2279788255691528,
+      "ece_10_bins": 0.11853252150467597
+    },
+    "adapted": {
+      "n": 1119,
+      "correct": 612,
+      "accuracy": 0.5469169020652771,
+      "nll": 1.1431620121002197,
+      "ece_10_bins": 0.03153935453156009
+    },
+    "gained": 6,
+    "lost": 5,
+    "accuracy_difference_95pct": [
+      -0.0053523639607493305,
+      0.007111427723360046
+    ]
+  },
+  "order_reversed": {
+    "base": {
+      "n": 512,
+      "correct": 278,
+      "accuracy": 0.54296875,
+      "nll": 1.2516523599624634,
+      "ece_10_bins": 0.11967068398371339,
+      "agreement_with_original_order": 0.740234375
+    },
+    "adapted": {
+      "n": 512,
+      "correct": 278,
+      "accuracy": 0.54296875,
+      "nll": 1.1579484939575195,
+      "ece_10_bins": 0.039655773784033954,
+      "agreement_with_original_order": 0.740234375
+    },
+    "gained": 0,
+    "lost": 0,
+    "accuracy_difference_95pct": [
+      0.0,
+      0.0
+    ]
+  }
+}

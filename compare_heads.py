@@ -6,10 +6,11 @@ import json
 from pathlib import Path
 
 import torch
-from experiment import bootstrap_difference, combine, get_cache, metrics
+from experiment import bootstrap_difference, combine, get_cache
 from laya_ja import TASKS
 from residual import ResidualScorer
 from safetensors.torch import save_file
+from scoring import diagnostic, interpolate, metrics
 
 
 def linear(weight):
@@ -30,8 +31,6 @@ def select_head(task, x, y, tx, ty, w):
 
     def index(scores):
         if task in ("jsts", "jcola"):
-            from typed import diagnostic
-
             return diagnostic(task, scores, ty)
         return metrics(scores, ty)
 
@@ -49,8 +48,6 @@ def select_head(task, x, y, tx, ty, w):
     if task == "jcola":
         class_weights = len(y) / (2 * torch.bincount(y).float())
     if task == "jsts":
-        from typed import interpolate
-
         targets = interpolate(y)
 
     for width in (16, 48):

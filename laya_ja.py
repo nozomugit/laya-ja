@@ -1,4 +1,4 @@
-"""Japanese choice decision adapters for the official Laya multilingual model."""
+"""Japanese typed decision adapters for the official Laya multilingual model."""
 
 import json
 from pathlib import Path
@@ -45,7 +45,7 @@ def load_base(model_path=None, device=None):
 
 
 def load(task, *, model_path=None, device=None, weights_dir=None):
-    """Load one task's fitted final scorer; all other official weights are retained."""
+    """Load the base agent and install the selected task-specific option scorer."""
     if task not in (*TASKS, "jcola", "jsts"):
         raise ValueError(f"Unknown task: {task}")
     weights = Path(weights_dir or Path(__file__).with_name("weights")) / f"{task}.json"
