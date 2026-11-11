@@ -1,9 +1,11 @@
 """Train low-rank updates on every Laya encoder layer for Japanese inference; compare corpora, seeds and the frozen base."""
 
 import argparse
+import gzip
 import hashlib
 import json
 import os
+import shutil
 from pathlib import Path
 
 import laya.train as laya_train
@@ -22,14 +24,16 @@ from laya.train import (
 from safetensors.torch import save_file
 
 from corpus_data import SEED as CORPUS_SEED
-from corpus_data import load_tsv, normalized, pair_key, shuffled, splits, unique
+from corpus_data import jsem, load_tsv, normalized, pair_key, shuffled, splits, unique
 from corpus_experiment import measures
 from experiment import bootstrap_difference, partition
 from laya_ja import BASE, REVISION, nli_request
+from logic_worlds import generate as logic_rows
 from lora import add_lora, apply_adapter, merge_lora, trainable_state
 
 BASE_SHA256 = "9d628fd971b700382ac6f65920a86f149777b2e748e0c955fb3b19695aa8f204"
-REGIMES = {"mix4": ["jnli", "jsick", "janli", "jamp"], "jnli": ["jnli"]}
+MIX4 = ["jnli", "jsick", "janli", "jamp"]
+REGIMES = {"mix4": MIX4, "jnli": ["jnli"], "mix4-logic": [*MIX4, "logic"]}
 TRAIN_FILES = {
     "jsick": "JSICK/jsick/train.tsv",
     "janli": "JaNLI/janli.tsv",
@@ -40,6 +44,28 @@ RANK, ALPHA, DROPOUT = 16, 32, 0.05
 
 def premise(row):
     return normalized(row[0][0].split("\n仮説：")[0])
+
+
+def jsem_fresh(folder):
+    """The 96 premise-disjoint JSeM problems fixed by semantic_inputs.py, checked against their hashes."""
+    root = Path(__file__).parent / "tools/four-task/semantic-manifest.json"
+    spec = json.loads(root.read_text())["jsem-fresh"]
+    pool = {r[3]: r for r in jsem(folder)}
+    rows = []
+    for _, ident, digest in spec:
+        row = pool[ident]
+        p, h = row[0][0].removeprefix("前提：").split("\n仮説：", 1)
+        if hashlib.sha256((p + "\n" + h).encode()).hexdigest() != digest:
+            raise ValueError(f"JSeM text changed: {ident}")
+        rows.append(row)
+    return rows
+
+
+def logic(split, count, seed):
+    return [
+        (nli_request(p, h), y, "logic", ident)
+        for p, h, y, ident in logic_rows(split, count, seed)
+    ]
 
 
 def corpora(args):
@@ -58,12 +84,15 @@ def corpora(args):
         "janli": multi["janli-eval"],
         "jamp": multi["jamp-eval"],
         "jsem": multi["jsem-eval"],
+        "jsem-fresh": jsem_fresh(args.corpora),
+        "logic-held": logic("held", 300, 3003),
         "challenge": [
             (nli_request(p, h), y, cat, str(i))
             for i, (cat, p, h, y) in enumerate(probes)
         ],
     }
     tune = {"jnli": d["tune"], **{s: multi[s + "-tune"] for s in TRAIN_FILES}}
+    tune["logic"] = logic("tune", 192, 2002)
     block = {
         pair_key(r[0][0]) for rows in [*evalsets.values(), *tune.values()] for r in rows
     }
@@ -82,6 +111,11 @@ def corpora(args):
         tune_premises = {premise(r) for r in tune[name]}
         rows = [r for r in rows if premise(r) not in tune_premises]
         train[name] = rows[: args.extra_cap] if args.extra_cap else rows
+    train["logic"] = [
+        r
+        for r in logic("train", args.logic_cap, 1001)
+        if pair_key(r[0][0]) not in block
+    ]
     if args.max_train:
         train = {s: rows[: args.max_train] for s, rows in train.items()}
     return train, tune, evalsets
@@ -223,8 +257,15 @@ def main():
     ap.add_argument("--grad-accum", type=int, default=2)
     ap.add_argument("--extra-cap", type=int, default=4000)
     ap.add_argument("--entailment-weight", type=float, default=1.0)
+    ap.add_argument("--logic-cap", type=int, default=6000)
+    ap.add_argument("--fusion", type=Path, default=Path("results/four-dense.jsonl.gz"))
     ap.add_argument("--max-train", type=int)
     ap.add_argument("--previous", type=Path, help="Checkpoint to score as a reference")
+    ap.add_argument(
+        "--reuse",
+        type=Path,
+        help="Folder of notebook runs (nli-<regime>-lora-s<seed>/adapter.safetensors) to score instead of retraining",
+    )
     ap.add_argument("--model-path")
     ap.add_argument("--device")
     args = ap.parse_args()
@@ -267,12 +308,41 @@ def main():
     def run(regime, seed):
         folder = args.out / f"{regime}-s{seed}"
         done, adapter = folder / "run.pt", folder / "adapter.safetensors"
+        sources = REGIMES[regime]
         if done.exists() and adapter.exists():
             saved = torch.load(done)
-            if saved["config"] == run_config:
+            if saved["config"] == run_config and set(saved["scores"]) == set(evalsets):
                 return saved
+        earlier = (
+            args.reuse / f"nli-{regime}-lora-s{seed}" / "adapter.safetensors"
+            if args.reuse
+            else None
+        )
+        if not adapter.exists() and earlier is not None and earlier.exists():
+            folder.mkdir(exist_ok=True, parents=True)
+            shutil.copyfile(earlier, adapter)
+        if adapter.exists():
+            # An adapter placed here by hand (for example from an earlier run) is scored, not retrained.
+            model = apply_adapter(bench.model(), adapter)
+            tuned = [
+                measure(s, bench.score(model, tune_items[s]), tune_y[s])[0]["nll"]
+                for s in sources
+            ]
+            result = {
+                "config": run_config,
+                "regime": regime,
+                "seed": seed,
+                "epoch": None,
+                "tune_nll": sum(tuned) / len(tuned),
+                "history": [],
+                "train_items": None,
+                "reused_adapter": True,
+                "scores": score_evalsets(model),
+            }
+            torch.save(result, done)
+            del model
+            return result
         folder.mkdir(exist_ok=True, parents=True)
-        sources = REGIMES[regime]
         items = [it for s in sources for it in train_items[s]]
         model = bench.model()
         add_lora(model, RANK, ALPHA, DROPOUT)
@@ -356,7 +426,7 @@ def main():
             n: torch.stack([runs[regime][s]["scores"][n] for s in args.seeds]).mean(0)
             for n in evalsets
         }
-    main_regime = "mix4" if "mix4" in args.regimes else args.regimes[0]
+    main_regime = args.regimes[-1]
     report = {
         "base": BASE,
         "base_revision": REVISION,
@@ -379,6 +449,7 @@ def main():
                     "tune_nll": r["tune_nll"],
                     "history": r["history"],
                     "train_items": r["train_items"],
+                    "reused_adapter": r.get("reused_adapter", False),
                     "evaluation": {n: measure(n, s)[0] for n, s in r["scores"].items()},
                 }
                 for seed, r in runs[regime].items()
@@ -401,6 +472,50 @@ def main():
                     diff, np.array([r[2] for r in rows])
                 ),
             }
+    # Replace only the 10% Laya share of the fixed mixture in dense_transfer.py (10% Laya, 45% + 45% direct
+    # judges). The published rows give the two judges' probabilities; the shares stay as published.
+    if args.fusion.exists():
+        published = {}
+        for line in gzip.open(args.fusion, "rt"):
+            r = json.loads(line)
+            published.setdefault(r["split"], []).append(r)
+        report["fusion"] = {}
+        for name in ("jsem", "challenge", "jsem-fresh"):
+            rows = sorted(published[name], key=lambda r: r["row"])
+            gold = torch.tensor([r["gold"] for r in rows])
+            if gold.tolist() != eval_y[name].tolist():
+                raise ValueError(f"Published rows do not align with {name}")
+            dense, single, dual = (
+                torch.tensor([r["probabilities"][k] for r in rows], dtype=torch.float64)
+                for k in ("dense_only", "single", "dual")
+            )
+            native = (single - 0.9 * dense) / 0.1
+            sparse = (dual - 0.1 * native - 0.45 * dense) / 0.45
+            judges = 0.45 * dense + 0.45 * sparse
+
+            def correct(p):
+                return int((p.argmax(-1) == gold).sum())
+
+            block = {
+                "n": len(rows),
+                "published_laya_alone": correct(native),
+                "published_mixture": correct(dual),
+                "judges_without_laya": correct(judges),
+            }
+            for key, value in scores.items():
+                p = value[name].double().softmax(-1)
+                block[key] = {
+                    "laya_alone": correct(p),
+                    "mixture": correct(0.1 * p + judges),
+                }
+            for regime in args.regimes:
+                for seed in args.seeds:
+                    p = runs[regime][seed]["scores"][name].double().softmax(-1)
+                    block[f"{regime}-s{seed}"] = {
+                        "laya_alone": correct(p),
+                        "mixture": correct(0.1 * p + judges),
+                    }
+            report["fusion"][name] = block
     y = eval_y["jnli"]
     report["entailment_predictions"] = {
         key: [int((value["jnli"][y == 0].argmax(-1) == i).sum()) for i in range(3)]
