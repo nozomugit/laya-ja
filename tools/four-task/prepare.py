@@ -77,6 +77,7 @@ def run(a):
     with (
         (a.out / "direct.jsonl").open("w") as f,
         (a.out / "contrast.jsonl").open("w") as g,
+        (a.out / "gemma.jsonl").open("w") as gemma,
         (a.out / "reason.jsonl").open("w") as reason,
         (a.out / "must_true.jsonl").open("w") as truth,
         (a.out / "must_false.jsonl").open("w") as falsity,
@@ -101,6 +102,15 @@ def run(a):
                                 )
                                 + "\n"
                             )
+                    from gemma_prompts import prompt as gemma_prompt
+
+                    gemma.write(
+                        json.dumps(
+                            {"id": [split, i], "prompt": gemma_prompt(p, h)},
+                            ensure_ascii=False,
+                        )
+                        + "\n"
+                    )
                     direct = nli_prompt(p, h)
                     suffix = "<think>\n\n</think>\n\n"
                     assert direct.endswith(suffix)

@@ -29,7 +29,7 @@ void add(llama_batch &b, int token, int pos, int seq, bool logits) {
   b.logits[i] = logits;
 }
 int main(int argc, char **argv) {
-  if (argc != 6 && argc != 7)
+  if (argc < 6 || argc > 8)
     return 2;
   ggml_backend_load_all();
   llama_backend_init();
@@ -40,8 +40,9 @@ int main(int argc, char **argv) {
     return 3;
   auto vocab = llama_model_get_vocab(m);
   int group = std::stoi(argv[4]), threads = std::stoi(argv[5]);
-  const int budget = argc == 7 ? std::stoi(argv[6]) : 0;
-  if (budget < 0 || budget > 256)
+  const int budget = argc >= 7 ? std::stoi(argv[6]) : 0;
+  const bool gemma = argc == 8 && std::string(argv[7]) == "gemma";
+  if ((argc == 8 && !gemma) || budget < 0 || budget > 256)
     return 2;
   auto cp = llama_context_default_params();
   cp.n_seq_max = group;
@@ -77,7 +78,8 @@ int main(int argc, char **argv) {
   }
   tokens letters;
   for (auto s : {"A", "B", "C"}) {
-    auto a = encode(vocab, s, false);
+    auto a = encode(vocab, gemma ? std::string("<channel|>") + s : s, gemma);
+    if (gemma && a.size() == 2) a.erase(a.begin());
     if (a.size() != 1)
       throw std::runtime_error("label");
     letters.push_back(a[0]);
@@ -113,8 +115,8 @@ int main(int argc, char **argv) {
     if (llama_decode(c, b))
       return 9;
     if (budget) {
-      const auto close = encode(vocab, "</think>", true);
-      const auto suffix = encode(vocab, "\n</think>\n\n", true);
+      const auto close = encode(vocab, gemma ? "<channel|>" : "</think>", true);
+      const auto suffix = encode(vocab, gemma ? "\n<channel|>" : "\n</think>\n\n", true);
       if (close.size() != 1)
         throw std::runtime_error("Unrecognized reasoning delimiter");
       std::vector<int> pos(count);
