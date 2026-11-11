@@ -93,3 +93,7 @@ python typed.py          # JCoLA と JSTS の両段階を学習・比較
 - [JCoLA — Someya, Sugimoto & Oseki](https://github.com/osekilab/JCoLA)
 
 文法判断の正解は JCoLA の収録文に付いたラベルです。方言、地域のことば、日常会話での自然さは本実験の評価範囲外です。また、JNLI の「判断できない」は前提と仮説の関係を示すクラスです。モデル自身の不確かさによる回答保留とは区別して扱います。
+
+## 意味推論の追加検証
+
+LAYA単体で前提文と仮説の編集箇所を学習した版と、Qwen・Gemmaを併用する版を比較した。従来の評価に加え、前提文が重ならないJSeMの36問を新たに取り置いた。[正答数・モデルの使い方・採点の再現手順](SEMANTIC_VOTE.md)

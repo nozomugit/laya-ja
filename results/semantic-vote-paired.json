@@ -1,0 +1,472 @@
+{
+  "unadjusted": {
+    "n": 384,
+    "correct": 272,
+    "gained": 13,
+    "lost": 31,
+    "difference_pp": -4.6875,
+    "paired_95_interval_pp": [
+      -8.072916666666668,
+      -1.3226640700255488
+    ],
+    "premises": 367,
+    "groups": {
+      "Conjunction": [
+        77,
+        97
+      ],
+      "CaseParticle": [
+        24,
+        28
+      ],
+      "GeneralizedQuantifier": [
+        37,
+        64
+      ],
+      "Adverb": [
+        23,
+        36
+      ],
+      "Conditional": [
+        21,
+        24
+      ],
+      "Adjectives": [
+        10,
+        13
+      ],
+      "CompoundVerb": [
+        9,
+        13
+      ],
+      "AuxiliaryVerb": [
+        6,
+        15
+      ],
+      "NewAdjective": [
+        1,
+        3
+      ],
+      "Modality": [
+        16,
+        16
+      ],
+      "Coordination": [
+        2,
+        2
+      ],
+      "TemporalReference": [
+        6,
+        7
+      ],
+      "Toritate": [
+        8,
+        19
+      ],
+      "Verbs": [
+        2,
+        6
+      ],
+      "CompoundAdjective": [
+        7,
+        8
+      ],
+      "Plurals": [
+        2,
+        4
+      ],
+      "Ellipsis": [
+        5,
+        6
+      ],
+      "Attitudes": [
+        8,
+        10
+      ],
+      "Comparatives": [
+        8,
+        11
+      ],
+      "NominalAnaphora": [
+        0,
+        2
+      ]
+    }
+  },
+  "calibrated": {
+    "n": 384,
+    "correct": 288,
+    "gained": 21,
+    "lost": 23,
+    "difference_pp": -0.5208333333333333,
+    "paired_95_interval_pp": [
+      -3.91644908616188,
+      2.879770100726935
+    ],
+    "premises": 367,
+    "groups": {
+      "Conjunction": [
+        77,
+        97
+      ],
+      "CaseParticle": [
+        24,
+        28
+      ],
+      "GeneralizedQuantifier": [
+        47,
+        64
+      ],
+      "Adverb": [
+        26,
+        36
+      ],
+      "Conditional": [
+        20,
+        24
+      ],
+      "Adjectives": [
+        10,
+        13
+      ],
+      "CompoundVerb": [
+        8,
+        13
+      ],
+      "AuxiliaryVerb": [
+        4,
+        15
+      ],
+      "NewAdjective": [
+        1,
+        3
+      ],
+      "Modality": [
+        16,
+        16
+      ],
+      "Coordination": [
+        2,
+        2
+      ],
+      "TemporalReference": [
+        6,
+        7
+      ],
+      "Toritate": [
+        12,
+        19
+      ],
+      "Verbs": [
+        3,
+        6
+      ],
+      "CompoundAdjective": [
+        7,
+        8
+      ],
+      "Plurals": [
+        2,
+        4
+      ],
+      "Ellipsis": [
+        6,
+        6
+      ],
+      "Attitudes": [
+        9,
+        10
+      ],
+      "Comparatives": [
+        8,
+        11
+      ],
+      "NominalAnaphora": [
+        0,
+        2
+      ]
+    }
+  },
+  "calibrated_direct": {
+    "n": 384,
+    "correct": 290,
+    "gained": 21,
+    "lost": 21,
+    "difference_pp": 0.0,
+    "paired_95_interval_pp": [
+      -3.3421176423819996,
+      3.3680943408922652
+    ],
+    "premises": 367,
+    "groups": {
+      "Conjunction": [
+        77,
+        97
+      ],
+      "CaseParticle": [
+        24,
+        28
+      ],
+      "GeneralizedQuantifier": [
+        48,
+        64
+      ],
+      "Adverb": [
+        26,
+        36
+      ],
+      "Conditional": [
+        20,
+        24
+      ],
+      "Adjectives": [
+        10,
+        13
+      ],
+      "CompoundVerb": [
+        8,
+        13
+      ],
+      "AuxiliaryVerb": [
+        5,
+        15
+      ],
+      "NewAdjective": [
+        1,
+        3
+      ],
+      "Modality": [
+        16,
+        16
+      ],
+      "Coordination": [
+        2,
+        2
+      ],
+      "TemporalReference": [
+        6,
+        7
+      ],
+      "Toritate": [
+        12,
+        19
+      ],
+      "Verbs": [
+        3,
+        6
+      ],
+      "CompoundAdjective": [
+        7,
+        8
+      ],
+      "Plurals": [
+        2,
+        4
+      ],
+      "Ellipsis": [
+        6,
+        6
+      ],
+      "Attitudes": [
+        9,
+        10
+      ],
+      "Comparatives": [
+        8,
+        11
+      ],
+      "NominalAnaphora": [
+        0,
+        2
+      ]
+    }
+  },
+  "fixed_direct_pair": {
+    "n": 384,
+    "correct": 305,
+    "gained": 22,
+    "lost": 7,
+    "difference_pp": 3.90625,
+    "paired_95_interval_pp": [
+      1.2987012987012987,
+      6.616198005919919
+    ],
+    "premises": 367,
+    "groups": {
+      "Conjunction": [
+        77,
+        97
+      ],
+      "CaseParticle": [
+        25,
+        28
+      ],
+      "GeneralizedQuantifier": [
+        58,
+        64
+      ],
+      "Adverb": [
+        25,
+        36
+      ],
+      "Conditional": [
+        20,
+        24
+      ],
+      "Adjectives": [
+        10,
+        13
+      ],
+      "CompoundVerb": [
+        9,
+        13
+      ],
+      "AuxiliaryVerb": [
+        6,
+        15
+      ],
+      "NewAdjective": [
+        2,
+        3
+      ],
+      "Modality": [
+        16,
+        16
+      ],
+      "Coordination": [
+        2,
+        2
+      ],
+      "TemporalReference": [
+        6,
+        7
+      ],
+      "Toritate": [
+        15,
+        19
+      ],
+      "Verbs": [
+        3,
+        6
+      ],
+      "CompoundAdjective": [
+        7,
+        8
+      ],
+      "Plurals": [
+        2,
+        4
+      ],
+      "Ellipsis": [
+        6,
+        6
+      ],
+      "Attitudes": [
+        8,
+        10
+      ],
+      "Comparatives": [
+        8,
+        11
+      ],
+      "NominalAnaphora": [
+        0,
+        2
+      ]
+    }
+  },
+  "dense_only": {
+    "n": 384,
+    "correct": 293,
+    "gained": 22,
+    "lost": 19,
+    "difference_pp": 0.78125,
+    "paired_95_interval_pp": [
+      -2.3874266324284665,
+      4.1558441558441555
+    ],
+    "premises": 367,
+    "groups": {
+      "Conjunction": [
+        74,
+        97
+      ],
+      "CaseParticle": [
+        24,
+        28
+      ],
+      "GeneralizedQuantifier": [
+        55,
+        64
+      ],
+      "Adverb": [
+        24,
+        36
+      ],
+      "Conditional": [
+        19,
+        24
+      ],
+      "Adjectives": [
+        10,
+        13
+      ],
+      "CompoundVerb": [
+        8,
+        13
+      ],
+      "AuxiliaryVerb": [
+        5,
+        15
+      ],
+      "NewAdjective": [
+        1,
+        3
+      ],
+      "Modality": [
+        15,
+        16
+      ],
+      "Coordination": [
+        1,
+        2
+      ],
+      "TemporalReference": [
+        6,
+        7
+      ],
+      "Toritate": [
+        15,
+        19
+      ],
+      "Verbs": [
+        3,
+        6
+      ],
+      "CompoundAdjective": [
+        7,
+        8
+      ],
+      "Plurals": [
+        2,
+        4
+      ],
+      "Ellipsis": [
+        6,
+        6
+      ],
+      "Attitudes": [
+        9,
+        10
+      ],
+      "Comparatives": [
+        9,
+        11
+      ],
+      "NominalAnaphora": [
+        0,
+        2
+      ]
+    }
+  }
+}
