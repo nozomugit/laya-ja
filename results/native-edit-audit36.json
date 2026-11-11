@@ -1,0 +1,186 @@
+{
+  "n": 36,
+  "correct": 19,
+  "per_item": [
+    {
+      "id": "CompoundVerb:CV629",
+      "gold": 1,
+      "choice": 1
+    },
+    {
+      "id": "Conjunction:Conj1422",
+      "gold": 0,
+      "choice": 1
+    },
+    {
+      "id": "Conjunction:Conj5873",
+      "gold": 1,
+      "choice": 0
+    },
+    {
+      "id": "Conjunction:Conj5055",
+      "gold": 1,
+      "choice": 1
+    },
+    {
+      "id": "Comparatives:589",
+      "gold": 0,
+      "choice": 2
+    },
+    {
+      "id": "CaseParticle:CP2658",
+      "gold": 0,
+      "choice": 0
+    },
+    {
+      "id": "CaseParticle:CP2548",
+      "gold": 0,
+      "choice": 0
+    },
+    {
+      "id": "Adverb:Adv1845",
+      "gold": 0,
+      "choice": 1
+    },
+    {
+      "id": "AuxiliaryVerb:Aux548",
+      "gold": 0,
+      "choice": 2
+    },
+    {
+      "id": "GeneralizedQuantifier:171",
+      "gold": 0,
+      "choice": 0
+    },
+    {
+      "id": "Conjunction:Conj3965",
+      "gold": 0,
+      "choice": 0
+    },
+    {
+      "id": "GeneralizedQuantifier:108",
+      "gold": 0,
+      "choice": 1
+    },
+    {
+      "id": "Adverb:Adv1451",
+      "gold": 0,
+      "choice": 1
+    },
+    {
+      "id": "AuxiliaryVerb:Aux833",
+      "gold": 0,
+      "choice": 0
+    },
+    {
+      "id": "AuxiliaryVerb:Aux739",
+      "gold": 0,
+      "choice": 2
+    },
+    {
+      "id": "Conditional:Cond422",
+      "gold": 1,
+      "choice": 0
+    },
+    {
+      "id": "AuxiliaryVerb:Aux520",
+      "gold": 1,
+      "choice": 1
+    },
+    {
+      "id": "Adverb:Adv1285",
+      "gold": 1,
+      "choice": 1
+    },
+    {
+      "id": "Comparatives:633",
+      "gold": 2,
+      "choice": 1
+    },
+    {
+      "id": "Conjunction:Conj5431",
+      "gold": 1,
+      "choice": 1
+    },
+    {
+      "id": "Conjunction:Conj1503",
+      "gold": 1,
+      "choice": 2
+    },
+    {
+      "id": "Adverb:Adv366",
+      "gold": 1,
+      "choice": 1
+    },
+    {
+      "id": "Conjunction:Conj3185",
+      "gold": 1,
+      "choice": 1
+    },
+    {
+      "id": "Ellipsis:467",
+      "gold": 2,
+      "choice": 2
+    },
+    {
+      "id": "Conjunction:Conj5467",
+      "gold": 1,
+      "choice": 2
+    },
+    {
+      "id": "Conjunction:Conj5871",
+      "gold": 1,
+      "choice": 1
+    },
+    {
+      "id": "Toritate:Tor115",
+      "gold": 2,
+      "choice": 2
+    },
+    {
+      "id": "Attitudes:759",
+      "gold": 2,
+      "choice": 0
+    },
+    {
+      "id": "GeneralizedQuantifier:282",
+      "gold": 2,
+      "choice": 2
+    },
+    {
+      "id": "GeneralizedQuantifier:223",
+      "gold": 2,
+      "choice": 2
+    },
+    {
+      "id": "GeneralizedQuantifier:199",
+      "gold": 2,
+      "choice": 2
+    },
+    {
+      "id": "Adjectives:499",
+      "gold": 2,
+      "choice": 0
+    },
+    {
+      "id": "Adjectives:543",
+      "gold": 2,
+      "choice": 0
+    },
+    {
+      "id": "Toritate:Tor187",
+      "gold": 2,
+      "choice": 2
+    },
+    {
+      "id": "NominalAnaphora:443",
+      "gold": 2,
+      "choice": 0
+    },
+    {
+      "id": "Verbs:694",
+      "gold": 2,
+      "choice": 1
+    }
+  ]
+}
