@@ -2,6 +2,7 @@
 
 import argparse
 import json
+from pathlib import Path
 
 from laya_ja import (
     GRAMMAR,
@@ -21,22 +22,53 @@ def main():
     )
     parser.add_argument("--device", default="cpu")
     tasks = parser.add_subparsers(dest="task", required=True)
-    nli = tasks.add_parser("jnli", help="前提から仮説を判断する")
-    nli.add_argument("premise")
-    nli.add_argument("hypothesis")
-    qa = tasks.add_parser("jcommonsenseqa", help="質問に対し選択肢から答える")
-    qa.add_argument("question")
-    qa.add_argument("choices", nargs="+")
+    for name, description in (
+        ("jnli", "前提から仮説を判断する"),
+        ("jnli-specialist", "JNLI 単独で追加学習した推論版を試す"),
+        ("multicorpus-nli", "複数コーパスで追加学習した推論版を試す"),
+    ):
+        nli = tasks.add_parser(name, help=description)
+        nli.add_argument("premise")
+        nli.add_argument("hypothesis")
+    for name, help_text in (
+        ("jcommonsenseqa", "質問に対し選択肢から答える"),
+        ("reading-qa", "日本語Wikipedia読解を混ぜた実験版で選択肢から答える"),
+    ):
+        qa = tasks.add_parser(name, help=help_text)
+        qa.add_argument("question")
+        qa.add_argument("choices", nargs="+")
     grammar = tasks.add_parser("jcola", help="文の容認可能性を推定する")
     grammar.add_argument("sentence")
     sts = tasks.add_parser("jsts", help="二文の意味の近さを0〜5で見積もる")
     sts.add_argument("first")
     sts.add_argument("second")
     args = parser.parse_args()
-    agent = load(args.task, model_path=args.model_path, device=args.device)
+    if args.task in ("multicorpus-nli", "jnli-specialist"):
+        from multicorpus import MultiCorpusNLI
+
+        model = MultiCorpusNLI(
+            model_path=args.model_path, device=args.device, variant=args.task
+        )
+        print(
+            json.dumps(
+                model.predict(args.premise, args.hypothesis),
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return
+    reading = args.task == "reading-qa"
+    agent = load(
+        "jcommonsenseqa" if reading else args.task,
+        model_path=args.model_path,
+        device=args.device,
+        weights_dir=Path(__file__).with_name("weights") / "reading"
+        if reading
+        else None,
+    )
     if args.task == "jnli":
         result = query(agent, *nli_request(args.premise, args.hypothesis))
-    elif args.task == "jcommonsenseqa":
+    elif args.task in ("jcommonsenseqa", "reading-qa"):
         result = query(agent, *qa_request(args.question, args.choices))
     else:
         if args.task == "jcola":

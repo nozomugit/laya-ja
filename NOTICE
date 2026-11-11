@@ -21,3 +21,15 @@ Taiga Someya, Yushi Sugimoto, Yohei Oseki (2024); CC BY-SA 4.0.
 https://github.com/osekilab/JCoLA
 https://aclanthology.org/2024.lrec-main.828/
 JSTS v1.3 comes from the same JGLUE project cited above.
+
+Additional sources for the multi-corpus experiments (source texts are retrieved separately):
+JSICK — Hitomi Yanaka and Koji Mineshima, Compositional Evaluation on Japanese Textual Entailment and Similarity (2022). See upstream LICENSE.txt (CC BY-SA 4.0).
+https://github.com/verypluming/JSICK
+JaNLI — Hitomi Yanaka and Koji Mineshima, Assessing the Generalization Capacity of Pre-trained Language Models through Japanese Adversarial Natural Language Inference (2021), CC BY-SA 4.0.
+https://github.com/verypluming/JaNLI
+Jamp — Tomoki Sugimoto, Yasumasa Onoe and Hitomi Yanaka, Jamp: Controlled Japanese Temporal Inference Dataset for Evaluating Generalization Capacity of Language Models (2023), CC BY-SA 4.0.
+https://github.com/tomo-ut/temporalNLI_dataset
+JSeM — Japanese Semantics test suite, Ai Kawazoe, Ribeka Tanaka, Koji Mineshima and Daisuke Bekki; distributed by the JSeM project, BSD 3-Clause. Evaluation only.
+https://github.com/DaisukeBekki/JSeM
+JSQuAD — JGLUE contributors, based on Japanese Wikipedia. Experiments construct five candidate answers from a single article. This is a modified task.
+https://github.com/yahoojapan/JGLUE/tree/main/datasets/jsquad-v1.3

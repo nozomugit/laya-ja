@@ -1,0 +1,92 @@
+{
+  "source": "JSQuAD v1.3 short passages with constructed distractors",
+  "training_counts": {
+    "target_only": [
+      4096,
+      0
+    ],
+    "equal_mix": [
+      3328,
+      768
+    ],
+    "full_mix": [
+      4096,
+      768
+    ]
+  },
+  "selected": {
+    "target_only": "width16-epoch4",
+    "equal_mix": "width16-epoch4",
+    "full_mix": "width48-epoch24"
+  },
+  "evaluation": {
+    "jcommonsenseqa": {
+      "v1": {
+        "n": 1119,
+        "correct": 612,
+        "accuracy": 0.5469169020652771,
+        "nll": 1.1434619426727295,
+        "ece_10_bins": 0.03102227780618705
+      },
+      "target_only": {
+        "n": 1119,
+        "correct": 613,
+        "accuracy": 0.5478105545043945,
+        "nll": 1.1434332132339478,
+        "ece_10_bins": 0.0350469290278852
+      },
+      "equal_mix": {
+        "n": 1119,
+        "correct": 609,
+        "accuracy": 0.5442359447479248,
+        "nll": 1.1558834314346313,
+        "ece_10_bins": 0.0542316849459894
+      },
+      "full_mix": {
+        "n": 1119,
+        "correct": 606,
+        "accuracy": 0.5415549874305725,
+        "nll": 1.158980131149292,
+        "ece_10_bins": 0.035573385837778915
+      },
+      "paired_difference_95pct": [
+        -0.01521933751119069,
+        0.0053523639607493305
+      ]
+    },
+    "jsquad_constructed": {
+      "v1": {
+        "n": 192,
+        "correct": 38,
+        "accuracy": 0.1979166716337204,
+        "nll": 2.2434730529785156,
+        "ece_10_bins": 0.38713941676542163
+      },
+      "target_only": {
+        "n": 192,
+        "correct": 39,
+        "accuracy": 0.203125,
+        "nll": 2.2641727924346924,
+        "ece_10_bins": 0.3903866661712527
+      },
+      "equal_mix": {
+        "n": 192,
+        "correct": 45,
+        "accuracy": 0.234375,
+        "nll": 1.768809199333191,
+        "ece_10_bins": 0.2751046996563673
+      },
+      "full_mix": {
+        "n": 192,
+        "correct": 61,
+        "accuracy": 0.3177083432674408,
+        "nll": 1.5585813522338867,
+        "ece_10_bins": 0.15487415005918592
+      },
+      "paired_difference_95pct": [
+        0.047866008105369805,
+        0.17938007987668156
+      ]
+    }
+  }
+}
