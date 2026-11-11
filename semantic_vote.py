@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+from scipy.special import softmax
 
 from countermodel_prompts import prompt as counter_prompt
 from four_task_assist import LABELS
@@ -25,19 +26,36 @@ VOTES = (
 )
 
 
-def decide(get_vote, *, early=True):
+def calibrate(probs, theta):
+    scale, entail, contradict = theta
+    delta = np.array([entail, contradict, -entail - contradict])
+    return softmax(np.exp(scale) * np.log(np.maximum(probs, 1e-15)) + delta, axis=-1)
+
+
+def decide(get_vote, *, early=True, config=None):
     """Return a label and bounds for the final mixture, including any skipped votes."""
     scores = np.zeros(3)
     remaining = 100
     used = []
-    for name, weight in VOTES:
+    votes = VOTES
+    if config is not None:
+        votes = [(name, 100 * config["weights"][name]) for name, _ in VOTES]
+        if any(not math.isfinite(w) or w < 0 for _, w in votes) or not math.isclose(
+            sum(w for _, w in votes), 100
+        ):
+            raise ValueError("Invalid mixture weights")
+    for name, weight in votes:
+        if weight == 0:
+            continue
         p = np.asarray(get_vote(name), dtype=float)
         if p.shape != (3,) or not np.all(np.isfinite(p)) or np.any(p < 0):
             raise ValueError(f"Invalid three-way probabilities from {name}")
         if not math.isclose(float(p.sum()), 1.0, abs_tol=1e-5):
             raise ValueError(f"Unnormalized probabilities from {name}")
+        if config is not None:
+            p = calibrate(p, config["calibration"][name])
         scores += weight * (p / p.sum())
-        remaining -= weight
+        remaining = max(0.0, remaining - weight)
         used.append(name)
         leader = int(scores.argmax())
         runner_up = float(np.max(np.delete(scores, leader)))
@@ -79,7 +97,8 @@ def predict(args):
             template,
         )[0]
 
-    label, used, low, high = decide(vote, early=not args.all_votes)
+    config = json.loads(args.calibration.read_text()) if args.calibration else None
+    label, used, low, high = decide(vote, early=not args.all_votes, config=config)
     return {
         "choice": LABELS[label],
         "used": used,
@@ -96,6 +115,9 @@ if __name__ == "__main__":
     p.add_argument("--engine", type=Path, required=True)
     p.add_argument("--model-path")
     p.add_argument("--threads", type=int, default=4)
+    p.add_argument(
+        "--calibration", type=Path, help="Development-fitted JSON configuration"
+    )
     p.add_argument("--all-votes", action="store_true")
     root = Path(".cache/four-models")
     p.add_argument(

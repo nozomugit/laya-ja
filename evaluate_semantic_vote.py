@@ -28,6 +28,7 @@ def evaluate(args):
     for name, view in views.items():
         if set(view) != expected:
             raise ValueError(f"Missing or unexpected IDs in {name}")
+    config = json.loads(args.calibration.read_text()) if args.calibration else None
     results, decisions = {}, []
     for split, size in SIZES.items():
         rows = load(args.inputs / (split + ".jsonl"))
@@ -39,8 +40,8 @@ def evaluate(args):
             p = {name: softmax(view[split, i]) for name, view in views.items()}
             p["laya"] = row["laya"]
             y = int(row["gold"])
-            pred, used, low, high = decide(p.__getitem__)
-            full, _, probs, _ = decide(p.__getitem__, early=False)
+            pred, used, low, high = decide(p.__getitem__, config=config)
+            full, _, probs, _ = decide(p.__getitem__, early=False, config=config)
             if (
                 pred != full
                 or np.any(low > probs + 1e-12)
@@ -89,6 +90,7 @@ if __name__ == "__main__":
         p.add_argument(
             "--" + name, type=Path, default=Path(".cache") / (default + ".jsonl")
         )
+    p.add_argument("--calibration", type=Path)
     p.add_argument("--result", type=Path, default=Path("results/semantic-vote.json"))
     p.add_argument("--rows", type=Path, default=Path("results/semantic-vote.jsonl.gz"))
     evaluate(p.parse_args())
