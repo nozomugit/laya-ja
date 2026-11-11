@@ -1,0 +1,833 @@
+{
+  "source": "Colab A100 run of notebooks/laya_ja_nli_multicorpus_colab.ipynb at repository commit 3db0cc4 (2026-11-12). Scored on GPU in float32. Recall, loss and interval values are rounded to four decimals; accuracy is recomputed from the counts.",
+  "base": "convaiinnovations/laya-multilingual",
+  "base_revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+  "config": {
+    "epochs": 2,
+    "encoder_lr": 0.0001,
+    "head_lr": 0.0001,
+    "micro_batch": 16,
+    "grad_accum": 2,
+    "extra_cap": 4000,
+    "entailment_weight": 1.0,
+    "max_train": null,
+    "lora": [
+      16,
+      32,
+      0.05
+    ]
+  },
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "regimes": [
+    "mix4"
+  ],
+  "counts": {
+    "train": {
+      "jnli": 18618,
+      "jsick": 4000,
+      "janli": 4000,
+      "jamp": 4000
+    },
+    "eval": {
+      "jnli": 2434,
+      "reserved": 256,
+      "jsick": 512,
+      "janli": 512,
+      "jamp": 348,
+      "jsem": 384,
+      "challenge": 36
+    }
+  },
+  "models": {
+    "base": {
+      "jnli": {
+        "correct": 1271,
+        "n": 2434,
+        "accuracy": 0.522186,
+        "balanced_accuracy": 0.6281,
+        "recall": {
+          "entailment": 0.7507,
+          "contradiction": 0.8476,
+          "neutral": 0.2859
+        },
+        "nll": 1.2233
+      },
+      "reserved": {
+        "correct": 125,
+        "n": 256,
+        "accuracy": 0.488281,
+        "balanced_accuracy": 0.669,
+        "recall": {
+          "entailment": 0.84,
+          "contradiction": 0.8529,
+          "neutral": 0.314
+        },
+        "nll": 1.28
+      },
+      "jsick": {
+        "correct": 229,
+        "n": 512,
+        "accuracy": 0.447266,
+        "balanced_accuracy": 0.6507,
+        "recall": {
+          "entailment": 0.8611,
+          "contradiction": 0.9059,
+          "neutral": 0.185
+        },
+        "nll": 1.6497
+      },
+      "janli": {
+        "correct": 299,
+        "n": 512,
+        "accuracy": 0.583984,
+        "balanced_accuracy": 0.5837,
+        "recall": {
+          "entailment": 0.6023,
+          "non_entailment": 0.5652
+        },
+        "nll": 0.8038
+      },
+      "jamp": {
+        "correct": 154,
+        "n": 348,
+        "accuracy": 0.442529,
+        "balanced_accuracy": 0.4443,
+        "recall": {
+          "entailment": 0.3333,
+          "contradiction": 0.9828,
+          "neutral": 0.0169
+        },
+        "nll": 2.2029
+      },
+      "jsem": {
+        "correct": 192,
+        "n": 384,
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.5,
+        "recall": {
+          "entailment": 0.8438,
+          "contradiction": 0.5781,
+          "neutral": 0.0781
+        },
+        "nll": 1.2895
+      },
+      "challenge": {
+        "correct": 14,
+        "n": 36,
+        "accuracy": 0.388889,
+        "balanced_accuracy": 0.3889,
+        "recall": {
+          "entailment": 0.25,
+          "contradiction": 0.6667,
+          "neutral": 0.25
+        },
+        "nll": 1.7836
+      }
+    },
+    "prev": {
+      "jnli": {
+        "correct": 2204,
+        "n": 2434,
+        "accuracy": 0.905505,
+        "balanced_accuracy": 0.8433,
+        "recall": {
+          "entailment": 0.6418,
+          "contradiction": 0.9252,
+          "neutral": 0.963
+        },
+        "nll": 0.2684
+      },
+      "reserved": {
+        "correct": 225,
+        "n": 256,
+        "accuracy": 0.878906,
+        "balanced_accuracy": 0.817,
+        "recall": {
+          "entailment": 0.58,
+          "contradiction": 0.9118,
+          "neutral": 0.9593
+        },
+        "nll": 0.3499
+      },
+      "jsick": {
+        "correct": 307,
+        "n": 512,
+        "accuracy": 0.599609,
+        "balanced_accuracy": 0.7359,
+        "recall": {
+          "entailment": 0.787,
+          "contradiction": 0.9882,
+          "neutral": 0.4326
+        },
+        "nll": 2.1999
+      },
+      "janli": {
+        "correct": 289,
+        "n": 512,
+        "accuracy": 0.564453,
+        "balanced_accuracy": 0.5633,
+        "recall": {
+          "entailment": 0.6602,
+          "non_entailment": 0.4664
+        },
+        "nll": 0.9429
+      },
+      "jamp": {
+        "correct": 152,
+        "n": 348,
+        "accuracy": 0.436782,
+        "balanced_accuracy": 0.4386,
+        "recall": {
+          "entailment": 0.3421,
+          "contradiction": 0.9569,
+          "neutral": 0.0169
+        },
+        "nll": 3.6973
+      },
+      "jsem": {
+        "correct": 208,
+        "n": 384,
+        "accuracy": 0.541667,
+        "balanced_accuracy": 0.5417,
+        "recall": {
+          "entailment": 0.7109,
+          "contradiction": 0.7813,
+          "neutral": 0.1328
+        },
+        "nll": 1.8535
+      },
+      "challenge": {
+        "correct": 19,
+        "n": 36,
+        "accuracy": 0.527778,
+        "balanced_accuracy": 0.5278,
+        "recall": {
+          "entailment": 0.3333,
+          "contradiction": 0.9167,
+          "neutral": 0.3333
+        },
+        "nll": 2.495
+      }
+    },
+    "mix4": {
+      "jnli": {
+        "correct": 2217,
+        "n": 2434,
+        "accuracy": 0.910846,
+        "balanced_accuracy": 0.8606,
+        "recall": {
+          "entailment": 0.6963,
+          "contradiction": 0.9293,
+          "neutral": 0.9563
+        },
+        "nll": 0.2444
+      },
+      "reserved": {
+        "correct": 226,
+        "n": 256,
+        "accuracy": 0.882812,
+        "balanced_accuracy": 0.8158,
+        "recall": {
+          "entailment": 0.6,
+          "contradiction": 0.8824,
+          "neutral": 0.9651
+        },
+        "nll": 0.3311
+      },
+      "jsick": {
+        "correct": 456,
+        "n": 512,
+        "accuracy": 0.890625,
+        "balanced_accuracy": 0.8755,
+        "recall": {
+          "entailment": 0.8704,
+          "contradiction": 0.8471,
+          "neutral": 0.9091
+        },
+        "nll": 0.2783
+      },
+      "janli": {
+        "correct": 512,
+        "n": 512,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "recall": {
+          "entailment": 1.0,
+          "non_entailment": 1.0
+        },
+        "nll": 0.0022
+      },
+      "jamp": {
+        "correct": 263,
+        "n": 348,
+        "accuracy": 0.755747,
+        "balanced_accuracy": 0.7571,
+        "recall": {
+          "entailment": 0.8509,
+          "contradiction": 0.8017,
+          "neutral": 0.6186
+        },
+        "nll": 1.4185
+      },
+      "jsem": {
+        "correct": 225,
+        "n": 384,
+        "accuracy": 0.585938,
+        "balanced_accuracy": 0.5859,
+        "recall": {
+          "entailment": 0.7656,
+          "contradiction": 0.8047,
+          "neutral": 0.1875
+        },
+        "nll": 2.1137
+      },
+      "challenge": {
+        "correct": 18,
+        "n": 36,
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.5,
+        "recall": {
+          "entailment": 0.4167,
+          "contradiction": 0.75,
+          "neutral": 0.3333
+        },
+        "nll": 2.4143
+      }
+    }
+  },
+  "model_notes": {
+    "base": "upstream checkpoint",
+    "prev": "JNLI-only LoRA, seed 42, encoder_lr 2e-4, epoch 1 of 3 (notebooks/laya_ja_finetune_colab.ipynb)",
+    "mix4": "mean of the three seeds' option scores"
+  },
+  "runs": {
+    "mix4": {
+      "42": {
+        "epoch": 2,
+        "tune_nll": 0.1672,
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.3391,
+            "tune_nll": 0.1884,
+            "tune_accuracy": {
+              "jnli": 0.8854,
+              "jsick": 0.901,
+              "janli": 1.0,
+              "jamp": 0.9583
+            }
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.1609,
+            "tune_nll": 0.1672,
+            "tune_accuracy": {
+              "jnli": 0.8958,
+              "jsick": 0.9063,
+              "janli": 0.9948,
+              "jamp": 0.974
+            }
+          }
+        ],
+        "train_items": 30618,
+        "evaluation": {
+          "jnli": {
+            "correct": 2196,
+            "n": 2434,
+            "accuracy": 0.902219,
+            "balanced_accuracy": 0.8498,
+            "recall": {
+              "entailment": 0.6819,
+              "contradiction": 0.9156,
+              "neutral": 0.9519
+            },
+            "nll": 0.2631
+          },
+          "reserved": {
+            "correct": 227,
+            "n": 256,
+            "accuracy": 0.886719,
+            "balanced_accuracy": 0.8193,
+            "recall": {
+              "entailment": 0.64,
+              "contradiction": 0.8529,
+              "neutral": 0.9651
+            },
+            "nll": 0.3564
+          },
+          "jsick": {
+            "correct": 453,
+            "n": 512,
+            "accuracy": 0.884766,
+            "balanced_accuracy": 0.8695,
+            "recall": {
+              "entailment": 0.8704,
+              "contradiction": 0.8353,
+              "neutral": 0.9028
+            },
+            "nll": 0.2899
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": {
+              "entailment": 1.0,
+              "non_entailment": 1.0
+            },
+            "nll": 0.0029
+          },
+          "jamp": {
+            "correct": 262,
+            "n": 348,
+            "accuracy": 0.752874,
+            "balanced_accuracy": 0.7542,
+            "recall": {
+              "entailment": 0.8509,
+              "contradiction": 0.7931,
+              "neutral": 0.6186
+            },
+            "nll": 1.4586
+          },
+          "jsem": {
+            "correct": 224,
+            "n": 384,
+            "accuracy": 0.583333,
+            "balanced_accuracy": 0.5833,
+            "recall": {
+              "entailment": 0.7422,
+              "contradiction": 0.8125,
+              "neutral": 0.1953
+            },
+            "nll": 2.2318
+          },
+          "challenge": {
+            "correct": 16,
+            "n": 36,
+            "accuracy": 0.444444,
+            "balanced_accuracy": 0.4444,
+            "recall": {
+              "entailment": 0.3333,
+              "contradiction": 0.5833,
+              "neutral": 0.4167
+            },
+            "nll": 2.477
+          }
+        }
+      },
+      "43": {
+        "epoch": 2,
+        "tune_nll": 0.1772,
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.3401,
+            "tune_nll": 0.191,
+            "tune_accuracy": {
+              "jnli": 0.9063,
+              "jsick": 0.875,
+              "janli": 0.9948,
+              "jamp": 0.9427
+            }
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.1604,
+            "tune_nll": 0.1772,
+            "tune_accuracy": {
+              "jnli": 0.8958,
+              "jsick": 0.9167,
+              "janli": 0.9948,
+              "jamp": 0.9688
+            }
+          }
+        ],
+        "train_items": 30618,
+        "evaluation": {
+          "jnli": {
+            "correct": 2219,
+            "n": 2434,
+            "accuracy": 0.911668,
+            "balanced_accuracy": 0.868,
+            "recall": {
+              "entailment": 0.7249,
+              "contradiction": 0.9279,
+              "neutral": 0.9511
+            },
+            "nll": 0.2502
+          },
+          "reserved": {
+            "correct": 225,
+            "n": 256,
+            "accuracy": 0.878906,
+            "balanced_accuracy": 0.8186,
+            "recall": {
+              "entailment": 0.62,
+              "contradiction": 0.8824,
+              "neutral": 0.9535
+            },
+            "nll": 0.3481
+          },
+          "jsick": {
+            "correct": 457,
+            "n": 512,
+            "accuracy": 0.892578,
+            "balanced_accuracy": 0.8835,
+            "recall": {
+              "entailment": 0.8889,
+              "contradiction": 0.8588,
+              "neutral": 0.9028
+            },
+            "nll": 0.2856
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": {
+              "entailment": 1.0,
+              "non_entailment": 1.0
+            },
+            "nll": 0.002
+          },
+          "jamp": {
+            "correct": 262,
+            "n": 348,
+            "accuracy": 0.752874,
+            "balanced_accuracy": 0.7543,
+            "recall": {
+              "entailment": 0.8421,
+              "contradiction": 0.819,
+              "neutral": 0.6017
+            },
+            "nll": 1.4047
+          },
+          "jsem": {
+            "correct": 221,
+            "n": 384,
+            "accuracy": 0.575521,
+            "balanced_accuracy": 0.5755,
+            "recall": {
+              "entailment": 0.7656,
+              "contradiction": 0.7891,
+              "neutral": 0.1719
+            },
+            "nll": 2.2724
+          },
+          "challenge": {
+            "correct": 18,
+            "n": 36,
+            "accuracy": 0.5,
+            "balanced_accuracy": 0.5,
+            "recall": {
+              "entailment": 0.3333,
+              "contradiction": 0.75,
+              "neutral": 0.4167
+            },
+            "nll": 2.5298
+          }
+        }
+      },
+      "44": {
+        "epoch": 2,
+        "tune_nll": 0.1719,
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.3454,
+            "tune_nll": 0.1991,
+            "tune_accuracy": {
+              "jnli": 0.8906,
+              "jsick": 0.8906,
+              "janli": 0.9948,
+              "jamp": 0.9271
+            }
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.1619,
+            "tune_nll": 0.1719,
+            "tune_accuracy": {
+              "jnli": 0.8906,
+              "jsick": 0.9063,
+              "janli": 0.9948,
+              "jamp": 0.9688
+            }
+          }
+        ],
+        "train_items": 30618,
+        "evaluation": {
+          "jnli": {
+            "correct": 2217,
+            "n": 2434,
+            "accuracy": 0.910846,
+            "balanced_accuracy": 0.8627,
+            "recall": {
+              "entailment": 0.7106,
+              "contradiction": 0.9197,
+              "neutral": 0.9578
+            },
+            "nll": 0.2635
+          },
+          "reserved": {
+            "correct": 227,
+            "n": 256,
+            "accuracy": 0.886719,
+            "balanced_accuracy": 0.8272,
+            "recall": {
+              "entailment": 0.64,
+              "contradiction": 0.8824,
+              "neutral": 0.9593
+            },
+            "nll": 0.3324
+          },
+          "jsick": {
+            "correct": 450,
+            "n": 512,
+            "accuracy": 0.878906,
+            "balanced_accuracy": 0.8516,
+            "recall": {
+              "entailment": 0.8426,
+              "contradiction": 0.8,
+              "neutral": 0.9122
+            },
+            "nll": 0.299
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": {
+              "entailment": 1.0,
+              "non_entailment": 1.0
+            },
+            "nll": 0.0031
+          },
+          "jamp": {
+            "correct": 260,
+            "n": 348,
+            "accuracy": 0.747126,
+            "balanced_accuracy": 0.7485,
+            "recall": {
+              "entailment": 0.8421,
+              "contradiction": 0.7931,
+              "neutral": 0.6102
+            },
+            "nll": 1.5117
+          },
+          "jsem": {
+            "correct": 227,
+            "n": 384,
+            "accuracy": 0.591146,
+            "balanced_accuracy": 0.5911,
+            "recall": {
+              "entailment": 0.7734,
+              "contradiction": 0.8047,
+              "neutral": 0.1953
+            },
+            "nll": 2.0687
+          },
+          "challenge": {
+            "correct": 17,
+            "n": 36,
+            "accuracy": 0.472222,
+            "balanced_accuracy": 0.4722,
+            "recall": {
+              "entailment": 0.4167,
+              "contradiction": 0.6667,
+              "neutral": 0.3333
+            },
+            "nll": 2.2871
+          }
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "mix4_vs_prev": {
+      "jnli": {
+        "difference": 0.0053,
+        "gained": 67,
+        "lost": 54,
+        "group_bootstrap_95pct": [
+          -0.0037,
+          0.0146
+        ]
+      },
+      "reserved": {
+        "difference": 0.0039,
+        "gained": 7,
+        "lost": 6,
+        "group_bootstrap_95pct": [
+          -0.0236,
+          0.0315
+        ]
+      },
+      "jsick": {
+        "difference": 0.291,
+        "gained": 166,
+        "lost": 17,
+        "group_bootstrap_95pct": [
+          0.2461,
+          0.3353
+        ]
+      },
+      "janli": {
+        "difference": 0.4355,
+        "gained": 223,
+        "lost": 0,
+        "group_bootstrap_95pct": [
+          0.3638,
+          0.5122
+        ]
+      },
+      "jamp": {
+        "difference": 0.319,
+        "gained": 133,
+        "lost": 22,
+        "group_bootstrap_95pct": [
+          0.2081,
+          0.4227
+        ]
+      },
+      "jsem": {
+        "difference": 0.0443,
+        "gained": 23,
+        "lost": 6,
+        "group_bootstrap_95pct": [
+          0.019,
+          0.0904
+        ]
+      },
+      "challenge": {
+        "difference": -0.0278,
+        "gained": 2,
+        "lost": 3,
+        "group_bootstrap_95pct": [
+          -0.1111,
+          0.0833
+        ]
+      }
+    },
+    "mix4_vs_base": {
+      "jnli": {
+        "difference": 0.3887,
+        "gained": 1019,
+        "lost": 73,
+        "group_bootstrap_95pct": [
+          0.3608,
+          0.4171
+        ]
+      },
+      "reserved": {
+        "difference": 0.3945,
+        "gained": 119,
+        "lost": 18,
+        "group_bootstrap_95pct": [
+          0.3203,
+          0.4708
+        ]
+      },
+      "jsick": {
+        "difference": 0.4434,
+        "gained": 249,
+        "lost": 22,
+        "group_bootstrap_95pct": [
+          0.3949,
+          0.4941
+        ]
+      },
+      "janli": {
+        "difference": 0.416,
+        "gained": 213,
+        "lost": 0,
+        "group_bootstrap_95pct": [
+          0.3378,
+          0.5
+        ]
+      },
+      "jamp": {
+        "difference": 0.3132,
+        "gained": 132,
+        "lost": 23,
+        "group_bootstrap_95pct": [
+          0.2006,
+          0.4171
+        ]
+      },
+      "jsem": {
+        "difference": 0.0859,
+        "gained": 59,
+        "lost": 26,
+        "group_bootstrap_95pct": [
+          0.0231,
+          0.1686
+        ]
+      },
+      "challenge": {
+        "difference": 0.1111,
+        "gained": 4,
+        "lost": 0,
+        "group_bootstrap_95pct": [
+          0.0278,
+          0.1944
+        ]
+      }
+    }
+  },
+  "entailment_predictions": {
+    "base": [
+      262,
+      69,
+      18
+    ],
+    "prev": [
+      224,
+      12,
+      113
+    ],
+    "mix4": [
+      243,
+      15,
+      91
+    ]
+  },
+  "selected_seed": 42,
+  "saved_checkpoint_check": {
+    "jnli": {
+      "in_memory": 0.902219,
+      "reloaded": 0.902219
+    },
+    "reserved": {
+      "in_memory": 0.886719,
+      "reloaded": 0.886719
+    },
+    "jsick": {
+      "in_memory": 0.884766,
+      "reloaded": 0.884766
+    },
+    "janli": {
+      "in_memory": 1.0,
+      "reloaded": 1.0
+    },
+    "jamp": {
+      "in_memory": 0.752874,
+      "reloaded": 0.752874
+    },
+    "jsem": {
+      "in_memory": 0.583333,
+      "reloaded": 0.583333
+    },
+    "challenge": {
+      "in_memory": 0.444444,
+      "reloaded": 0.444444
+    }
+  }
+}
