@@ -46,3 +46,18 @@ https://huggingface.co/SkelterLabsInc/bert-base-japanese-jaquad
 https://huggingface.co/datasets/SkelterLabsInc/JaQuAD
 The new Laya readout weights and generated Japanese logic examples are offered under
 CC BY-SA 4.0 under the attributions in this notice.
+
+The optional four-task commonsense judge uses fukayatti0/jev-japanese-judgment,
+revision fdae208ea5e435b1992fecdef8a4cb02c9a6bcaf, with its published GGUF and
+MLP head fetched separately. See the upstream model card and LFM Open License.
+https://huggingface.co/fukayatti0/jev-japanese-judgment
+Additional inference judges use the published Unsloth quantizations of Qwen3.5-9B
+and Qwen3.6-35B-A3B from Qwen. External weights are downloaded from their publishers.
+https://huggingface.co/unsloth/Qwen3.5-9B-GGUF
+https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF
+Japanese temporal training and evaluation use the Jamp source credited above.
+The new temporal weights follow the data attributions in this notice.
+The independent Gemma experiment fetches an Unsloth quantization of Google's
+Gemma 4 26B A4B instruction-tuned model at the fixed revision documented in the workflow.
+https://huggingface.co/google/gemma-4-26B-A4B-it
+https://huggingface.co/unsloth/gemma-4-26B-A4B-it-GGUF

@@ -1,0 +1,26 @@
+{
+  "temporal/jamp-dev": {
+    "total": 192,
+    "base": 190,
+    "with_interval_parser": 190,
+    "covered": 79
+  },
+  "temporal/jamp": {
+    "total": 348,
+    "base": 329,
+    "with_interval_parser": 299,
+    "covered": 154
+  },
+  "temporal-hard/jamp-dev": {
+    "total": 192,
+    "base": 191,
+    "with_interval_parser": 191,
+    "covered": 79
+  },
+  "temporal-hard/jamp": {
+    "total": 348,
+    "base": 251,
+    "with_interval_parser": 248,
+    "covered": 154
+  }
+}

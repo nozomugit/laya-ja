@@ -1,0 +1,13 @@
+{
+  "supported": [
+    "coreference",
+    "duration-date",
+    "duration-pair",
+    "existence",
+    "habit",
+    "order",
+    "relative-date",
+    "since",
+    "unmentioned"
+  ]
+}

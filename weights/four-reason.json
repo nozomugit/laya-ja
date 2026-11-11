@@ -1,0 +1,12 @@
+{
+  "native_weight": 0.3,
+  "deep_weight": 0.25,
+  "contrast_weight": 0.75,
+  "label_bias": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "bias_penalty": null,
+  "reasoning_tokens": 96
+}

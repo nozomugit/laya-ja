@@ -1,0 +1,18 @@
+{
+  "runs": [
+    "43034844040",
+    "43035030519"
+  ],
+  "metrics": {
+    "direct": {
+      "aligned": 516,
+      "identical_top_choice": 512,
+      "max_probability_difference": 0.1837428025060388
+    },
+    "contrast": {
+      "aligned": 516,
+      "identical_top_choice": 508,
+      "max_probability_difference": 0.1751457130221188
+    }
+  }
+}

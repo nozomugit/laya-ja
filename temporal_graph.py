@@ -34,7 +34,7 @@ def reachable(edges, source, target):
     return False
 
 
-def resolve(premise, hypothesis):
+def _resolve(premise, hypothesis):
     p, h = (unicodedata.normalize("NFKC", t) for t in (premise, hypothesis))
     want = edge(h)
     if want:
@@ -96,6 +96,14 @@ def resolve(premise, hypothesis):
         if decision is not None:
             return "relative-date", decision
     return None
+
+
+def resolve(premise, hypothesis):
+    try:
+        return _resolve(premise, hypothesis)
+    except (ValueError, OverflowError):
+        # Unparseable calendar dates leave the statistical readout in charge.
+        return None
 
 
 def predict(base, premise, hypothesis, supported):

@@ -1,0 +1,10 @@
+{
+  "training_file": "train_custom-template-hard.tsv",
+  "training": 5268,
+  "dev_correct": 191,
+  "dev_total": 192,
+  "max_depth": null,
+  "laya_weight": 0.1,
+  "correct": 251,
+  "total": 348
+}

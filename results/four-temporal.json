@@ -1,0 +1,10 @@
+{
+  "training": 9758,
+  "dev_correct": 190,
+  "dev_total": 192,
+  "max_depth": null,
+  "laya_weight": 0.1,
+  "correct": 329,
+  "total": 348,
+  "training_file": "train_all.tsv"
+}

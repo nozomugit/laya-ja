@@ -1,0 +1,25 @@
+{
+  "fresh_questions": 96,
+  "fresh_distinct_premises": 96,
+  "overlap_previous_jsem_premises": 0,
+  "overlap_challenge_premises": 0,
+  "overlap_finite_world_premises": 0,
+  "fresh_premise_overlap_upstream_training": {
+    "jnli": 0,
+    "jsick": 0,
+    "janli": 0,
+    "jamp": 0
+  },
+  "jamp_templates": {
+    "train_all": {
+      "training_templates": 79,
+      "test_templates": 79,
+      "overlap": 79
+    },
+    "train_custom-template-hard": {
+      "training_templates": 41,
+      "test_templates": 79,
+      "overlap": 41
+    }
+  }
+}

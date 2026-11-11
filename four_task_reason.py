@@ -21,7 +21,7 @@ def reason_prompt(p, h):
     return prompt[: -len(suffix)] + "<think>\n"
 
 
-def engine_scores(engine, model, prompts, budget, threads):
+def engine_scores(engine, model, prompts, budget, threads, template=None):
     with tempfile.TemporaryDirectory() as tmp:
         src = Path(tmp) / "inputs.jsonl"
         out = Path(tmp) / "logits.jsonl"
@@ -31,7 +31,7 @@ def engine_scores(engine, model, prompts, budget, threads):
                 for i, p in enumerate(prompts)
             )
         )
-        subprocess.run(
+        process = subprocess.run(
             [
                 str(engine.resolve()),
                 str(model),
@@ -40,9 +40,16 @@ def engine_scores(engine, model, prompts, budget, threads):
                 str(min(4, len(prompts))),
                 str(threads),
                 str(budget),
+                *([template] if template else []),
             ],
-            check=True,
+            check=False,
+            capture_output=True,
+            text=True,
         )
+        if process.returncode:
+            raise RuntimeError(
+                f"Local scorer exited with {process.returncode}: {process.stderr[-1600:]}"
+            )
         records = load(out)
         if [r["id"] for r in records] != list(range(len(prompts))):
             raise ValueError("Unexpected response rows")
