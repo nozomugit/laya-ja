@@ -98,6 +98,12 @@ def predict(args):
         )[0]
 
     config = json.loads(args.calibration.read_text()) if args.calibration else None
+    if args.direct_pair or args.dense_only:
+        shares = (0.1, 0, 0.9, 0, 0) if args.dense_only else (0.1, 0.45, 0.45, 0, 0)
+        config = {
+            "weights": dict(zip((k for k, _ in VOTES), shares)),
+            "calibration": {k: [0, 0, 0] for k, _ in VOTES},
+        }
     label, used, low, high = decide(vote, early=not args.all_votes, config=config)
     return {
         "choice": LABELS[label],
@@ -115,7 +121,16 @@ if __name__ == "__main__":
     p.add_argument("--engine", type=Path, required=True)
     p.add_argument("--model-path")
     p.add_argument("--threads", type=int, default=4)
-    p.add_argument(
+    mode = p.add_mutually_exclusive_group()
+    mode.add_argument(
+        "--direct-pair",
+        action="store_true",
+        help="10%% Laya and 45%% of each direct Qwen judge",
+    )
+    mode.add_argument(
+        "--dense-only", action="store_true", help="10%% Laya and 90%% direct 27B"
+    )
+    mode.add_argument(
         "--calibration", type=Path, help="Development-fitted JSON configuration"
     )
     p.add_argument("--all-votes", action="store_true")
