@@ -64,6 +64,7 @@ def run(a):
     with (
         (a.out / "direct.jsonl").open("w") as f,
         (a.out / "contrast.jsonl").open("w") as g,
+        (a.out / "reason.jsonl").open("w") as reason,
     ):
         for split, rows in manifest.items():
             for i, (source, ident, digest) in enumerate(rows):
@@ -71,6 +72,16 @@ def run(a):
                 if hashlib.sha256((p + "\n" + h).encode()).hexdigest() != digest:
                     raise ValueError(f"Input mismatch at {split}/{i}: {ident}")
                 if n % a.shards == a.shard:
+                    direct = nli_prompt(p, h)
+                    suffix = "<think>\n\n</think>\n\n"
+                    assert direct.endswith(suffix)
+                    prompt = direct[: -len(suffix)] + "<think>\n"
+                    reason.write(
+                        json.dumps(
+                            {"id": [split, i], "prompt": prompt}, ensure_ascii=False
+                        )
+                        + "\n"
+                    )
                     for fp, contrast in ((f, False), (g, True)):
                         fp.write(
                             json.dumps(

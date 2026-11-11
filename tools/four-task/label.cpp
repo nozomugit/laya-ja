@@ -29,7 +29,7 @@ void add(llama_batch &b, int token, int pos, int seq, bool logits) {
   b.logits[i] = logits;
 }
 int main(int argc, char **argv) {
-  if (argc != 6)
+  if (argc != 6 && argc != 7)
     return 2;
   ggml_backend_load_all();
   llama_backend_init();
@@ -40,6 +40,9 @@ int main(int argc, char **argv) {
     return 3;
   auto vocab = llama_model_get_vocab(m);
   int group = std::stoi(argv[4]), threads = std::stoi(argv[5]);
+  const int budget = argc == 7 ? std::stoi(argv[6]) : 0;
+  if (budget < 0 || budget > 256)
+    return 2;
   auto cp = llama_context_default_params();
   cp.n_seq_max = group;
   cp.n_ctx = 768 * group;
@@ -100,7 +103,8 @@ int main(int argc, char **argv) {
           state.size())
         return 8;
       auto &v = data[start + s];
-      if (b.n_tokens + v.size() - common > cp.n_batch || v.size() > 768)
+      if (b.n_tokens + v.size() - common > cp.n_batch ||
+          v.size() + budget + 12 > 768)
         throw std::runtime_error("input too large");
       for (size_t j = common; j < v.size(); j++)
         add(b, v[j], j, s, j + 1 == v.size());
@@ -108,6 +112,46 @@ int main(int argc, char **argv) {
     }
     if (llama_decode(c, b))
       return 9;
+    if (budget) {
+      const auto close = encode(vocab, "</think>", true);
+      const auto suffix = encode(vocab, "\n</think>\n\n", true);
+      if (close.size() != 1)
+        throw std::runtime_error("Unrecognized reasoning delimiter");
+      std::vector<int> pos(count);
+      for (int s = 0; s < count; ++s)
+        pos[s] = data[start + s].size();
+      const int vocab_size = llama_vocab_n_tokens(vocab);
+      for (int step = 0; step < budget; ++step) {
+        b.n_tokens = 0;
+        for (int s = 0; s < count; ++s) {
+          if (last[s] < 0)
+            continue;
+          const auto logits = llama_get_logits_ith(c, last[s]);
+          if (!logits)
+            return 10;
+          const int next =
+              std::max_element(logits, logits + vocab_size) - logits;
+          if (next == close[0] || llama_vocab_is_eog(vocab, next)) {
+            last[s] = -1;
+          } else {
+            add(b, next, pos[s]++, s, true);
+            last[s] = b.n_tokens - 1;
+          }
+        }
+        if (!b.n_tokens)
+          break;
+        if (llama_decode(c, b))
+          return 9;
+      }
+      b.n_tokens = 0;
+      for (int s = 0; s < count; ++s) {
+        for (size_t j = 0; j < suffix.size(); ++j)
+          add(b, suffix[j], pos[s]++, s, j + 1 == suffix.size());
+        last[s] = b.n_tokens - 1;
+      }
+      if (llama_decode(c, b))
+        return 9;
+    }
     for (int s = 0; s < count; s++) {
       auto logits = llama_get_logits_ith(c, last[s]);
       if (!logits)
