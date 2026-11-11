@@ -1,7 +1,7 @@
 name: Japanese semantic readings
 on:
   push:
-    branches: [experiment/japanese-readings-readings]
+    branches: [experiment/japanese-semantic-readings]
     paths:
       - ".github/workflows/four-task-readings.yml"
       - "tools/four-task/**"
