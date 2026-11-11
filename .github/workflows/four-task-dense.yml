@@ -1,0 +1,49 @@
+name: Japanese dense semantic transfer
+on:
+  push:
+    branches: [experiment/japanese-dense-transfer]
+    paths:
+      - ".github/workflows/four-task-dense.yml"
+      - "tools/four-task/**"
+      - "four_task_prompts.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Verify fixed evaluation inputs
+        run: python3 tools/four-task/prepare.py --semantic --out batch --shards 8 --shard "${{ matrix.shard }}"
+      - name: Build the CPU scorer
+        run: |
+          git init -q runtime
+          git -C runtime fetch --depth=1 https://github.com/ggml-org/llama.cpp.git ccd360f060a0f17b87ee0d4c5d91ee84cfdff484
+          git -C runtime checkout -q --detach FETCH_HEAD
+          cmake -S runtime -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=ON -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_OPENSSL=OFF
+          cmake --build build --target llama -j 4
+          c++ -O2 -std=c++17 -Iruntime/include -Iruntime/ggml/include -Iruntime/vendor tools/four-task/label.cpp -Lbuild/bin -Wl,-rpath,"$PWD/build/bin" -lllama -lggml -lggml-base -o score
+      - name: Verify quantized weights
+        run: |
+          curl --retry 3 --fail --location --silent --show-error https://huggingface.co/unsloth/Qwen3.6-27B-GGUF/resolve/82d411acf4a06cfb8d9b073a5211bf410bfc29bf/Qwen3.6-27B-Q3_K_S.gguf -o model.gguf
+          echo "4afb4abcf0207a484b0d7e92c0421b74e8ce1c7a7250bb9d824b79288da68f20  model.gguf" | sha256sum --check
+      - name: Evaluate direct semantic judgments
+        run: |
+          mkdir records
+          for view in direct; do
+            ./score model.gguf batch/"$view".jsonl records/"$view".jsonl 4 4 2> "$view".log || { tail -25 "$view".log; exit 1; }
+            sha256sum records/"$view".jsonl
+            test "$(wc -l < records/"$view".jsonl)" -eq "$(wc -l < batch/"$view".jsonl)"
+          done
+      - name: Save per-item logits
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: japanese-dense-${{ matrix.shard }}
+          path: records/*.jsonl
+          retention-days: 1
