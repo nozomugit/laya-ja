@@ -1,0 +1,47 @@
+{
+  "jnli": {
+    "training": 6000,
+    "epoch": 2,
+    "dev_accuracy": 0.8489583134651184,
+    "evaluation": {
+      "n": 2434,
+      "correct": 2063,
+      "accuracy": 0.8475760221481323
+    },
+    "reserved": {
+      "n": 256,
+      "correct": 211,
+      "accuracy": 0.82421875
+    }
+  },
+  "jsick": {
+    "training": 1536,
+    "epoch": 7,
+    "dev_accuracy": 0.828125,
+    "evaluation": {
+      "n": 512,
+      "correct": 430,
+      "accuracy": 0.83984375
+    }
+  },
+  "jamp": {
+    "training": 1536,
+    "epoch": 14,
+    "dev_accuracy": 0.9114583134651184,
+    "evaluation": {
+      "n": 348,
+      "correct": 233,
+      "accuracy": 0.6695402264595032
+    }
+  },
+  "janli": {
+    "training": 1536,
+    "epoch": 13,
+    "dev_accuracy": 0.8802083134651184,
+    "evaluation": {
+      "n": 512,
+      "correct": 465,
+      "accuracy": 0.908203125
+    }
+  }
+}

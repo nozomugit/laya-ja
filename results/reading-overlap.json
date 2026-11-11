@@ -1,0 +1,47 @@
+{
+  "jaquad_revision": "05600ff310a0970823e70f82f428893b85c71ffe",
+  "jaquad_training_titles": 691,
+  "native_training_articles": 518,
+  "partitions": {
+    "original": {
+      "n": 192,
+      "titles": 43,
+      "native_fit_title_overlap": 0,
+      "tune_title_overlap": 0,
+      "train_or_tune_paragraph_overlap": 0,
+      "jaquad_training_title_overlap": 0
+    },
+    "fresh": {
+      "n": 198,
+      "titles": 12,
+      "native_fit_title_overlap": 0,
+      "tune_title_overlap": 0,
+      "train_or_tune_paragraph_overlap": 0,
+      "jaquad_training_title_overlap": 0
+    },
+    "new": {
+      "n": 1200,
+      "titles": 70,
+      "native_fit_title_overlap": 0,
+      "tune_title_overlap": 0,
+      "train_or_tune_paragraph_overlap": 0,
+      "jaquad_training_title_overlap": 0
+    },
+    "unseen_titles": {
+      "n": 33,
+      "titles": 7,
+      "native_fit_title_overlap": 0,
+      "tune_title_overlap": 0,
+      "train_or_tune_paragraph_overlap": 0,
+      "jaquad_training_title_overlap": 0
+    },
+    "unseen_passages": {
+      "n": 800,
+      "titles": 41,
+      "native_fit_title_overlap": 0,
+      "tune_title_overlap": 0,
+      "train_or_tune_paragraph_overlap": 0,
+      "jaquad_training_title_overlap": 0
+    }
+  }
+}

@@ -1,0 +1,828 @@
+{
+  "weights": {
+    "native": [
+      0.2,
+      0.8,
+      0.0
+    ],
+    "combined": [
+      0.5,
+      0.3,
+      0.2
+    ]
+  },
+  "evaluation": {
+    "dev": {
+      "previous": {
+        "all": {
+          "correct": 777,
+          "n": 900,
+          "accuracy": 0.8633333333333333,
+          "article_bootstrap_95": [
+            0.8348234873536509,
+            0.8886205380277503
+          ]
+        },
+        "all_five": {
+          "correct": 332,
+          "n": 393,
+          "accuracy": 0.8447837150127226,
+          "article_bootstrap_95": [
+            0.8030258043619088,
+            0.8815876664552947
+          ]
+        }
+      },
+      "additional": {
+        "all": {
+          "correct": 785,
+          "n": 900,
+          "accuracy": 0.8722222222222222,
+          "article_bootstrap_95": [
+            0.8453781979977752,
+            0.8981821766078192
+          ]
+        },
+        "all_five": {
+          "correct": 333,
+          "n": 393,
+          "accuracy": 0.8473282442748091,
+          "article_bootstrap_95": [
+            0.8038692642493204,
+            0.8867005279917264
+          ]
+        }
+      },
+      "auxiliary": {
+        "all": {
+          "correct": 706,
+          "n": 900,
+          "accuracy": 0.7844444444444445,
+          "article_bootstrap_95": [
+            0.742474014488891,
+            0.8230572883387897
+          ]
+        },
+        "all_five": {
+          "correct": 302,
+          "n": 393,
+          "accuracy": 0.7684478371501272,
+          "article_bootstrap_95": [
+            0.6968503852739726,
+            0.8318471985980104
+          ]
+        }
+      },
+      "native": {
+        "all": {
+          "correct": 787,
+          "n": 900,
+          "accuracy": 0.8744444444444445,
+          "article_bootstrap_95": [
+            0.8466971790364225,
+            0.9018326652357805
+          ]
+        },
+        "all_five": {
+          "correct": 331,
+          "n": 393,
+          "accuracy": 0.8422391857506362,
+          "article_bootstrap_95": [
+            0.7964932034064854,
+            0.8834738364162165
+          ]
+        }
+      },
+      "combined": {
+        "all": {
+          "correct": 810,
+          "n": 900,
+          "accuracy": 0.9,
+          "article_bootstrap_95": [
+            0.8736193837736574,
+            0.9236843603884426
+          ]
+        },
+        "all_five": {
+          "correct": 346,
+          "n": 393,
+          "accuracy": 0.8804071246819338,
+          "article_bootstrap_95": [
+            0.8333333333333334,
+            0.920486876685211
+          ]
+        },
+        "selective": {
+          "threshold": 0.7300000000000002,
+          "coverage": 0.8444444444444444,
+          "accepted": 760,
+          "performance": {
+            "correct": 732,
+            "n": 760,
+            "accuracy": 0.9631578947368421,
+            "article_bootstrap_95": [
+              0.9505246400237382,
+              0.9749702026221693
+            ]
+          }
+        }
+      }
+    },
+    "original": {
+      "previous": {
+        "all": {
+          "correct": 166,
+          "n": 192,
+          "accuracy": 0.8645833333333334,
+          "article_bootstrap_95": [
+            0.8209853510226645,
+            0.9106145251396648
+          ]
+        },
+        "all_five": {
+          "correct": 102,
+          "n": 121,
+          "accuracy": 0.8429752066115702,
+          "article_bootstrap_95": [
+            0.7883165285166399,
+            0.9042782465150403
+          ]
+        }
+      },
+      "additional": {
+        "all": {
+          "correct": 170,
+          "n": 192,
+          "accuracy": 0.8854166666666666,
+          "article_bootstrap_95": [
+            0.8390804597701149,
+            0.925
+          ]
+        },
+        "all_five": {
+          "correct": 107,
+          "n": 121,
+          "accuracy": 0.8842975206611571,
+          "article_bootstrap_95": [
+            0.822404873164219,
+            0.9327083333333333
+          ]
+        }
+      },
+      "auxiliary": {
+        "all": {
+          "correct": 167,
+          "n": 192,
+          "accuracy": 0.8697916666666666,
+          "article_bootstrap_95": [
+            0.8164524670627745,
+            0.9204013047346051
+          ]
+        },
+        "all_five": {
+          "correct": 107,
+          "n": 121,
+          "accuracy": 0.8842975206611571,
+          "article_bootstrap_95": [
+            0.8255729284262814,
+            0.9404761904761905
+          ]
+        }
+      },
+      "native": {
+        "all": {
+          "correct": 170,
+          "n": 192,
+          "accuracy": 0.8854166666666666,
+          "article_bootstrap_95": [
+            0.8417710135688917,
+            0.9237720609445886
+          ]
+        },
+        "all_five": {
+          "correct": 106,
+          "n": 121,
+          "accuracy": 0.8760330578512396,
+          "article_bootstrap_95": [
+            0.8198130461288355,
+            0.9215790571547767
+          ]
+        }
+      },
+      "combined": {
+        "all": {
+          "correct": 182,
+          "n": 192,
+          "accuracy": 0.9479166666666666,
+          "article_bootstrap_95": [
+            0.9136651759673342,
+            0.9754931850789096
+          ]
+        },
+        "all_five": {
+          "correct": 115,
+          "n": 121,
+          "accuracy": 0.9504132231404959,
+          "article_bootstrap_95": [
+            0.904751552795031,
+            0.9826614510663743
+          ]
+        },
+        "selective": {
+          "threshold": 0.7300000000000002,
+          "coverage": 0.8802083333333334,
+          "accepted": 169,
+          "performance": {
+            "correct": 167,
+            "n": 169,
+            "accuracy": 0.9881656804733728,
+            "article_bootstrap_95": [
+              0.9712643678160919,
+              1.0
+            ]
+          }
+        }
+      }
+    },
+    "fresh": {
+      "previous": {
+        "all": {
+          "correct": 171,
+          "n": 198,
+          "accuracy": 0.8636363636363636,
+          "article_bootstrap_95": [
+            0.8070125598086124,
+            0.9113021821631878
+          ]
+        },
+        "all_five": {
+          "correct": 92,
+          "n": 106,
+          "accuracy": 0.8679245283018868,
+          "article_bootstrap_95": [
+            0.7333333333333333,
+            0.9278350515463918
+          ]
+        }
+      },
+      "additional": {
+        "all": {
+          "correct": 169,
+          "n": 198,
+          "accuracy": 0.8535353535353535,
+          "article_bootstrap_95": [
+            0.792076497795765,
+            0.9101863437304495
+          ]
+        },
+        "all_five": {
+          "correct": 90,
+          "n": 106,
+          "accuracy": 0.8490566037735849,
+          "article_bootstrap_95": [
+            0.7017478397486253,
+            0.9204564268512944
+          ]
+        }
+      },
+      "auxiliary": {
+        "all": {
+          "correct": 169,
+          "n": 198,
+          "accuracy": 0.8535353535353535,
+          "article_bootstrap_95": [
+            0.7298777269528501,
+            0.9541984732824428
+          ]
+        },
+        "all_five": {
+          "correct": 85,
+          "n": 106,
+          "accuracy": 0.8018867924528302,
+          "article_bootstrap_95": [
+            0.6064835327130409,
+            0.9818262987012987
+          ]
+        }
+      },
+      "native": {
+        "all": {
+          "correct": 170,
+          "n": 198,
+          "accuracy": 0.8585858585858586,
+          "article_bootstrap_95": [
+            0.8045071918927754,
+            0.9111197916666666
+          ]
+        },
+        "all_five": {
+          "correct": 91,
+          "n": 106,
+          "accuracy": 0.8584905660377359,
+          "article_bootstrap_95": [
+            0.7272727272727273,
+            0.9205428720808644
+          ]
+        }
+      },
+      "combined": {
+        "all": {
+          "correct": 180,
+          "n": 198,
+          "accuracy": 0.9090909090909091,
+          "article_bootstrap_95": [
+            0.8358030327087964,
+            0.9577538658524573
+          ]
+        },
+        "all_five": {
+          "correct": 95,
+          "n": 106,
+          "accuracy": 0.8962264150943396,
+          "article_bootstrap_95": [
+            0.7566974869606449,
+            0.9677505147563487
+          ]
+        },
+        "selective": {
+          "threshold": 0.7300000000000002,
+          "coverage": 0.8585858585858586,
+          "accepted": 170,
+          "performance": {
+            "correct": 165,
+            "n": 170,
+            "accuracy": 0.9705882352941176,
+            "article_bootstrap_95": [
+              0.9370615604867574,
+              0.993356031770478
+            ]
+          }
+        }
+      }
+    },
+    "new": {
+      "previous": {
+        "all": {
+          "correct": 1025,
+          "n": 1200,
+          "accuracy": 0.8541666666666666,
+          "article_bootstrap_95": [
+            0.8311914967051137,
+            0.8779022958739506
+          ]
+        },
+        "all_five": {
+          "correct": 419,
+          "n": 503,
+          "accuracy": 0.8330019880715706,
+          "article_bootstrap_95": [
+            0.8003760655606796,
+            0.865390826873385
+          ]
+        }
+      },
+      "additional": {
+        "all": {
+          "correct": 1032,
+          "n": 1200,
+          "accuracy": 0.86,
+          "article_bootstrap_95": [
+            0.8375188964474679,
+            0.8835695634481043
+          ]
+        },
+        "all_five": {
+          "correct": 419,
+          "n": 503,
+          "accuracy": 0.8330019880715706,
+          "article_bootstrap_95": [
+            0.7972385042302673,
+            0.8664136294651958
+          ]
+        }
+      },
+      "auxiliary": {
+        "all": {
+          "correct": 983,
+          "n": 1200,
+          "accuracy": 0.8191666666666667,
+          "article_bootstrap_95": [
+            0.7941758931060576,
+            0.846287139009349
+          ]
+        },
+        "all_five": {
+          "correct": 399,
+          "n": 503,
+          "accuracy": 0.7932405566600398,
+          "article_bootstrap_95": [
+            0.7584264031367134,
+            0.8353840429558446
+          ]
+        }
+      },
+      "native": {
+        "all": {
+          "correct": 1030,
+          "n": 1200,
+          "accuracy": 0.8583333333333333,
+          "article_bootstrap_95": [
+            0.8363615400740688,
+            0.8810218933327385
+          ]
+        },
+        "all_five": {
+          "correct": 419,
+          "n": 503,
+          "accuracy": 0.8330019880715706,
+          "article_bootstrap_95": [
+            0.7949350860110354,
+            0.8681331168831169
+          ]
+        }
+      },
+      "combined": {
+        "all": {
+          "correct": 1087,
+          "n": 1200,
+          "accuracy": 0.9058333333333334,
+          "article_bootstrap_95": [
+            0.8884021790498279,
+            0.9231434084837035
+          ]
+        },
+        "all_five": {
+          "correct": 443,
+          "n": 503,
+          "accuracy": 0.8807157057654076,
+          "article_bootstrap_95": [
+            0.848431523304056,
+            0.9168560574756339
+          ]
+        },
+        "selective": {
+          "threshold": 0.7300000000000002,
+          "coverage": 0.8641666666666666,
+          "accepted": 1037,
+          "performance": {
+            "correct": 996,
+            "n": 1037,
+            "accuracy": 0.9604628736740598,
+            "article_bootstrap_95": [
+              0.9495632444907683,
+              0.971144995697457
+            ]
+          }
+        }
+      }
+    },
+    "unseen_titles": {
+      "previous": {
+        "all": {
+          "correct": 25,
+          "n": 33,
+          "accuracy": 0.7575757575757576,
+          "article_bootstrap_95": [
+            0.5416666666666666,
+            0.8948043184885287
+          ]
+        },
+        "all_five": {
+          "correct": 2,
+          "n": 4,
+          "accuracy": 0.5,
+          "article_bootstrap_95": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "additional": {
+        "all": {
+          "correct": 29,
+          "n": 33,
+          "accuracy": 0.8787878787878788,
+          "article_bootstrap_95": [
+            0.78125,
+            0.9696969696969697
+          ]
+        },
+        "all_five": {
+          "correct": 2,
+          "n": 4,
+          "accuracy": 0.5,
+          "article_bootstrap_95": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "auxiliary": {
+        "all": {
+          "correct": 24,
+          "n": 33,
+          "accuracy": 0.7272727272727273,
+          "article_bootstrap_95": [
+            0.5453598484848484,
+            0.8611350574712643
+          ]
+        },
+        "all_five": {
+          "correct": 2,
+          "n": 4,
+          "accuracy": 0.5,
+          "article_bootstrap_95": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "native": {
+        "all": {
+          "correct": 29,
+          "n": 33,
+          "accuracy": 0.8787878787878788,
+          "article_bootstrap_95": [
+            0.78125,
+            0.9696969696969697
+          ]
+        },
+        "all_five": {
+          "correct": 2,
+          "n": 4,
+          "accuracy": 0.5,
+          "article_bootstrap_95": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "combined": {
+        "all": {
+          "correct": 28,
+          "n": 33,
+          "accuracy": 0.8484848484848485,
+          "article_bootstrap_95": [
+            0.6785714285714286,
+            0.9444444444444444
+          ]
+        },
+        "all_five": {
+          "correct": 3,
+          "n": 4,
+          "accuracy": 0.75,
+          "article_bootstrap_95": [
+            0.75,
+            0.75
+          ]
+        },
+        "selective": {
+          "threshold": 0.7300000000000002,
+          "coverage": 0.9090909090909091,
+          "accepted": 30,
+          "performance": {
+            "correct": 27,
+            "n": 30,
+            "accuracy": 0.9,
+            "article_bootstrap_95": [
+              0.7916666666666666,
+              0.96875
+            ]
+          }
+        }
+      }
+    },
+    "unseen_passages": {
+      "previous": {
+        "all": {
+          "correct": 695,
+          "n": 800,
+          "accuracy": 0.86875,
+          "article_bootstrap_95": [
+            0.8393662886841484,
+            0.8970045008515124
+          ]
+        },
+        "all_five": {
+          "correct": 393,
+          "n": 465,
+          "accuracy": 0.8451612903225807,
+          "article_bootstrap_95": [
+            0.8005170578317108,
+            0.881013509654739
+          ]
+        }
+      },
+      "additional": {
+        "all": {
+          "correct": 698,
+          "n": 800,
+          "accuracy": 0.8725,
+          "article_bootstrap_95": [
+            0.8439969044414536,
+            0.8981628348802759
+          ]
+        },
+        "all_five": {
+          "correct": 394,
+          "n": 465,
+          "accuracy": 0.8473118279569892,
+          "article_bootstrap_95": [
+            0.8004802955665025,
+            0.8792926443351444
+          ]
+        }
+      },
+      "auxiliary": {
+        "all": {
+          "correct": 687,
+          "n": 800,
+          "accuracy": 0.85875,
+          "article_bootstrap_95": [
+            0.8199990215264188,
+            0.8855917020273456
+          ]
+        },
+        "all_five": {
+          "correct": 395,
+          "n": 465,
+          "accuracy": 0.8494623655913979,
+          "article_bootstrap_95": [
+            0.7876543209876543,
+            0.8907116824515297
+          ]
+        }
+      },
+      "native": {
+        "all": {
+          "correct": 700,
+          "n": 800,
+          "accuracy": 0.875,
+          "article_bootstrap_95": [
+            0.8445511023916293,
+            0.901235643308814
+          ]
+        },
+        "all_five": {
+          "correct": 396,
+          "n": 465,
+          "accuracy": 0.8516129032258064,
+          "article_bootstrap_95": [
+            0.8025883744087627,
+            0.8833730092801366
+          ]
+        }
+      },
+      "combined": {
+        "all": {
+          "correct": 738,
+          "n": 800,
+          "accuracy": 0.9225,
+          "article_bootstrap_95": [
+            0.9010315511183088,
+            0.9413491704941896
+          ]
+        },
+        "all_five": {
+          "correct": 424,
+          "n": 465,
+          "accuracy": 0.9118279569892473,
+          "article_bootstrap_95": [
+            0.8746795944973604,
+            0.939219073439704
+          ]
+        },
+        "selective": {
+          "threshold": 0.7300000000000002,
+          "coverage": 0.87375,
+          "accepted": 699,
+          "performance": {
+            "correct": 684,
+            "n": 699,
+            "accuracy": 0.9785407725321889,
+            "article_bootstrap_95": [
+              0.9669159008632693,
+              0.9874059376138651
+            ]
+          }
+        }
+      }
+    },
+    "fresh_without_question": {
+      "previous": {
+        "all": {
+          "correct": 83,
+          "n": 198,
+          "accuracy": 0.41919191919191917,
+          "article_bootstrap_95": [
+            0.33076612903225805,
+            0.5434835373575347
+          ]
+        },
+        "all_five": {
+          "correct": 36,
+          "n": 106,
+          "accuracy": 0.33962264150943394,
+          "article_bootstrap_95": [
+            0.27380952380952384,
+            0.4838954056695991
+          ]
+        }
+      },
+      "additional": {
+        "all": {
+          "correct": 99,
+          "n": 198,
+          "accuracy": 0.5,
+          "article_bootstrap_95": [
+            0.4463129023781369,
+            0.5672788085321215
+          ]
+        },
+        "all_five": {
+          "correct": 47,
+          "n": 106,
+          "accuracy": 0.44339622641509435,
+          "article_bootstrap_95": [
+            0.23404255319148937,
+            0.5119675574746178
+          ]
+        }
+      },
+      "auxiliary": {
+        "all": {
+          "correct": 72,
+          "n": 198,
+          "accuracy": 0.36363636363636365,
+          "article_bootstrap_95": [
+            0.29462972689075634,
+            0.43548387096774194
+          ]
+        },
+        "all_five": {
+          "correct": 33,
+          "n": 106,
+          "accuracy": 0.3113207547169811,
+          "article_bootstrap_95": [
+            0.23477241847826089,
+            0.43245495495495484
+          ]
+        }
+      },
+      "native": {
+        "all": {
+          "correct": 104,
+          "n": 198,
+          "accuracy": 0.5252525252525253,
+          "article_bootstrap_95": [
+            0.46822694144257354,
+            0.5946057627875809
+          ]
+        },
+        "all_five": {
+          "correct": 47,
+          "n": 106,
+          "accuracy": 0.44339622641509435,
+          "article_bootstrap_95": [
+            0.23404255319148937,
+            0.520337906504065
+          ]
+        }
+      },
+      "combined": {
+        "all": {
+          "correct": 85,
+          "n": 198,
+          "accuracy": 0.4292929292929293,
+          "article_bootstrap_95": [
+            0.3491017206477733,
+            0.5087855508336057
+          ]
+        },
+        "all_five": {
+          "correct": 39,
+          "n": 106,
+          "accuracy": 0.36792452830188677,
+          "article_bootstrap_95": [
+            0.22848214285714286,
+            0.44069042871385833
+          ]
+        },
+        "selective": {
+          "threshold": 0.7300000000000002,
+          "coverage": 0.23737373737373738,
+          "accepted": 47,
+          "performance": {
+            "correct": 27,
+            "n": 47,
+            "accuracy": 0.574468085106383,
+            "article_bootstrap_95": [
+              0.44,
+              0.6862745098039216
+            ]
+          }
+        }
+      }
+    }
+  }
+}

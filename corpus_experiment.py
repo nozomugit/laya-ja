@@ -30,11 +30,11 @@ REGIMES = {
 }
 
 
-def old_head(folder):
-    weights = json.loads((folder / "jnli.json").read_text())
+def old_head(folder, task="jnli"):
+    weights = json.loads((folder / f"{task}.json").read_text())
     linear = nn.Linear(768, 1, bias=False)
     linear.weight.data.copy_(torch.tensor(weights["weight"]))
-    with safe_open(str(folder / "jnli.residual.safetensors"), framework="pt") as f:
+    with safe_open(str(folder / f"{task}.residual.safetensors"), framework="pt") as f:
         h = ResidualScorer(linear, int(f.metadata()["width"]))
         state = h.state_dict()
         state.update({name: f.get_tensor(name) for name in list(f.keys())})

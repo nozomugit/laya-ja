@@ -38,3 +38,11 @@ The grounded-qa head is trained on the JSQuAD/JGLUE source described above, usin
 five-candidate questions derived from short passages. JSQuAD credits the authors of
 Japanese Wikipedia. Only model weights, code, item identifiers and predictions are
 redistributed here. The grounded-qa head is provided under CC BY-SA 4.0.
+
+Optional grounded-qa-plus auxiliary model: Skelter Labs, bert-base-japanese-jaquad,
+trained on JaQuAD (2022), model card license CC BY-SA 3.0. Its weights are obtained
+from the upstream publisher and are not redistributed in this repository.
+https://huggingface.co/SkelterLabsInc/bert-base-japanese-jaquad
+https://huggingface.co/datasets/SkelterLabsInc/JaQuAD
+The new Laya readout weights and generated Japanese logic examples are offered under
+CC BY-SA 4.0 under the attributions in this notice.

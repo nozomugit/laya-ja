@@ -1,0 +1,181 @@
+{
+  "baseline_commit": "985ea512e1164368388b6f7e6b9fbfae9e3a6312",
+  "goals": [
+    {
+      "task": "original",
+      "metric": "full_coverage_accuracy",
+      "n": 192,
+      "unit": "fraction",
+      "previous": 0.8645833333333334,
+      "current": 0.9479166666666666,
+      "target": 0.95,
+      "gap_to_target": 0.002083333333333326,
+      "met": false
+    },
+    {
+      "task": "fresh",
+      "metric": "full_coverage_accuracy",
+      "n": 198,
+      "unit": "fraction",
+      "previous": 0.8636363636363636,
+      "current": 0.9090909090909091,
+      "target": 0.95,
+      "gap_to_target": 0.040909090909090895,
+      "met": false
+    },
+    {
+      "task": "new",
+      "metric": "full_coverage_accuracy",
+      "n": 1200,
+      "unit": "fraction",
+      "previous": 0.8541666666666666,
+      "current": 0.9058333333333334,
+      "target": 0.95,
+      "gap_to_target": 0.044166666666666576,
+      "met": false
+    },
+    {
+      "task": "unseen_titles",
+      "metric": "full_coverage_accuracy",
+      "n": 33,
+      "unit": "fraction",
+      "previous": 0.7575757575757576,
+      "current": 0.8484848484848485,
+      "target": 0.95,
+      "gap_to_target": 0.10151515151515145,
+      "met": false
+    },
+    {
+      "task": "unseen_passages",
+      "metric": "full_coverage_accuracy",
+      "n": 800,
+      "unit": "fraction",
+      "previous": 0.86875,
+      "current": 0.9225,
+      "target": 0.95,
+      "gap_to_target": 0.02749999999999997,
+      "met": false
+    },
+    {
+      "task": "new_all_five_in_passage",
+      "metric": "accuracy",
+      "n": 503,
+      "unit": "fraction",
+      "previous": 0.8330019880715706,
+      "current": 0.8807157057654076,
+      "target": 0.95,
+      "gap_to_target": 0.06928429423459237,
+      "met": false
+    },
+    {
+      "task": "jnli",
+      "metric": "accuracy",
+      "n": 2434,
+      "unit": "fraction",
+      "previous": 0.7625308036804199,
+      "current": 0.8475760221481323,
+      "target": 0.95,
+      "gap_to_target": 0.10242397785186763,
+      "met": false
+    },
+    {
+      "task": "jsick",
+      "metric": "accuracy",
+      "n": 512,
+      "unit": "fraction",
+      "previous": 0.6796875,
+      "current": 0.83984375,
+      "target": 0.95,
+      "gap_to_target": 0.11015624999999996,
+      "met": false
+    },
+    {
+      "task": "janli",
+      "metric": "accuracy",
+      "n": 512,
+      "unit": "fraction",
+      "previous": 0.57421875,
+      "current": 0.908203125,
+      "target": 0.95,
+      "gap_to_target": 0.041796874999999956,
+      "met": false
+    },
+    {
+      "task": "jamp",
+      "metric": "accuracy",
+      "n": 348,
+      "unit": "fraction",
+      "previous": 0.48563218116760254,
+      "current": 0.6695402264595032,
+      "target": 0.95,
+      "gap_to_target": 0.2804597735404968,
+      "met": false
+    },
+    {
+      "task": "jsem",
+      "metric": "accuracy",
+      "n": 384,
+      "unit": "fraction",
+      "previous": 0.4921875,
+      "current": 0.46875,
+      "target": 0.95,
+      "gap_to_target": 0.48124999999999996,
+      "met": false
+    },
+    {
+      "task": "challenge",
+      "metric": "accuracy",
+      "n": 36,
+      "unit": "fraction",
+      "previous": 0.5,
+      "current": 0.5,
+      "target": 0.95,
+      "gap_to_target": 0.44999999999999996,
+      "met": false
+    },
+    {
+      "task": "jcommonsenseqa",
+      "metric": "accuracy",
+      "n": 1119,
+      "unit": "fraction",
+      "previous": 0.5469169020652771,
+      "current": 0.618409276008606,
+      "target": 0.95,
+      "gap_to_target": 0.331590723991394,
+      "met": false
+    },
+    {
+      "task": "jsts",
+      "metric": "pearson",
+      "n": 1457,
+      "unit": "correlation",
+      "previous": 0.6835019588470459,
+      "current": 0.8746726213280624,
+      "target": 0.95,
+      "gap_to_target": 0.0753273786719375,
+      "met": false
+    },
+    {
+      "task": "jcola_in_domain_valid-v1.0",
+      "metric": "mcc",
+      "n": 865,
+      "unit": "correlation",
+      "previous": -0.0015540980030844713,
+      "current": 0.09049444035082192,
+      "target": 0.95,
+      "gap_to_target": 0.8595055596491781,
+      "met": false
+    },
+    {
+      "task": "jcola_out_of_domain_valid-v1.0",
+      "metric": "mcc",
+      "n": 685,
+      "unit": "correlation",
+      "previous": 0.021411156099128848,
+      "current": 0.11584225003829648,
+      "target": 0.95,
+      "gap_to_target": 0.8341577499617034,
+      "met": false
+    }
+  ]
+}

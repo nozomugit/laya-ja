@@ -66,7 +66,7 @@ def partition(task, data, seed, train_size, tune_size, eval_size):
 
 
 @torch.inference_mode()
-def extract(agent, rows_, batch_size, reverse=False, kind="choice"):
+def extract(agent, rows_, batch_size, reverse=False, kind="choice", progress=True):
     """Capture the exact input to Laya's final linear option scorer."""
     items = []
     for idx, ((state, instruction, choices), _, _, _) in enumerate(rows_):
@@ -114,7 +114,7 @@ def extract(agent, rows_, batch_size, reverse=False, kind="choice"):
             for (idx, item), v in zip(chunk, vectors):
                 v = v[: len(item["markers"])]
                 features[idx] = v.flip(0) if reverse else v
-            if start % (batch_size * 16) == 0:
+            if progress and start % (batch_size * 16) == 0:
                 print(f"  {start + len(chunk)}/{len(items)}", flush=True)
     finally:
         hook.remove()

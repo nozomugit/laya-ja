@@ -1,0 +1,117 @@
+{
+  "synthetic_train": 1800,
+  "replay": 1800,
+  "synthetic_tune": 441,
+  "tune_mean_nll": [
+    0.9256844520568848,
+    0.569366991519928,
+    0.4452819228172302,
+    0.3760656416416168,
+    0.344367653131485,
+    0.32225480675697327,
+    0.30575162172317505,
+    0.2917047142982483,
+    0.286342591047287,
+    0.285573810338974,
+    0.27792587876319885,
+    0.2786599397659302
+  ],
+  "evaluation": {
+    "held_templates": {
+      "context": {
+        "n": 300,
+        "correct": 182,
+        "accuracy": 0.6066666841506958
+      },
+      "logic": {
+        "n": 300,
+        "correct": 188,
+        "accuracy": 0.6266666650772095
+      }
+    },
+    "jnli": {
+      "context": {
+        "n": 2434,
+        "correct": 1981,
+        "accuracy": 0.8138865828514099
+      },
+      "logic": {
+        "n": 2434,
+        "correct": 2032,
+        "accuracy": 0.8348397612571716
+      }
+    },
+    "jsick": {
+      "context": {
+        "n": 512,
+        "correct": 427,
+        "accuracy": 0.833984375
+      },
+      "logic": {
+        "n": 512,
+        "correct": 427,
+        "accuracy": 0.833984375
+      }
+    },
+    "janli": {
+      "context": {
+        "n": 512,
+        "correct": 457,
+        "accuracy": 0.892578125
+      },
+      "logic": {
+        "n": 512,
+        "correct": 459,
+        "accuracy": 0.896484375
+      }
+    },
+    "jamp": {
+      "context": {
+        "n": 348,
+        "correct": 221,
+        "accuracy": 0.6350574493408203
+      },
+      "logic": {
+        "n": 348,
+        "correct": 224,
+        "accuracy": 0.6436781883239746
+      }
+    },
+    "jsem": {
+      "context": {
+        "n": 384,
+        "correct": 180,
+        "accuracy": 0.46875
+      },
+      "logic": {
+        "n": 384,
+        "correct": 187,
+        "accuracy": 0.4869791567325592
+      }
+    },
+    "challenge": {
+      "context": {
+        "n": 36,
+        "correct": 18,
+        "accuracy": 0.5
+      },
+      "logic": {
+        "n": 36,
+        "correct": 18,
+        "accuracy": 0.5
+      }
+    },
+    "reserved": {
+      "context": {
+        "n": 256,
+        "correct": 210,
+        "accuracy": 0.8203125
+      },
+      "logic": {
+        "n": 256,
+        "correct": 213,
+        "accuracy": 0.83203125
+      }
+    }
+  }
+}

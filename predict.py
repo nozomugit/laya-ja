@@ -42,11 +42,107 @@ def main():
     sts = tasks.add_parser("jsts", help="二文の意味の近さを0〜5で見積もる")
     sts.add_argument("first")
     sts.add_argument("second")
-    grounded = tasks.add_parser("grounded-qa", help="本文中の表現を五つの候補から選ぶ")
-    grounded.add_argument("passage")
-    grounded.add_argument("question")
-    grounded.add_argument("choices", nargs=5)
+    for name in ("grounded-qa", "grounded-qa-plus", "grounded-qa-native-plus"):
+        grounded = tasks.add_parser(name, help="本文の根拠に基づき五択で答える")
+        grounded.add_argument("passage")
+        grounded.add_argument("question")
+        grounded.add_argument("choices", nargs=5)
+        if name == "grounded-qa-plus":
+            grounded.add_argument(
+                "--aux-path", help="Local copy of the pinned Japanese QA checkpoint"
+            )
+    for task, fields in (
+        ("nli", ("premise", "hypothesis")),
+        ("jsts", ("first", "second")),
+        ("jcola", ("sentence",)),
+        ("jcommonsenseqa", ("question", "choices")),
+    ):
+        cmd = tasks.add_parser("context-" + task)
+        if task == "jsts":
+            cmd.add_argument(
+                "--symmetric", action="store_true", help="両方向の類似度を平均する"
+            )
+        if task == "nli":
+            cmd.add_argument(
+                "--domain", choices=["jnli", "jsick", "janli", "jamp", "logic"]
+            )
+        for field in fields:
+            if field == "choices":
+                cmd.add_argument(field, nargs=5)
+            else:
+                cmd.add_argument(field)
+    syntax = tasks.add_parser("grammar-lora")
+    syntax.add_argument("sentence")
+    common = tasks.add_parser("common-qa-plus")
+    common.add_argument("question")
+    common.add_argument("choices", nargs=5)
     args = parser.parse_args()
+    if args.task == "common-qa-plus":
+        from context_tasks import CommonSenseMixture
+
+        print(
+            json.dumps(
+                CommonSenseMixture(args.model_path, args.device).predict(
+                    args.question, args.choices
+                ),
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return
+    if args.task == "grammar-lora":
+        from grammar_lora import GrammarReader
+
+        print(
+            json.dumps(
+                GrammarReader(args.model_path, args.device).predict(args.sentence),
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return
+    if args.task.startswith("context-"):
+        from context_tasks import ContextReader
+
+        task = args.task.removeprefix("context-")
+        if task == "nli":
+            a, options = args.premise, [args.hypothesis]
+        elif task == "jsts":
+            a, options = args.first, [args.second]
+        elif task == "jcola":
+            a, options = args.sentence, []
+        else:
+            a, options = args.question, args.choices
+        print(
+            json.dumps(
+                ContextReader(
+                    task,
+                    args.model_path,
+                    args.device,
+                    domain=getattr(args, "domain", None),
+                ).predict(a, options, symmetric=getattr(args, "symmetric", False)),
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return
+    if args.task in ("grounded-qa-plus", "grounded-qa-native-plus"):
+        from reader95 import ExtendedReader
+
+        reader = ExtendedReader(
+            args.model_path,
+            getattr(args, "aux_path", None),
+            args.device,
+            native=args.task == "grounded-qa-native-plus",
+        )
+        print(
+            json.dumps(
+                reader.predict(args.passage, args.question, args.choices),
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return
     if args.task == "grounded-qa":
         from grounded_qa import GroundedReader
 
