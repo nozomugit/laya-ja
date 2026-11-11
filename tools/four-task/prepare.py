@@ -39,7 +39,12 @@ def inputs(a, manifest):
     with retrieve(a, "jsick.tsv", PATHS["jsick"]).open(encoding="utf-8-sig") as f:
         for r in csv.DictReader(f, delimiter="\t"):
             ix["jsick", r["pair_ID"]] = (r["sentence_A_Ja"], r["sentence_B_Ja"])
-    stems = {i.split(":")[0] for _, i, _ in manifest["jsem"]}
+    stems = {
+        i.split(":")[0]
+        for rows in manifest.values()
+        for source, i, _ in rows
+        if source == "jsem"
+    }
     for stem in sorted(stems):
         name = stem + ".xml"
         path = retrieve(a, name, PATHS["jsem"] + urllib.parse.quote(name))
@@ -52,6 +57,10 @@ def inputs(a, manifest):
                 ix["jsem", stem + ":" + r.get("jsem_id", "")] = (p, h.strip())
     for i, (_, p, h, _) in enumerate(json.loads((ROOT / "challenge.json").read_text())):
         ix["challenge", str(i)] = (p, h)
+    if "semantic-cal" in manifest:
+        from semantic_worlds import generate
+
+        ix.update({("world", k): (p, h) for k, (p, h, _, _) in generate().items()})
     return ix
 
 
@@ -59,12 +68,18 @@ def run(a):
     a.cache.mkdir(parents=True, exist_ok=True)
     a.out.mkdir(parents=True, exist_ok=True)
     manifest = json.loads(Path(__file__).with_name("manifest.json").read_text())
+    if a.semantic:
+        manifest.update(
+            json.loads(Path(__file__).with_name("semantic-manifest.json").read_text())
+        )
     index = inputs(a, manifest)
     n = 0
     with (
         (a.out / "direct.jsonl").open("w") as f,
         (a.out / "contrast.jsonl").open("w") as g,
         (a.out / "reason.jsonl").open("w") as reason,
+        (a.out / "must_true.jsonl").open("w") as truth,
+        (a.out / "must_false.jsonl").open("w") as falsity,
     ):
         for split, rows in manifest.items():
             for i, (source, ident, digest) in enumerate(rows):
@@ -72,6 +87,20 @@ def run(a):
                 if hashlib.sha256((p + "\n" + h).encode()).hexdigest() != digest:
                     raise ValueError(f"Input mismatch at {split}/{i}: {ident}")
                 if n % a.shards == a.shard:
+                    if a.semantic:
+                        from semantic_probes import probe
+
+                        for dest, kind in (
+                            (truth, "must_true"),
+                            (falsity, "must_false"),
+                        ):
+                            dest.write(
+                                json.dumps(
+                                    {"id": [split, i], "prompt": probe(p, h, kind)},
+                                    ensure_ascii=False,
+                                )
+                                + "\n"
+                            )
                     direct = nli_prompt(p, h)
                     suffix = "<think>\n\n</think>\n\n"
                     assert direct.endswith(suffix)
@@ -100,6 +129,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--cache", type=Path, default=Path(".cache/four-public"))
     p.add_argument("--out", type=Path, required=True)
+    p.add_argument("--semantic", action="store_true")
     p.add_argument("--shards", type=int, default=1)
     p.add_argument("--shard", type=int, default=0)
     a = p.parse_args()
