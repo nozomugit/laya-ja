@@ -38,6 +38,7 @@ jobs:
           mkdir records
           for view in direct contrast; do
             ./score model.gguf batch/"$view".jsonl records/"$view".jsonl 4 4 2> "$view".log || { tail -25 "$view".log; exit 1; }
+            sha256sum records/"$view".jsonl
             test "$(wc -l < records/"$view".jsonl)" -eq "$(wc -l < batch/"$view".jsonl)"
           done
       - name: Save per-item logits
