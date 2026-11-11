@@ -1,0 +1,22 @@
+Laya-JA — Japanese typed decision adapters.
+The code in this project is licensed under Apache-2.0 (LICENSE).
+Base model: Convai Innovations, convaiinnovations/laya-multilingual, Apache-2.0.
+Upstream engine: NandhaKishorM/laya, Apache-2.0. Base weights are downloaded separately.
+Each fitted file replaces only the last option-scoring weight matrix.
+
+Training and benchmark source: JGLUE v1.3, JNLI and JCommonsenseQA,
+Yahoo Japan Corporation and Kawahara Lab at Waseda University.
+Kurihara, Kawahara and Shibata, JGLUE: Japanese General Language Understanding Evaluation, LREC 2022.
+https://github.com/yahoojapan/JGLUE
+https://aclanthology.org/2022.lrec-1.317/
+Data are obtained from the original repository. No JGLUE text is bundled.
+See its README for dataset-specific credits, including YJ Captions and Japanese ConceptNet.
+The original Japanese challenge items and fitted adapter files are offered under CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/
+Attribute this release to the Laya-JA project and retain upstream attributions.
+
+JCoLA v1.0, Japanese Corpus of Linguistic Acceptability.
+Taiga Someya, Yushi Sugimoto, Yohei Oseki (2024); CC BY-SA 4.0.
+https://github.com/osekilab/JCoLA
+https://aclanthology.org/2024.lrec-main.828/
+JSTS v1.3 comes from the same JGLUE project cited above.

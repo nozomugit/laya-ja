@@ -1,2 +1,5 @@
-# laya-ja
-Japanese adaptation and reproducible evaluation of Laya Multilingual for typed decisions.
+# Laya-JA
+
+Laya Multilingual の日本語向け追加学習・評価プロジェクトです。推論、常識五択、文法判断、意味類似度の四つの課題を扱います。実験完了後に学習済み重みと評価結果を追加します。
+
+データと上流モデルの出典は [NOTICE](NOTICE) に記載しています。

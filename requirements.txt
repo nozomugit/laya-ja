@@ -1,0 +1,7 @@
+# CPU experiment environment. install.py also installs the pinned Laya core.
+torch==2.15.0
+transformers==4.57.6
+numpy==2.5.4
+huggingface-hub==0.36.2
+safetensors==0.8.0
+tokenizers==0.22.2
