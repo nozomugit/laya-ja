@@ -76,7 +76,9 @@ python four_task_reason.py
 
 従来の384問・独自36問・新たなJSeMの96問を同じ条件で評価した。Gemma 4 26B-A4Bには日本語で最大160トークンの推論を許した。Qwen3.6-35B-A3Bには、日本語の前提と仮説を提示し、仮説が真になる状況と偽になる状況を両方試すよう英語で指示し、最大256トークンを許した。各モデルとLAYAを90対10で混ぜる設定のほか、両モデル40%ずつ、LAYAと35B検証器を10%ずつとする共通設定も事前に固定した。[Gemmaの実行](https://github.com/nozomugit/laya-ja/actions/runs/43040117906) ／ [反例探索の実行](https://github.com/nozomugit/laya-ja/actions/runs/43040518093) ／ [統合方式の固定](https://github.com/nozomugit/laya-ja/commit/b75aa8bb610040e524f4265a1f5e45a21da73153)
 
-各構成を新しい文で試せる。まず上の手順でCPU実行ファイルをビルドする。
+反例探索の固定構成は独自36問のうち35問正解（97.2%）だった。唯一の誤答は「森さんに原さんが鍵を渡した」から「受取人は原さんだ」を含意すると判定した問題で、日本語の助詞が示す渡し手と受け手を逆に取った。同じ構成で元のJSeMは238/384（62.0%）だった。
+
+各構成を新しい文で試せる。まず上の手順でCPU実行ファイルをビルドする。重みの並べ替え時にメモリが足りない場合は、実行前に `export LAYA_NO_REPACK=1` を設定できる。公開CPU実験は既定のメモリ設定で行った。
 
 ```bash
 python four_task_models.py reason
@@ -113,4 +115,21 @@ python temporal_transfer.py
 ```bash
 python native_distillation.py
 python four_task_predict.py inference-native '箱には赤い札が二枚以上ある。' '箱には札が一枚以上ある。'
+```
+
+27Bの密なモデルでも、同じ日本語の三択指示で直接採点した。LAYA 10%・27B 90%の単独併用と、LAYA 10%・27B 45%・35B 45%の固定配分を同じ意味推論セットで比較する。[配分を固定したコミット](https://github.com/nozomugit/laya-ja/commit/4711aec19d92b494aa11afdd44be5be1d610479f) ／ [27Bの実行](https://github.com/nozomugit/laya-ja/actions/runs/43046643705) ／ [問題別記録](results/four-dense.jsonl.gz)
+
+```bash
+python four_task_models.py dense
+python four_task_predict.py inference-dense --single-judge --engine ./score '黄色い紙だけを三枚受け取った。' '黄色い紙を受け取った。'
+python four_task_models.py reason
+python four_task_predict.py inference-dense --engine ./score '黄色い紙だけを三枚受け取った。' '黄色い紙を受け取った。'
+python dense_transfer.py
+```
+
+日本語で問い方と選択肢の順序を変えた判定も試した。35Bの3通りの指示を等配分し、LAYAを10%混ぜた。27Bを加えた方式は4つの外部判定を22.5%ずつに固定した。独自36問にも同じ方式を用いた。[配分と指示を固定したコード](https://github.com/nozomugit/laya-ja/commit/8a9d8ab01841a30675b4def50dced8d6f7d4edbc) ／ [実行記録](https://github.com/nozomugit/laya-ja/actions/runs/43049153900) ／ [問題別結果](results/four-readings.jsonl.gz)
+
+```bash
+python four_task_predict.py inference-readings --engine ./score '妹は姉より背が高い。' '姉は妹より背が低い。'
+python reading_vote.py
 ```

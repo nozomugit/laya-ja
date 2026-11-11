@@ -46,6 +46,7 @@ def summarize(folder):
             "template_hard",
             "temporal_graph",
             "direct_laya",
+            "sparse_direct_laya",
             "verifier",
             "single_judge",
             "fixed_mix",
@@ -60,16 +61,23 @@ def summarize(folder):
                     else key
                 )
                 add(split, r["row"], r["gold"], n, r["prediction"][key])
-    for file in ("gemma", "countermodel", "cross-family", "temporal-transfer"):
+    for file in (
+        "gemma",
+        "dense",
+        "readings",
+        "countermodel",
+        "cross-family",
+        "temporal-transfer",
+    ):
         for r in read(folder / ("four-" + file + ".jsonl.gz")):
-            if file == "gemma":
-                for key, p in r["probabilities"].items():
+            if file in ("gemma", "dense", "readings"):
+                for key, pred in r["prediction"].items():
                     add(
                         r["split"],
                         r["row"],
                         r["gold"],
                         file + "_" + key,
-                        max(range(3), key=p.__getitem__),
+                        pred,
                     )
             else:
                 y = r.get("prediction")
@@ -89,6 +97,10 @@ def summarize(folder):
             }
     checks = [
         ("countermodel", "four-countermodel.json", "combined"),
+        ("readings_single", "four-readings.json", "single"),
+        ("readings_dual", "four-readings.json", "dual"),
+        ("dense_single", "four-dense.json", "single"),
+        ("dense_dual", "four-dense.json", "dual"),
         ("gemma_family", "four-gemma.json", "family"),
         ("gemma_combined", "four-gemma.json", "combined"),
         ("cross-family", "four-cross-family.json", None),

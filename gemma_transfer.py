@@ -42,6 +42,7 @@ def run(a):
                     "split": split,
                     "row": i,
                     "gold": int(gold[i]),
+                    "prediction": {n: int(p[i].argmax()) for n, p in pred.items()},
                     "probabilities": {
                         n: p[i].round(7).tolist() for n, p in pred.items()
                     },

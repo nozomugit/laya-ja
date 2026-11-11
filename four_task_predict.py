@@ -52,7 +52,41 @@ def predict(a):
         raw = json.loads(subprocess.check_output(command, text=True))
         prior = np.array([raw["probabilities"][c] for c in LABELS])
         labels = LABELS
-        if a.task == "inference-countermodel":
+        if a.task == "inference-readings":
+            from four_task_prompts import nli_prompt
+            from four_task_reason import engine_scores
+            from reading_vote import mix as reading_mix
+            from semantic_readings import prompt as reading_prompt
+
+            direct = nli_prompt(a.premise, a.hypothesis)
+            prompts = [direct] + [
+                reading_prompt(a.premise, a.hypothesis, v) for v in (0, 1)
+            ]
+            base, first, second = engine_scores(
+                a.engine, a.reason_model, prompts, 0, a.threads
+            )
+            dense = (
+                base
+                if a.single_judge
+                else engine_scores(a.engine, a.dense_model, [direct], 0, a.threads)[0]
+            )
+            single, dual = reading_mix(prior, base, dense, first, second)
+            result = single if a.single_judge else dual
+        elif a.task == "inference-dense":
+            from dense_transfer import mix
+            from four_task_prompts import nli_prompt
+            from four_task_reason import engine_scores
+
+            prompts = [nli_prompt(a.premise, a.hypothesis)]
+            dense = engine_scores(a.engine, a.dense_model, prompts, 0, a.threads)[0]
+            sparse = (
+                dense
+                if a.single_judge
+                else engine_scores(a.engine, a.reason_model, prompts, 0, a.threads)[0]
+            )
+            single, dual = mix(prior, dense, sparse)
+            result = single if a.single_judge else dual
+        elif a.task == "inference-countermodel":
             from countermodel_prompts import prompt
             from four_task_reason import engine_scores
 
@@ -235,6 +269,8 @@ if __name__ == "__main__":
         "inference-verify",
         "inference-gemma",
         "inference-countermodel",
+        "inference-dense",
+        "inference-readings",
         "inference-cross-family",
     ):
         cmd = tasks.add_parser(name)
@@ -246,9 +282,22 @@ if __name__ == "__main__":
             "inference-verify",
             "inference-gemma",
             "inference-countermodel",
+            "inference-dense",
+            "inference-readings",
             "inference-cross-family",
         ):
             cmd.add_argument("--engine", type=Path, required=True)
+            if name in ("inference-dense", "inference-readings"):
+                cmd.add_argument(
+                    "--single-judge",
+                    action="store_true",
+                    help="Use only Laya and the primary judge for this mode",
+                )
+                cmd.add_argument(
+                    "--dense-model",
+                    type=Path,
+                    default=Path(".cache/four-models/dense/Qwen3.6-27B-Q3_K_S.gguf"),
+                )
             if name == "inference-gemma":
                 cmd.add_argument(
                     "--single-judge", action="store_true", help="Only Laya and Gemma"

@@ -92,6 +92,9 @@ def run(a):
                 )
             if dataset in ("jsem", "challenge", "jsem-fresh"):
                 key = (dataset, i)
+                probs["sparse_direct_laya"] = 0.1 * prior + 0.9 * softmax(
+                    raw_sem[2][key]
+                )
                 probs["verifier"] = verify(
                     features(*(d[key] for d in raw_sem), prior),
                     verifier_cfg["coefficients"],

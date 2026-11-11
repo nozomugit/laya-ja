@@ -61,3 +61,6 @@ The independent Gemma experiment fetches an Unsloth quantization of Google's
 Gemma 4 26B A4B instruction-tuned model at the fixed revision documented in the workflow.
 https://huggingface.co/google/gemma-4-26B-A4B-it
 https://huggingface.co/unsloth/gemma-4-26B-A4B-it-GGUF
+The dense direct comparison uses a separate pinned upstream Qwen3.6-27B
+quantization. Its weights are fetched on demand.
+https://huggingface.co/unsloth/Qwen3.6-27B-GGUF

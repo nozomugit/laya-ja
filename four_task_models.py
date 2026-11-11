@@ -21,6 +21,13 @@ MODELS = {
             "Qwen3.6-35B-A3B-UD-IQ3_XXS.gguf": "9c964e657212fea1f24905dd7b0a89b82fd807d19fab0b41da14251b07b88fbe"
         },
     ),
+    "dense": (
+        "unsloth/Qwen3.6-27B-GGUF",
+        "82d411acf4a06cfb8d9b073a5211bf410bfc29bf",
+        {
+            "Qwen3.6-27B-Q3_K_S.gguf": "4afb4abcf0207a484b0d7e92c0421b74e8ce1c7a7250bb9d824b79288da68f20"
+        },
+    ),
     "gemma": (
         "unsloth/gemma-4-26B-A4B-it-GGUF",
         "c099eb48e663fd284577b04978a94ffccb261841",
