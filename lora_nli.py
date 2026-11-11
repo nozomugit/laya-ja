@@ -33,7 +33,13 @@ from lora import add_lora, apply_adapter, merge_lora, trainable_state
 
 BASE_SHA256 = "9d628fd971b700382ac6f65920a86f149777b2e748e0c955fb3b19695aa8f204"
 MIX4 = ["jnli", "jsick", "janli", "jamp"]
-REGIMES = {"mix4": MIX4, "jnli": ["jnli"], "mix4-logic": [*MIX4, "logic"]}
+REGIMES = {
+    "mix4": MIX4,
+    "jnli": ["jnli"],
+    "mix4-logic": [*MIX4, "logic"],
+    "mix4-teacher": [*MIX4, "teacher"],
+    "mix4-logic-teacher": [*MIX4, "logic", "teacher"],
+}
 TRAIN_FILES = {
     "jsick": "JSICK/jsick/train.tsv",
     "janli": "JaNLI/janli.tsv",
@@ -116,17 +122,39 @@ def corpora(args):
         for r in logic("train", args.logic_cap, 1001)
         if pair_key(r[0][0]) not in block
     ]
+    if args.teacher:
+        # Pairs labeled by the two external judges (teacher_data.py). The target is their averaged
+        # probability; by default only pairs whose teacher label matches the source corpus label are used.
+        rows = []
+        for line in args.teacher.read_text().splitlines():
+            r = json.loads(line)
+            request = nli_request(r["premise"], r["hypothesis"])
+            teacher = tuple(float(v) for v in r["teacher"])
+            if pair_key(request[0]) in block:
+                continue
+            if args.teacher_all or teacher.index(max(teacher)) == r["gold"]:
+                rows.append((request, teacher, "teacher", str(r["id"])))
+        train["teacher"] = rows[: args.teacher_cap]
     if args.max_train:
         train = {s: rows[: args.max_train] for s, rows in train.items()}
     return train, tune, evalsets
 
 
-def set_likelihood_loss(logits, target, mask):
-    """weight * -log(total probability of the marked options); one mark is ordinary cross-entropy."""
+def mixed_loss(logits, target, mask):
+    """Soft cross-entropy, except for set-valued rows such as JaNLI non-entailment.
+
+    A set row marks several options with the same weight above a total of one; its loss is
+    weight * -log(total probability of the marked options). Every other row (one-hot, weighted one-hot,
+    or a teacher distribution) uses -sum(target * log p).
+    """
     logp = torch.log_softmax(logits.masked_fill(~mask, -1e4), -1)
-    weight = target.max(-1).values
-    marked = logp.masked_fill(target <= 0, float("-inf"))
-    return -(weight * torch.logsumexp(marked, -1)).mean()
+    positive = target > 0
+    top = target.max(-1).values
+    uniform = ((target == top[:, None]) | ~positive).all(-1)
+    is_set = (positive.sum(-1) > 1) & uniform & (target.sum(-1) > 1.0001)
+    marked = torch.logsumexp(logp.masked_fill(~positive, float("-inf")), -1)
+    soft = -(target * logp).sum(-1)
+    return torch.where(is_set, -top * marked, soft).mean()
 
 
 class Bench:
@@ -178,7 +206,12 @@ class Bench:
                 "criteria": dict.fromkeys(choices, ""),
             }
             q = to_internal("decision", question)
-            target = [0.0, 1.0, 1.0] if y == 3 else [float(i == y) for i in range(3)]
+            if isinstance(y, tuple):
+                target = list(y)
+            else:
+                target = (
+                    [0.0, 1.0, 1.0] if y == 3 else [float(i == y) for i in range(3)]
+                )
             if train and y == 0:
                 target = [v * self.args.entailment_weight for v in target]
             state_ids = encode_state(self.tok, state, self.max_len)
@@ -258,6 +291,13 @@ def main():
     ap.add_argument("--extra-cap", type=int, default=4000)
     ap.add_argument("--entailment-weight", type=float, default=1.0)
     ap.add_argument("--logic-cap", type=int, default=6000)
+    ap.add_argument("--teacher", type=Path, help="teacher.jsonl from teacher_data.py")
+    ap.add_argument("--teacher-cap", type=int, default=8000)
+    ap.add_argument(
+        "--teacher-all",
+        action="store_true",
+        help="Keep pairs whose teacher label differs from the source label",
+    )
     ap.add_argument("--fusion", type=Path, default=Path("results/four-dense.jsonl.gz"))
     ap.add_argument("--max-train", type=int)
     ap.add_argument("--previous", type=Path, help="Checkpoint to score as a reference")
@@ -270,7 +310,7 @@ def main():
     ap.add_argument("--device")
     args = ap.parse_args()
 
-    laya_train.soft_ce_loss = set_likelihood_loss
+    laya_train.soft_ce_loss = mixed_loss
     bench = Bench(args)
     train, tune, evalsets = corpora(args)
     eval_items = {n: bench.items(rows) for n, rows in evalsets.items()}
@@ -289,6 +329,9 @@ def main():
             "extra_cap",
             "entailment_weight",
             "max_train",
+            "logic_cap",
+            "teacher_cap",
+            "teacher_all",
         )
     }
     run_config["lora"] = [RANK, ALPHA, DROPOUT]
@@ -309,6 +352,10 @@ def main():
         folder = args.out / f"{regime}-s{seed}"
         done, adapter = folder / "run.pt", folder / "adapter.safetensors"
         sources = REGIMES[regime]
+        missing = [s for s in sources if s not in train_items]
+        if missing:
+            raise ValueError(f"{regime} needs training data for {missing}")
+        tuned_on = [s for s in sources if s in tune_items]
         if done.exists() and adapter.exists():
             saved = torch.load(done)
             if saved["config"] == run_config and set(saved["scores"]) == set(evalsets):
@@ -326,7 +373,7 @@ def main():
             model = apply_adapter(bench.model(), adapter)
             tuned = [
                 measure(s, bench.score(model, tune_items[s]), tune_y[s])[0]["nll"]
-                for s in sources
+                for s in tuned_on
             ]
             result = {
                 "config": run_config,
@@ -364,7 +411,7 @@ def main():
         def on_epoch_end(epoch, loss):
             scores = {
                 s: measure(s, bench.score(model, tune_items[s]), tune_y[s])[0]
-                for s in sources
+                for s in tuned_on
             }
             nll = sum(m["nll"] for m in scores.values()) / len(scores)
             history.append(
