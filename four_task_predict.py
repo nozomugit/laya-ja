@@ -16,7 +16,17 @@ from temporal_relations import probabilities
 
 def predict(a):
     weights = Path(__file__).with_name("weights")
-    if a.task == "commonsense":
+    if a.task == "inference-native":
+        from context_tasks import ContextReader
+        from native_distillation import encode
+        from native_distillation import predict as student
+
+        reader = ContextReader("nli", a.model_path)
+        cfg = json.loads((weights / "native-distill.json").read_text())
+        x, prior = encode(reader, [{"text": a.premise, "options": [a.hypothesis]}])
+        result = student(x, prior, cfg)[0]
+        labels = LABELS
+    elif a.task == "commonsense":
         from context_tasks import ContextReader
 
         if len(set(a.choices)) != 5:
@@ -220,6 +230,7 @@ if __name__ == "__main__":
         "temporal",
         "temporal-transfer",
         "inference",
+        "inference-native",
         "inference-deep",
         "inference-verify",
         "inference-gemma",
@@ -285,7 +296,7 @@ if __name__ == "__main__":
                 help="Fixed 10% Laya, 90% direct three-way judge",
             )
             cmd.add_argument("--url", default="http://127.0.0.1:18345")
-        else:
+        elif name == "temporal":
             cmd.add_argument(
                 "--graph",
                 action="store_true",

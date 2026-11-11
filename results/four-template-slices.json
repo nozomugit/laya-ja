@@ -1,0 +1,22 @@
+{
+  "unseen": {
+    "n": 154,
+    "correct": {
+      "laya": 60,
+      "combined": 140,
+      "template_hard": 61,
+      "temporal_graph": 84,
+      "transfer": 102
+    }
+  },
+  "seen": {
+    "n": 194,
+    "correct": {
+      "laya": 173,
+      "combined": 189,
+      "template_hard": 190,
+      "temporal_graph": 194,
+      "transfer": 194
+    }
+  }
+}

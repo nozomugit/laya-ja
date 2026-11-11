@@ -4,6 +4,7 @@
 #include "llama.h"
 #include "nlohmann/json.hpp"
 #include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
@@ -35,6 +36,9 @@ int main(int argc, char **argv) {
   llama_backend_init();
   auto mp = llama_model_default_params();
   mp.n_gpu_layers = 0;
+  const char *no_repack = std::getenv("LAYA_NO_REPACK");
+  if (no_repack && std::string(no_repack) == "1")
+    mp.use_extra_bufts = false;
   auto m = llama_model_load_from_file(argv[1], mp);
   if (!m)
     return 3;

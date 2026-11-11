@@ -97,11 +97,20 @@ python countermodel.py
 python cross_family.py
 ```
 
-時間推論の厳しい文型分割でも追試した。人物ごとの出来事の前後関係を有向グラフにし、到達可能性から順序を判定した。日付・期間・習慣については、訓練文型ごとの信頼性が基準を満たした処理だけを採用した。訓練データは元の厳しい分割を維持し、決定木の251/348から278/348になった。規則が適用できない問題だけを35Bに渡す比較も事前に固定している。[訓練文型ごとの適用結果](results/four-temporal-graph.json) ／ [適用外の問題を含む追試](https://github.com/nozomugit/laya-ja/actions/runs/43041671779)
+時間推論の厳しい文型分割でも追試した。人物ごとの出来事の前後関係を有向グラフにし、到達可能性から順序を判定した。日付・期間・習慣については、訓練文型ごとの信頼性が基準を満たした処理だけを採用した。訓練データは元の厳しい分割を維持し、決定木の251/348から278/348になった。規則が適用できない問題だけを35Bに渡す方式を事前に固定したところ、296/348（85.1%）になった。41の既知文型は194/194（100%）、38の未知文型は102/154（66.2%）。全訓練データを使う94.5%の構成では、これら38文型も訓練に含まれる。[文型の内訳](results/four-template-slices.json)[訓練文型ごとの適用結果](results/four-temporal-graph.json) ／ [適用外の問題を含む追試](https://github.com/nozomugit/laya-ja/actions/runs/43041671779)
 
 ```bash
 python fit_temporal_graph.py
 python four_task_predict.py temporal --graph 'マリはケンより先に到着した。ケンはユキより先に到着した。' 'ユキはマリより後に到着した。'
 python four_task_predict.py temporal-transfer --engine ./score 'マリはケンより先に到着した。ケンはユキより先に到着した。' 'ユキはマリより後に到着した。'
 python temporal_transfer.py
+```
+
+## LAYAだけでの意味推論
+
+35Bの三択出力を教師として、LAYAの既存の二文表現に小さい線形の補正層を追加した。学習はJNLI・JSICK・有限世界の計240問で、正解ラベルと教師の確率を混ぜた。五つの開発グループを順に取り置いて正則化の強さを決めた。この構成は新しい質問に答えるときはLAYAだけで動く。独自36問は18問から20問に伸びた一方、JSeMは180問から166問に、追加96問は50問から47問に下がった。常用の意味推論モデルには採用していない。[学習・評価記録](results/four-native-distill.json)
+
+```bash
+python native_distillation.py
+python four_task_predict.py inference-native '箱には赤い札が二枚以上ある。' '箱には札が一枚以上ある。'
 ```
