@@ -42,7 +42,19 @@ def main():
     sts = tasks.add_parser("jsts", help="二文の意味の近さを0〜5で見積もる")
     sts.add_argument("first")
     sts.add_argument("second")
+    grounded = tasks.add_parser("grounded-qa", help="本文中の表現を五つの候補から選ぶ")
+    grounded.add_argument("passage")
+    grounded.add_argument("question")
+    grounded.add_argument("choices", nargs=5)
     args = parser.parse_args()
+    if args.task == "grounded-qa":
+        from grounded_qa import GroundedReader
+
+        result = GroundedReader(args.model_path, args.device).predict(
+            args.passage, args.question, args.choices
+        )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return
     if args.task in ("multicorpus-nli", "jnli-specialist"):
         from multicorpus import MultiCorpusNLI
 

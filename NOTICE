@@ -33,3 +33,8 @@ JSeM — Japanese Semantics test suite, Ai Kawazoe, Ribeka Tanaka, Koji Mineshim
 https://github.com/DaisukeBekki/JSeM
 JSQuAD — JGLUE contributors, based on Japanese Wikipedia. Experiments construct five candidate answers from a single article. This is a modified task.
 https://github.com/yahoojapan/JGLUE/tree/main/datasets/jsquad-v1.3
+
+The grounded-qa head is trained on the JSQuAD/JGLUE source described above, using
+five-candidate questions derived from short passages. JSQuAD credits the authors of
+Japanese Wikipedia. Only model weights, code, item identifiers and predictions are
+redistributed here. The grounded-qa head is provided under CC BY-SA 4.0.
