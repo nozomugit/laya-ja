@@ -5,6 +5,7 @@ import gzip
 import hashlib
 import json
 import os
+import random
 import shutil
 from pathlib import Path
 
@@ -39,6 +40,8 @@ REGIMES = {
     "mix4-logic": [*MIX4, "logic"],
     "mix4-teacher": [*MIX4, "teacher"],
     "mix4-logic-teacher": [*MIX4, "logic", "teacher"],
+    "mix4-logic-jsem": [*MIX4, "logic", "jsem"],
+    "mix4-logic-teacher-jsem": [*MIX4, "logic", "teacher", "jsem"],
 }
 TRAIN_FILES = {
     "jsick": "JSICK/jsick/train.tsv",
@@ -65,6 +68,93 @@ def jsem_fresh(folder):
             raise ValueError(f"JSeM text changed: {ident}")
         rows.append(row)
     return rows
+
+
+def jsem_audit(folder, taken):
+    """The 36 further premise-disjoint JSeM problems of audit_direct_vote.py, checked against the published ids."""
+    root = Path(__file__).parent
+    blocked = {premise(r) for r in taken}
+    probes = json.loads((root / "challenge.json").read_text())
+    blocked.update(normalized(p) for _, p, _, _ in probes)
+    count, rows = [0, 0, 0], []
+    for row in sorted(
+        jsem(folder),
+        key=lambda r: hashlib.sha256(
+            ("Laya audit 36 2026-11-12 " + r[3]).encode()
+        ).hexdigest(),
+    ):
+        if premise(row) in blocked or count[row[1]] >= 12:
+            continue
+        blocked.add(premise(row))
+        count[row[1]] += 1
+        rows.append(row)
+    published = json.loads((root / "results/native-edit-audit36.json").read_text())
+    if [r[3] for r in rows] != [r["id"] for r in published["per_item"]]:
+        raise ValueError("The 36 audit problems do not match the published selection")
+    return rows
+
+
+def bigrams(text):
+    return {text[i : i + 2] for i in range(len(text) - 1)} or {text}
+
+
+def jsem_training(folder, tests, limit=0.5):
+    """JSeM problems kept apart from the three JSeM test sets.
+
+    A problem is dropped when its identifier, sentence pair, premise or hypothesis occurs in a test problem
+    (in either role), or when its premise or its whole text shares at least `limit` of its character bigrams
+    (Jaccard) with a test problem, which removes the minimal pairs of test items. Entailment is cut down to the
+    number of contradictions so the added data does not shift the label balance; 192 problems are held out for
+    epoch selection, premise-disjoint from the training part.
+    """
+
+    def parts(row):
+        p, h = row[0][0].removeprefix("前提：").split("\n仮説：", 1)
+        return normalized(p), normalized(h)
+
+    test_parts = [parts(r) for r in tests]
+    ids = {r[3] for r in tests}
+    keys = {pair_key(r[0][0]) for r in tests}
+    sentences = {s for pair in test_parts for s in pair}
+    grams = [(bigrams(p), bigrams(p + "|" + h)) for p, h in test_parts]
+    unique_rows = {}
+    for row in jsem(folder):
+        unique_rows.setdefault(pair_key(row[0][0]), row)
+    kept = []
+    for row in unique_rows.values():
+        p, h = parts(row)
+        if (
+            row[3] in ids
+            or pair_key(row[0][0]) in keys
+            or p in sentences
+            or h in sentences
+        ):
+            continue
+        a, b = bigrams(p), bigrams(p + "|" + h)
+        if any(
+            len(a & x) >= limit * len(a | x) or len(b & y) >= limit * len(b | y)
+            for x, y in grams
+        ):
+            continue
+        kept.append(row)
+    random.Random(7007).shuffle(kept)
+    by_label = {y: [r for r in kept if r[1] == y] for y in range(3)}
+    tune = by_label[0][:96] + by_label[1][:96]
+    tune_premises = {premise(r) for r in tune}
+    rest = {
+        y: [r for r in rows[96 if y < 2 else 0 :] if premise(r) not in tune_premises]
+        for y, rows in by_label.items()
+    }
+    train = rest[0][: len(rest[1])] + rest[1] + rest[2]
+    random.Random(7008).shuffle(train)
+    return (
+        train,
+        tune,
+        {
+            "kept_after_filters": len(kept),
+            "by_label": [len(v) for v in by_label.values()],
+        },
+    )
 
 
 def logic(split, count, seed):
@@ -97,6 +187,9 @@ def corpora(args):
             for i, (cat, p, h, y) in enumerate(probes)
         ],
     }
+    evalsets["jsem-audit"] = jsem_audit(
+        args.corpora, [*evalsets["jsem"], *evalsets["jsem-fresh"]]
+    )
     tune = {"jnli": d["tune"], **{s: multi[s + "-tune"] for s in TRAIN_FILES}}
     tune["logic"] = logic("tune", 192, 2002)
     block = {
@@ -117,6 +210,9 @@ def corpora(args):
         tune_premises = {premise(r) for r in tune[name]}
         rows = [r for r in rows if premise(r) not in tune_premises]
         train[name] = rows[: args.extra_cap] if args.extra_cap else rows
+    jsem_tests = [*evalsets["jsem"], *evalsets["jsem-fresh"], *evalsets["jsem-audit"]]
+    train["jsem"], tune["jsem"], _ = jsem_training(args.corpora, jsem_tests)
+    block.update(pair_key(r[0][0]) for r in tune["jsem"])
     train["logic"] = [
         r
         for r in logic("train", args.logic_cap, 1001)
