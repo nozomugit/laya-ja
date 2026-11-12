@@ -1,0 +1,400 @@
+{
+ "source": "Colab A100 runs of lora_tasks.py at branch experiment/lora-nli (2026-11-12), condensed from the --summary output. Scored on GPU in float32. The full files are kept outside the repository.",
+ "config": {
+  "epochs": 2,
+  "encoder_lr": 0.0001,
+  "head_lr": 0.0001,
+  "micro_batch": 16,
+  "grad_accum": 2,
+  "lora": [
+   16,
+   32,
+   0.05
+  ],
+  "nli_regime": "mix4-logic-teacher-jsem"
+ },
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "train": {
+  "jcommonsenseqa": 8465,
+  "jsts": 11816,
+  "jcola": 6471,
+  "jnli": 18618,
+  "jsick": 4000,
+  "janli": 4000,
+  "jamp": 4000,
+  "logic": 6000,
+  "teacher": 8000,
+  "jsem": 1544
+ },
+ "upstream": {
+  "jcommonsenseqa/dev": 611,
+  "jcommonsenseqa/reserved": 133,
+  "jsts/dev": {
+   "pearson": 0.6011,
+   "mae": 0.949
+  },
+  "jsts/reserved": {
+   "pearson": 0.6303,
+   "mae": 0.948
+  },
+  "jcola/dev": {
+   "mcc": -0.0054,
+   "accuracy": 0.2925
+  },
+  "jcola/dev-out": {
+   "mcc": 0.0048,
+   "accuracy": 0.3723
+  },
+  "jcola/reserved": {
+   "mcc": -0.1169,
+   "accuracy": 0.2578
+  }
+ },
+ "single": {
+  "note": "one model per task",
+  "selected_epochs": {
+   "jcommonsenseqa": [
+    1,
+    2,
+    2
+   ],
+   "jsts": [
+    2,
+    2,
+    1
+   ],
+   "jcola": [
+    2,
+    2,
+    1
+   ]
+  },
+  "evaluation": {
+   "jcommonsenseqa/dev": {
+    "n": 1119,
+    "correct_by_seed": [
+     785,
+     786,
+     795
+    ],
+    "mean_accuracy": 0.7048,
+    "correct_of_mean_scores": 788
+   },
+   "jcommonsenseqa/reserved": {
+    "n": 256,
+    "correct_by_seed": [
+     178,
+     177,
+     177
+    ],
+    "mean_accuracy": 0.6927,
+    "correct_of_mean_scores": 178
+   },
+   "jsts/dev": {
+    "pearson": [
+     0.9003,
+     0.9013,
+     0.8978
+    ],
+    "mae": [
+     0.458,
+     0.459,
+     0.47
+    ],
+    "mean_scores": {
+     "pearson": 0.9015,
+     "mae": 0.458
+    }
+   },
+   "jsts/reserved": {
+    "pearson": [
+     0.9014,
+     0.8974,
+     0.9004
+    ],
+    "mae": [
+     0.477,
+     0.489,
+     0.48
+    ],
+    "mean_scores": {
+     "pearson": 0.9014,
+     "mae": 0.48
+    }
+   },
+   "jcola/dev": {
+    "mcc": [
+     0.199,
+     0.2027,
+     0.2116
+    ],
+    "accuracy": [
+     0.6902,
+     0.7191,
+     0.7526
+    ],
+    "mean_scores": {
+     "mcc": 0.2322,
+     "accuracy": 0.726
+    }
+   },
+   "jcola/dev-out": {
+    "mcc": [
+     0.3519,
+     0.3856,
+     0.3273
+    ],
+    "accuracy": [
+     0.7182,
+     0.746,
+     0.7518
+    ],
+    "mean_scores": {
+     "mcc": 0.3788,
+     "accuracy": 0.7474
+    }
+   },
+   "jcola/reserved": {
+    "mcc": [
+     0.2337,
+     0.1967,
+     0.2158
+    ],
+    "accuracy": [
+     0.7188,
+     0.7266,
+     0.7773
+    ],
+    "mean_scores": {
+     "mcc": 0.1763,
+     "accuracy": 0.7227
+    }
+   }
+  }
+ },
+ "unified": {
+  "note": "one model for the three tasks and inference",
+  "selected_epochs": [
+   2,
+   2,
+   2
+  ],
+  "selected_seed": 42,
+  "evaluation": {
+   "jcommonsenseqa/dev": {
+    "n": 1119,
+    "correct_by_seed": [
+     783,
+     791,
+     792
+    ],
+    "mean_accuracy": 0.7048,
+    "correct_of_mean_scores": 799
+   },
+   "jcommonsenseqa/reserved": {
+    "n": 256,
+    "correct_by_seed": [
+     179,
+     166,
+     176
+    ],
+    "mean_accuracy": 0.6784,
+    "correct_of_mean_scores": 181
+   },
+   "nli/jnli": {
+    "n": 2434,
+    "correct_by_seed": [
+     2205,
+     2213,
+     2208
+    ],
+    "mean_accuracy": 0.9074,
+    "correct_of_mean_scores": 2212
+   },
+   "nli/reserved": {
+    "n": 256,
+    "correct_by_seed": [
+     227,
+     229,
+     226
+    ],
+    "mean_accuracy": 0.888,
+    "correct_of_mean_scores": 232
+   },
+   "nli/jsick": {
+    "n": 512,
+    "correct_by_seed": [
+     455,
+     453,
+     456
+    ],
+    "mean_accuracy": 0.888,
+    "correct_of_mean_scores": 458
+   },
+   "nli/janli": {
+    "n": 512,
+    "correct_by_seed": [
+     510,
+     512,
+     512
+    ],
+    "mean_accuracy": 0.9987,
+    "correct_of_mean_scores": 512
+   },
+   "nli/jamp": {
+    "n": 348,
+    "correct_by_seed": [
+     271,
+     260,
+     267
+    ],
+    "mean_accuracy": 0.7644,
+    "correct_of_mean_scores": 271
+   },
+   "nli/jsem": {
+    "n": 384,
+    "correct_by_seed": [
+     249,
+     250,
+     254
+    ],
+    "mean_accuracy": 0.6536,
+    "correct_of_mean_scores": 246
+   },
+   "nli/jsem-fresh": {
+    "n": 96,
+    "correct_by_seed": [
+     67,
+     65,
+     66
+    ],
+    "mean_accuracy": 0.6875,
+    "correct_of_mean_scores": 66
+   },
+   "nli/logic-held": {
+    "n": 300,
+    "correct_by_seed": [
+     266,
+     262,
+     264
+    ],
+    "mean_accuracy": 0.88,
+    "correct_of_mean_scores": 264
+   },
+   "nli/challenge": {
+    "n": 36,
+    "correct_by_seed": [
+     17,
+     19,
+     23
+    ],
+    "mean_accuracy": 0.5463,
+    "correct_of_mean_scores": 19
+   },
+   "nli/jsem-audit": {
+    "n": 36,
+    "correct_by_seed": [
+     26,
+     24,
+     25
+    ],
+    "mean_accuracy": 0.6944,
+    "correct_of_mean_scores": 25
+   },
+   "jsts/dev": {
+    "pearson": [
+     0.9098,
+     0.9112,
+     0.9113
+    ],
+    "mae": [
+     0.443,
+     0.437,
+     0.437
+    ],
+    "mean_scores": {
+     "pearson": 0.9134,
+     "mae": 0.433
+    }
+   },
+   "jsts/reserved": {
+    "pearson": [
+     0.913,
+     0.9189,
+     0.918
+    ],
+    "mae": [
+     0.458,
+     0.436,
+     0.444
+    ],
+    "mean_scores": {
+     "pearson": 0.9193,
+     "mae": 0.442
+    }
+   },
+   "jcola/dev": {
+    "mcc": [
+     0.1642,
+     0.2056,
+     0.1795
+    ],
+    "accuracy": [
+     0.6855,
+     0.6809,
+     0.6879
+    ],
+    "mean_scores": {
+     "mcc": 0.2148,
+     "accuracy": 0.7006
+    }
+   },
+   "jcola/dev-out": {
+    "mcc": [
+     0.3198,
+     0.2393,
+     0.3524
+    ],
+    "accuracy": [
+     0.7139,
+     0.6759,
+     0.7372
+    ],
+    "mean_scores": {
+     "mcc": 0.3284,
+     "accuracy": 0.7241
+    }
+   },
+   "jcola/reserved": {
+    "mcc": [
+     0.2163,
+     0.2337,
+     0.24
+    ],
+    "accuracy": [
+     0.7031,
+     0.7188,
+     0.7109
+    ],
+    "mean_scores": {
+     "mcc": 0.2726,
+     "accuracy": 0.7266
+    }
+   }
+  },
+  "saved_fp16_checkpoint_differs": {
+   "jcola/reserved": {
+    "in_memory": "mcc=0.2163 acc=0.7031",
+    "reloaded": "mcc=0.2357 acc=0.7070"
+   },
+   "nli/logic-held": {
+    "in_memory": "266/300",
+    "reloaded": "265/300"
+   }
+  }
+ }
+}
