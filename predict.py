@@ -71,12 +71,30 @@ def main():
                 cmd.add_argument(field, nargs=5)
             else:
                 cmd.add_argument(field)
+    lora_nli = tasks.add_parser(
+        "lora-nli", help="全層LoRAで追加学習した推論版を試す（コーパスの指定は不要）"
+    )
+    lora_nli.add_argument("--adapter", required=True, help="adapter.safetensors のパス")
+    lora_nli.add_argument("premise")
+    lora_nli.add_argument("hypothesis")
     syntax = tasks.add_parser("grammar-lora")
     syntax.add_argument("sentence")
     common = tasks.add_parser("common-qa-plus")
     common.add_argument("question")
     common.add_argument("choices", nargs=5)
     args = parser.parse_args()
+    if args.task == "lora-nli":
+        from lora import LoraReader
+
+        reader = LoraReader(args.adapter, args.model_path, args.device)
+        print(
+            json.dumps(
+                reader.predict(args.premise, args.hypothesis),
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return
     if args.task == "common-qa-plus":
         from context_tasks import CommonSenseMixture
 
