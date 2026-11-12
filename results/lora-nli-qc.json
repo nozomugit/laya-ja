@@ -1,0 +1,479 @@
+{
+ "source": "Colab A100 run of lora_nli.py at branch quant-contrast (2026-11-12), condensed with lora_report.py. The first regime rescored the existing adapters; the others were trained. GPU float32.",
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "train": {
+  "jnli": 18618,
+  "jsick": 4000,
+  "janli": 4000,
+  "jamp": 4000,
+  "jsem": 1544,
+  "logic": 6000,
+  "teacher": 8000,
+  "quant": 6000,
+  "contrast": 5538
+ },
+ "eval_counts": {
+  "jnli": 2434,
+  "reserved": 256,
+  "jsick": 512,
+  "janli": 512,
+  "jamp": 348,
+  "jsem": 384,
+  "jsem-fresh": 96,
+  "logic-held": 300,
+  "quant-held": 300,
+  "contrast-held": 480,
+  "challenge": 36,
+  "jsem-audit": 36
+ },
+ "base": {
+  "jnli": 1271,
+  "reserved": 125,
+  "jsick": 229,
+  "janli": 299,
+  "jamp": 154,
+  "jsem": 192,
+  "jsem-fresh": 49,
+  "logic-held": 124,
+  "quant-held": 135,
+  "contrast-held": 260,
+  "challenge": 14,
+  "jsem-audit": 20
+ },
+ "regimes": {
+  "mix4-logic-teacher-jsem": {
+   "jnli": {
+    "correct_by_seed": [
+     2196,
+     2208,
+     2211
+    ],
+    "mean_accuracy": 0.9059
+   },
+   "reserved": {
+    "correct_by_seed": [
+     228,
+     230,
+     223
+    ],
+    "mean_accuracy": 0.8867
+   },
+   "jsick": {
+    "correct_by_seed": [
+     452,
+     451,
+     453
+    ],
+    "mean_accuracy": 0.8828
+   },
+   "janli": {
+    "correct_by_seed": [
+     512,
+     512,
+     512
+    ],
+    "mean_accuracy": 1.0
+   },
+   "jamp": {
+    "correct_by_seed": [
+     268,
+     256,
+     264
+    ],
+    "mean_accuracy": 0.7548
+   },
+   "jsem": {
+    "correct_by_seed": [
+     244,
+     251,
+     238
+    ],
+    "mean_accuracy": 0.6363
+   },
+   "jsem-fresh": {
+    "correct_by_seed": [
+     68,
+     68,
+     64
+    ],
+    "mean_accuracy": 0.6944
+   },
+   "logic-held": {
+    "correct_by_seed": [
+     268,
+     261,
+     263
+    ],
+    "mean_accuracy": 0.88
+   },
+   "quant-held": {
+    "correct_by_seed": [
+     191,
+     190,
+     185
+    ],
+    "mean_accuracy": 0.6289
+   },
+   "contrast-held": {
+    "correct_by_seed": [
+     293,
+     296,
+     279
+    ],
+    "mean_accuracy": 0.6028
+   },
+   "challenge": {
+    "correct_by_seed": [
+     22,
+     19,
+     21
+    ],
+    "mean_accuracy": 0.5741
+   },
+   "jsem-audit": {
+    "correct_by_seed": [
+     25,
+     25,
+     25
+    ],
+    "mean_accuracy": 0.6944
+   }
+  },
+  "full-quant": {
+   "jnli": {
+    "correct_by_seed": [
+     2182,
+     2181,
+     2189
+    ],
+    "mean_accuracy": 0.8973
+   },
+   "reserved": {
+    "correct_by_seed": [
+     227,
+     228,
+     229
+    ],
+    "mean_accuracy": 0.8906
+   },
+   "jsick": {
+    "correct_by_seed": [
+     448,
+     453,
+     450
+    ],
+    "mean_accuracy": 0.8796
+   },
+   "janli": {
+    "correct_by_seed": [
+     512,
+     512,
+     512
+    ],
+    "mean_accuracy": 1.0
+   },
+   "jamp": {
+    "correct_by_seed": [
+     270,
+     270,
+     263
+    ],
+    "mean_accuracy": 0.7692
+   },
+   "jsem": {
+    "correct_by_seed": [
+     247,
+     253,
+     247
+    ],
+    "mean_accuracy": 0.6484
+   },
+   "jsem-fresh": {
+    "correct_by_seed": [
+     68,
+     70,
+     69
+    ],
+    "mean_accuracy": 0.7188
+   },
+   "logic-held": {
+    "correct_by_seed": [
+     270,
+     268,
+     263
+    ],
+    "mean_accuracy": 0.89
+   },
+   "quant-held": {
+    "correct_by_seed": [
+     274,
+     269,
+     269
+    ],
+    "mean_accuracy": 0.9022
+   },
+   "contrast-held": {
+    "correct_by_seed": [
+     319,
+     320,
+     313
+    ],
+    "mean_accuracy": 0.6611
+   },
+   "challenge": {
+    "correct_by_seed": [
+     24,
+     22,
+     20
+    ],
+    "mean_accuracy": 0.6111
+   },
+   "jsem-audit": {
+    "correct_by_seed": [
+     23,
+     24,
+     25
+    ],
+    "mean_accuracy": 0.6667
+   }
+  },
+  "full-contrast": {
+   "jnli": {
+    "correct_by_seed": [
+     2204,
+     2186,
+     2204
+    ],
+    "mean_accuracy": 0.903
+   },
+   "reserved": {
+    "correct_by_seed": [
+     228,
+     223,
+     228
+    ],
+    "mean_accuracy": 0.8841
+   },
+   "jsick": {
+    "correct_by_seed": [
+     450,
+     453,
+     441
+    ],
+    "mean_accuracy": 0.875
+   },
+   "janli": {
+    "correct_by_seed": [
+     511,
+     512,
+     512
+    ],
+    "mean_accuracy": 0.9993
+   },
+   "jamp": {
+    "correct_by_seed": [
+     269,
+     267,
+     262
+    ],
+    "mean_accuracy": 0.7644
+   },
+   "jsem": {
+    "correct_by_seed": [
+     246,
+     254,
+     249
+    ],
+    "mean_accuracy": 0.6502
+   },
+   "jsem-fresh": {
+    "correct_by_seed": [
+     71,
+     71,
+     70
+    ],
+    "mean_accuracy": 0.7361
+   },
+   "logic-held": {
+    "correct_by_seed": [
+     264,
+     269,
+     267
+    ],
+    "mean_accuracy": 0.8889
+   },
+   "quant-held": {
+    "correct_by_seed": [
+     211,
+     205,
+     196
+    ],
+    "mean_accuracy": 0.68
+   },
+   "contrast-held": {
+    "correct_by_seed": [
+     450,
+     455,
+     452
+    ],
+    "mean_accuracy": 0.9424
+   },
+   "challenge": {
+    "correct_by_seed": [
+     19,
+     23,
+     23
+    ],
+    "mean_accuracy": 0.6019
+   },
+   "jsem-audit": {
+    "correct_by_seed": [
+     25,
+     26,
+     24
+    ],
+    "mean_accuracy": 0.6944
+   }
+  },
+  "full-quant-contrast": {
+   "jnli": {
+    "correct_by_seed": [
+     2191,
+     2185,
+     2183
+    ],
+    "mean_accuracy": 0.8982
+   },
+   "reserved": {
+    "correct_by_seed": [
+     229,
+     231,
+     228
+    ],
+    "mean_accuracy": 0.8958
+   },
+   "jsick": {
+    "correct_by_seed": [
+     448,
+     455,
+     460
+    ],
+    "mean_accuracy": 0.8874
+   },
+   "janli": {
+    "correct_by_seed": [
+     511,
+     512,
+     512
+    ],
+    "mean_accuracy": 0.9993
+   },
+   "jamp": {
+    "correct_by_seed": [
+     268,
+     274,
+     271
+    ],
+    "mean_accuracy": 0.7787
+   },
+   "jsem": {
+    "correct_by_seed": [
+     257,
+     254,
+     262
+    ],
+    "mean_accuracy": 0.671
+   },
+   "jsem-fresh": {
+    "correct_by_seed": [
+     70,
+     70,
+     69
+    ],
+    "mean_accuracy": 0.7257
+   },
+   "logic-held": {
+    "correct_by_seed": [
+     266,
+     268,
+     268
+    ],
+    "mean_accuracy": 0.8911
+   },
+   "quant-held": {
+    "correct_by_seed": [
+     271,
+     270,
+     271
+    ],
+    "mean_accuracy": 0.9022
+   },
+   "contrast-held": {
+    "correct_by_seed": [
+     446,
+     454,
+     456
+    ],
+    "mean_accuracy": 0.9417
+   },
+   "challenge": {
+    "correct_by_seed": [
+     24,
+     22,
+     21
+    ],
+    "mean_accuracy": 0.6204
+   },
+   "jsem-audit": {
+    "correct_by_seed": [
+     28,
+     26,
+     24
+    ],
+    "mean_accuracy": 0.7222
+   }
+  }
+ },
+ "jsem_recall_of_mean_scores": {
+  "order": [
+   "entailment",
+   "contradiction",
+   "neutral"
+  ],
+  "mix4-logic-teacher-jsem": [
+   0.859,
+   0.844,
+   0.188
+  ],
+  "full-quant": [
+   0.859,
+   0.859,
+   0.25
+  ],
+  "full-contrast": [
+   0.852,
+   0.844,
+   0.242
+  ],
+  "full-quant-contrast": [
+   0.867,
+   0.867,
+   0.297
+  ]
+ },
+ "jev": {
+  "jnli": 1999,
+  "jsick": 417,
+  "janli": 488,
+  "jamp": 269,
+  "jsem": 297,
+  "jsem-fresh": 75,
+  "logic-held": 275,
+  "challenge": 36,
+  "jsem-audit": 27
+ }
+}

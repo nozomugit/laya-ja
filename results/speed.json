@@ -1,0 +1,84 @@
+{
+ "source": "speed_bench.py on a Colab A100 runtime, 2026-11-12; float32; inference questions from JNLI and JSeM; one warm-up call before timing. CPU runs use the same machine with torch threads limited.",
+ "runs": [
+  {
+   "model": "laya-ja",
+   "device": "NVIDIA A100-SXM4-80GB",
+   "batch": 1,
+   "questions": 300,
+   "median_ms_per_call": 38.11,
+   "p95_ms_per_call": 39.82,
+   "questions_per_second": 25.6
+  },
+  {
+   "model": "laya-ja",
+   "device": "NVIDIA A100-SXM4-80GB",
+   "batch": 64,
+   "questions": 300,
+   "median_ms_per_call": 113.74,
+   "p95_ms_per_call": 114.51,
+   "questions_per_second": 557.8
+  },
+  {
+   "model": "laya-ja",
+   "device": "cpu x1",
+   "batch": 1,
+   "questions": 60,
+   "median_ms_per_call": 270.39,
+   "p95_ms_per_call": 290.34,
+   "questions_per_second": 3.7
+  },
+  {
+   "model": "laya-ja",
+   "device": "cpu x4",
+   "batch": 1,
+   "questions": 60,
+   "median_ms_per_call": 128.32,
+   "p95_ms_per_call": 134.8,
+   "questions_per_second": 7.8
+  },
+  {
+   "model": "laya-upstream",
+   "device": "NVIDIA A100-SXM4-80GB",
+   "batch": 1,
+   "questions": 300,
+   "median_ms_per_call": 37.5,
+   "p95_ms_per_call": 39.65,
+   "questions_per_second": 26.5
+  },
+  {
+   "model": "laya-upstream",
+   "device": "NVIDIA A100-SXM4-80GB",
+   "batch": 64,
+   "questions": 300,
+   "median_ms_per_call": 107.92,
+   "p95_ms_per_call": 112.81,
+   "questions_per_second": 572.7
+  },
+  {
+   "model": "laya-upstream",
+   "device": "cpu x1",
+   "batch": 1,
+   "questions": 60,
+   "median_ms_per_call": 263.95,
+   "p95_ms_per_call": 287.61,
+   "questions_per_second": 3.8
+  },
+  {
+   "model": "laya-upstream",
+   "device": "cpu x4",
+   "batch": 1,
+   "questions": 60,
+   "median_ms_per_call": 130.26,
+   "p95_ms_per_call": 136.8,
+   "questions_per_second": 7.6
+  }
+ ],
+ "jev": {
+  "published_end_to_end_ms": [
+   70,
+   500
+  ],
+  "observed": "about 9,800 single-question API calls with 8 in flight took about 5 minutes on 2026-11-12, roughly 0.25 s per call including the network"
+ }
+}

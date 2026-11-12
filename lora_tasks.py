@@ -163,6 +163,8 @@ def main():
     ap.add_argument("--extra-cap", type=int, default=4000)
     ap.add_argument("--entailment-weight", type=float, default=1.0)
     ap.add_argument("--logic-cap", type=int, default=6000)
+    ap.add_argument("--quant-cap", type=int, default=6000)
+    ap.add_argument("--contrast-cap", type=int, default=6000)
     ap.add_argument("--teacher", type=Path)
     ap.add_argument("--teacher-cap", type=int, default=8000)
     ap.add_argument("--teacher-all", action="store_true")
@@ -332,14 +334,11 @@ def main():
         }
         keys = list(runs[regime][args.seeds[0]]["scores"])
         report["mean_of_seeds"][regime] = {
-            k: measured(k, torch.stack([runs[regime][s]["scores"][k] for s in args.seeds]).mean(0))
-            for k in keys
+            k: measured(k, torch.stack([runs[regime][s]["scores"][k] for s in args.seeds]).mean(0)) for k in keys
         }
         for k in keys:
             source, name = k.split("/")
-            per_seed = [
-                headline(source, name, report["runs"][regime][str(s)]["evaluation"][k]) for s in args.seeds
-            ]
+            per_seed = [headline(source, name, report["runs"][regime][str(s)]["evaluation"][k]) for s in args.seeds]
             lines.append(
                 f"{regime} {k} upstream[{headline(source, name, report['upstream'][k])}] seeds{per_seed} "
                 f"mean_scores[{headline(source, name, report['mean_of_seeds'][regime][k])}]"

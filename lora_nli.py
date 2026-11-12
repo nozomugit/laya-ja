@@ -29,7 +29,9 @@ from corpus_data import jsem, load_tsv, normalized, pair_key, shuffled, splits, 
 from corpus_experiment import measures
 from experiment import bootstrap_difference, partition
 from laya_ja import BASE, REVISION, nli_request
+from contrast_worlds import generate as contrast_rows
 from logic_worlds import generate as logic_rows
+from quantifier_worlds import generate as quantifier_rows
 from lora import add_lora, apply_adapter, merge_lora, trainable_state
 
 BASE_SHA256 = "9d628fd971b700382ac6f65920a86f149777b2e748e0c955fb3b19695aa8f204"
@@ -42,6 +44,9 @@ REGIMES = {
     "mix4-logic-teacher": [*MIX4, "logic", "teacher"],
     "mix4-logic-jsem": [*MIX4, "logic", "jsem"],
     "mix4-logic-teacher-jsem": [*MIX4, "logic", "teacher", "jsem"],
+    "full-quant": [*MIX4, "logic", "teacher", "jsem", "quant"],
+    "full-contrast": [*MIX4, "logic", "teacher", "jsem", "contrast"],
+    "full-quant-contrast": [*MIX4, "logic", "teacher", "jsem", "quant", "contrast"],
 }
 TRAIN_FILES = {
     "jsick": "JSICK/jsick/train.tsv",
@@ -157,6 +162,21 @@ def jsem_training(folder, tests, limit=0.5):
     )
 
 
+def quant(split, count, seed):
+    return [
+        (nli_request(p, h), y, "quant", ident)
+        for p, h, y, ident in quantifier_rows(split, count, seed)
+    ]
+
+
+def contrast(split, count, seed):
+    """Held-out rows carry their family as the group, so results can be read per family."""
+    return [
+        (nli_request(p, h), y, "contrast" if split == "train" else family, ident)
+        for p, h, y, ident, family in contrast_rows(split, count, seed)
+    ]
+
+
 def logic(split, count, seed):
     return [
         (nli_request(p, h), y, "logic", ident)
@@ -182,6 +202,8 @@ def corpora(args):
         "jsem": multi["jsem-eval"],
         "jsem-fresh": jsem_fresh(args.corpora),
         "logic-held": logic("held", 300, 3003),
+        "quant-held": quant("held", 300, 3004),
+        "contrast-held": contrast("held", 480, 3005),
         "challenge": [
             (nli_request(p, h), y, cat, str(i))
             for i, (cat, p, h, y) in enumerate(probes)
@@ -192,6 +214,8 @@ def corpora(args):
     )
     tune = {"jnli": d["tune"], **{s: multi[s + "-tune"] for s in TRAIN_FILES}}
     tune["logic"] = logic("tune", 192, 2002)
+    tune["quant"] = quant("tune", 192, 2004)
+    tune["contrast"] = contrast("tune", 192, 2005)
     block = {
         pair_key(r[0][0]) for rows in [*evalsets.values(), *tune.values()] for r in rows
     }
@@ -216,6 +240,16 @@ def corpora(args):
     train["logic"] = [
         r
         for r in logic("train", args.logic_cap, 1001)
+        if pair_key(r[0][0]) not in block
+    ]
+    train["quant"] = [
+        r
+        for r in quant("train", getattr(args, "quant_cap", 6000), 1004)
+        if pair_key(r[0][0]) not in block
+    ]
+    train["contrast"] = [
+        r
+        for r in contrast("train", getattr(args, "contrast_cap", 6000), 1005)
         if pair_key(r[0][0]) not in block
     ]
     if args.teacher:
@@ -387,6 +421,8 @@ def main():
     ap.add_argument("--extra-cap", type=int, default=4000)
     ap.add_argument("--entailment-weight", type=float, default=1.0)
     ap.add_argument("--logic-cap", type=int, default=6000)
+    ap.add_argument("--quant-cap", type=int, default=6000)
+    ap.add_argument("--contrast-cap", type=int, default=6000)
     ap.add_argument("--teacher", type=Path, help="teacher.jsonl from teacher_data.py")
     ap.add_argument("--teacher-cap", type=int, default=8000)
     ap.add_argument(
@@ -426,6 +462,8 @@ def main():
             "entailment_weight",
             "max_train",
             "logic_cap",
+            "quant_cap",
+            "contrast_cap",
             "teacher_cap",
             "teacher_all",
         )
