@@ -44,6 +44,7 @@ def main():
     ap.add_argument("--seeds", nargs="+", type=int, default=[42, 43, 44])
     ap.add_argument("--secret", default="HuggingFaceAccessToken")
     ap.add_argument("--upload", action="store_true")
+    ap.add_argument("--card-only", action="store_true", help="with --upload, send only the model card")
     args = ap.parse_args()
     files = plan(args.runs, args.seeds)
     sums = [(sha256(p), name, p.stat().st_size) for p, name in files]
@@ -73,7 +74,7 @@ def main():
     listing = "".join(f"{digest}  {name}\n" for digest, name, _ in sums).encode()
     api.upload_file(path_or_fileobj=args.card, path_in_repo="README.md", repo_id=repo)
     api.upload_file(path_or_fileobj=listing, path_in_repo="SHA256SUMS", repo_id=repo)
-    for path, name in files:
+    for path, name in [] if args.card_only else files:
         api.upload_file(path_or_fileobj=path, path_in_repo=name, repo_id=repo)
         print("sent", name, flush=True)
     info = api.model_info(repo)
