@@ -1,0 +1,31 @@
+{
+ "note": "heldout_overlap.py, character-bigram Jaccard of state and question against every training text; the 8,000 teacher-labeled pairs are checked separately where that file is available.",
+ "threshold": 0.5,
+ "training_texts": {
+  "jnli": 18618,
+  "jsick": 4000,
+  "janli": 4000,
+  "jamp": 4000,
+  "jsem": 1544,
+  "logic": 6000,
+  "quant": 6000,
+  "contrast": 5538,
+  "jcommonsenseqa": 8465,
+  "jsts": 11816,
+  "jcola": 6471
+ },
+ "dev.jsonl": {
+  "sha256": "239e273a4d29c58376fa55ba2bf058171f634421e9488dd01c1007811b0241db",
+  "held_out": 200,
+  "flagged": 0,
+  "highest_similarity": 0.329,
+  "problems_above_0.3": 1
+ },
+ "test.jsonl": {
+  "sha256": "e6f0a65d2f0526d75fec20f570ac51fd69843867b344f4803c6c575f9adb82ae",
+  "held_out": 800,
+  "flagged": 0,
+  "highest_similarity": 0.352,
+  "problems_above_0.3": 3
+ }
+}

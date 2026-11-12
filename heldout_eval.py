@@ -7,6 +7,7 @@ probabilities and line numbers, never text.
 """
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -119,8 +120,21 @@ def main():
     ap.add_argument("--model-path")
     ap.add_argument("--device")
     args = ap.parse_args()
+    digest = hashlib.sha256(args.problems.read_bytes()).hexdigest()
+    known = {}
+    for line in Path(__file__).with_name("heldout").joinpath("SHA256SUMS").read_text().splitlines():
+        known[line.split()[1]] = line.split()[0]
+    if known.get(args.problems.name) not in (None, digest):
+        raise SystemExit(f"{args.problems.name} is not the fixed version: sha256 {digest}")
+    if args.problems.name != "dev.jsonl":
+        args.sealed = True
     data = load(args.problems)
-    result = {"problems": args.problems.name, "counts": {t: len(v) for t, v in data.items()}, "models": {}}
+    result = {
+        "problems": args.problems.name,
+        "sha256": digest,
+        "counts": {t: len(v) for t, v in data.items()},
+        "models": {},
+    }
     runs = [(str(p), p) for p in args.checkpoint] + ([("upstream", None)] if args.upstream else [])
     for name, path in runs:
         args.checkpoint_path = path
