@@ -1,0 +1,1005 @@
+{
+ "source": "Colab A100 runs of lora_nli.py at branch experiment/lora-nli (2026-11-12): results-jsem.json (mix4, mix4-logic, mix4-logic-jsem) and results-all.json (mix4-logic, mix4-logic-teacher, mix4-logic-teacher-jsem), condensed with lora_report.py. Scored on GPU in float32; recall rounded to three decimals. The full files are kept outside the repository.",
+ "config": {
+  "epochs": 2,
+  "encoder_lr": 0.0001,
+  "head_lr": 0.0001,
+  "micro_batch": 16,
+  "grad_accum": 2,
+  "extra_cap": 4000,
+  "entailment_weight": 1.0,
+  "logic_cap": 6000,
+  "teacher_cap": 8000,
+  "lora": [
+   16,
+   32,
+   0.05
+  ]
+ },
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "counts": {
+  "train": {
+   "jnli": 18618,
+   "jsick": 4000,
+   "janli": 4000,
+   "jamp": 4000,
+   "logic": 6000,
+   "jsem": 1544,
+   "teacher": 8000
+  },
+  "eval": {
+   "jnli": 2434,
+   "reserved": 256,
+   "jsick": 512,
+   "janli": 512,
+   "jamp": 348,
+   "jsem": 384,
+   "jsem-fresh": 96,
+   "logic-held": 300,
+   "challenge": 36,
+   "jsem-audit": 36
+  }
+ },
+ "jsem_training": {
+  "unique_pairs": 10478,
+  "test_problems_excluded": 516,
+  "after_filter": 6823,
+  "filter": "no shared id, sentence pair, premise or hypothesis with the three JSeM test sets; character-bigram Jaccard below 0.5 to every test problem",
+  "labels_after_filter": {
+   "entailment": 5772,
+   "contradiction": 1031,
+   "neutral": 20
+  },
+  "train": 1544,
+  "train_labels": {
+   "entailment": 762,
+   "contradiction": 762,
+   "neutral": 20
+  },
+  "tune": 192
+ },
+ "teacher": {
+  "source": "cl-nagoya/nu-mnli",
+  "pairs": 12000,
+  "teacher_agrees_with_label": 8975,
+  "used": 8000,
+  "judges_agree": 0.756,
+  "teacher_predictions": {
+   "entailment": 2224,
+   "contradiction": 3476,
+   "neutral": 6300
+  }
+ },
+ "recall_order": [
+  "entailment",
+  "contradiction",
+  "neutral"
+ ],
+ "base": {
+  "jnli": 1271,
+  "reserved": 125,
+  "jsick": 229,
+  "janli": 299,
+  "jamp": 154,
+  "jsem": 192,
+  "jsem-fresh": 49,
+  "logic-held": 124,
+  "challenge": 14,
+  "jsem-audit": 20
+ },
+ "prev_jnli_only": {
+  "jnli": 2204,
+  "reserved": 225,
+  "jsick": 307,
+  "janli": 289,
+  "jamp": 152,
+  "jsem": 208,
+  "jsem-fresh": 63,
+  "logic-held": 142,
+  "challenge": 19,
+  "jsem-audit": 22
+ },
+ "regimes": {
+  "mix4": {
+   "tune_nll": {
+    "42": 0.1672,
+    "43": 0.1772,
+    "44": 0.1719
+   },
+   "evaluation": {
+    "jnli": {
+     "n": 2434,
+     "correct_by_seed": [
+      2196,
+      2219,
+      2217
+     ],
+     "mean_accuracy": 0.9082,
+     "correct_of_mean_scores": 2217,
+     "recall_of_mean_scores": [
+      0.696,
+      0.929,
+      0.956
+     ]
+    },
+    "reserved": {
+     "n": 256,
+     "correct_by_seed": [
+      227,
+      225,
+      227
+     ],
+     "mean_accuracy": 0.8841,
+     "correct_of_mean_scores": 226,
+     "recall_of_mean_scores": [
+      0.6,
+      0.882,
+      0.965
+     ]
+    },
+    "jsick": {
+     "n": 512,
+     "correct_by_seed": [
+      453,
+      457,
+      450
+     ],
+     "mean_accuracy": 0.8854,
+     "correct_of_mean_scores": 456,
+     "recall_of_mean_scores": [
+      0.87,
+      0.847,
+      0.909
+     ]
+    },
+    "janli": {
+     "n": 512,
+     "correct_by_seed": [
+      512,
+      512,
+      512
+     ],
+     "mean_accuracy": 1.0,
+     "correct_of_mean_scores": 512,
+     "recall_of_mean_scores": [
+      1.0,
+      1.0
+     ]
+    },
+    "jamp": {
+     "n": 348,
+     "correct_by_seed": [
+      262,
+      262,
+      260
+     ],
+     "mean_accuracy": 0.751,
+     "correct_of_mean_scores": 263,
+     "recall_of_mean_scores": [
+      0.851,
+      0.802,
+      0.619
+     ]
+    },
+    "jsem": {
+     "n": 384,
+     "correct_by_seed": [
+      224,
+      221,
+      227
+     ],
+     "mean_accuracy": 0.5833,
+     "correct_of_mean_scores": 225,
+     "recall_of_mean_scores": [
+      0.766,
+      0.805,
+      0.188
+     ]
+    },
+    "jsem-fresh": {
+     "n": 96,
+     "correct_by_seed": [
+      63,
+      62,
+      64
+     ],
+     "mean_accuracy": 0.6562,
+     "correct_of_mean_scores": 64,
+     "recall_of_mean_scores": [
+      0.781,
+      0.688,
+      0.531
+     ]
+    },
+    "logic-held": {
+     "n": 300,
+     "correct_by_seed": [
+      152,
+      150,
+      153
+     ],
+     "mean_accuracy": 0.5056,
+     "correct_of_mean_scores": 151,
+     "recall_of_mean_scores": [
+      0.35,
+      0.91,
+      0.25
+     ]
+    },
+    "challenge": {
+     "n": 36,
+     "correct_by_seed": [
+      16,
+      18,
+      17
+     ],
+     "mean_accuracy": 0.4722,
+     "correct_of_mean_scores": 18,
+     "recall_of_mean_scores": [
+      0.417,
+      0.75,
+      0.333
+     ]
+    },
+    "jsem-audit": {
+     "n": 36,
+     "correct_by_seed": [
+      26,
+      22,
+      25
+     ],
+     "mean_accuracy": 0.6759,
+     "correct_of_mean_scores": 26,
+     "recall_of_mean_scores": [
+      0.833,
+      0.917,
+      0.417
+     ]
+    }
+   }
+  },
+  "mix4-logic": {
+   "tune_nll": {
+    "42": 0.233,
+    "43": 0.2209,
+    "44": 0.2211
+   },
+   "evaluation": {
+    "jnli": {
+     "n": 2434,
+     "correct_by_seed": [
+      2194,
+      2198,
+      2192
+     ],
+     "mean_accuracy": 0.9017,
+     "correct_of_mean_scores": 2207,
+     "recall_of_mean_scores": [
+      0.708,
+      0.914,
+      0.954
+     ]
+    },
+    "reserved": {
+     "n": 256,
+     "correct_by_seed": [
+      224,
+      227,
+      225
+     ],
+     "mean_accuracy": 0.8802,
+     "correct_of_mean_scores": 226,
+     "recall_of_mean_scores": [
+      0.62,
+      0.882,
+      0.959
+     ]
+    },
+    "jsick": {
+     "n": 512,
+     "correct_by_seed": [
+      450,
+      453,
+      453
+     ],
+     "mean_accuracy": 0.8828,
+     "correct_of_mean_scores": 452,
+     "recall_of_mean_scores": [
+      0.852,
+      0.824,
+      0.909
+     ]
+    },
+    "janli": {
+     "n": 512,
+     "correct_by_seed": [
+      510,
+      512,
+      512
+     ],
+     "mean_accuracy": 0.9987,
+     "correct_of_mean_scores": 512,
+     "recall_of_mean_scores": [
+      1.0,
+      1.0
+     ]
+    },
+    "jamp": {
+     "n": 348,
+     "correct_by_seed": [
+      263,
+      264,
+      259
+     ],
+     "mean_accuracy": 0.7529,
+     "correct_of_mean_scores": 262,
+     "recall_of_mean_scores": [
+      0.868,
+      0.802,
+      0.593
+     ]
+    },
+    "jsem": {
+     "n": 384,
+     "correct_by_seed": [
+      220,
+      225,
+      223
+     ],
+     "mean_accuracy": 0.5799,
+     "correct_of_mean_scores": 225,
+     "recall_of_mean_scores": [
+      0.828,
+      0.711,
+      0.219
+     ]
+    },
+    "jsem-fresh": {
+     "n": 96,
+     "correct_by_seed": [
+      65,
+      65,
+      65
+     ],
+     "mean_accuracy": 0.6771,
+     "correct_of_mean_scores": 65,
+     "recall_of_mean_scores": [
+      0.906,
+      0.562,
+      0.562
+     ]
+    },
+    "logic-held": {
+     "n": 300,
+     "correct_by_seed": [
+      265,
+      261,
+      262
+     ],
+     "mean_accuracy": 0.8756,
+     "correct_of_mean_scores": 261,
+     "recall_of_mean_scores": [
+      0.88,
+      0.86,
+      0.87
+     ]
+    },
+    "challenge": {
+     "n": 36,
+     "correct_by_seed": [
+      21,
+      19,
+      19
+     ],
+     "mean_accuracy": 0.5463,
+     "correct_of_mean_scores": 21,
+     "recall_of_mean_scores": [
+      0.5,
+      0.667,
+      0.583
+     ]
+    },
+    "jsem-audit": {
+     "n": 36,
+     "correct_by_seed": [
+      25,
+      25,
+      24
+     ],
+     "mean_accuracy": 0.6852,
+     "correct_of_mean_scores": 25,
+     "recall_of_mean_scores": [
+      0.75,
+      0.75,
+      0.583
+     ]
+    }
+   }
+  },
+  "mix4-logic-teacher": {
+   "tune_nll": {
+    "42": 0.191,
+    "43": 0.2214,
+    "44": 0.1986
+   },
+   "evaluation": {
+    "jnli": {
+     "n": 2434,
+     "correct_by_seed": [
+      2200,
+      2199,
+      2199
+     ],
+     "mean_accuracy": 0.9036,
+     "correct_of_mean_scores": 2201,
+     "recall_of_mean_scores": [
+      0.736,
+      0.906,
+      0.947
+     ]
+    },
+    "reserved": {
+     "n": 256,
+     "correct_by_seed": [
+      230,
+      226,
+      225
+     ],
+     "mean_accuracy": 0.8867,
+     "correct_of_mean_scores": 225,
+     "recall_of_mean_scores": [
+      0.64,
+      0.853,
+      0.953
+     ]
+    },
+    "jsick": {
+     "n": 512,
+     "correct_by_seed": [
+      451,
+      451,
+      451
+     ],
+     "mean_accuracy": 0.8809,
+     "correct_of_mean_scores": 452,
+     "recall_of_mean_scores": [
+      0.861,
+      0.835,
+      0.903
+     ]
+    },
+    "janli": {
+     "n": 512,
+     "correct_by_seed": [
+      512,
+      512,
+      512
+     ],
+     "mean_accuracy": 1.0,
+     "correct_of_mean_scores": 512,
+     "recall_of_mean_scores": [
+      1.0,
+      1.0
+     ]
+    },
+    "jamp": {
+     "n": 348,
+     "correct_by_seed": [
+      264,
+      266,
+      272
+     ],
+     "mean_accuracy": 0.7682,
+     "correct_of_mean_scores": 268,
+     "recall_of_mean_scores": [
+      0.851,
+      0.819,
+      0.644
+     ]
+    },
+    "jsem": {
+     "n": 384,
+     "correct_by_seed": [
+      226,
+      227,
+      229
+     ],
+     "mean_accuracy": 0.592,
+     "correct_of_mean_scores": 227,
+     "recall_of_mean_scores": [
+      0.867,
+      0.672,
+      0.234
+     ]
+    },
+    "jsem-fresh": {
+     "n": 96,
+     "correct_by_seed": [
+      66,
+      62,
+      64
+     ],
+     "mean_accuracy": 0.6667,
+     "correct_of_mean_scores": 64,
+     "recall_of_mean_scores": [
+      0.906,
+      0.562,
+      0.531
+     ]
+    },
+    "logic-held": {
+     "n": 300,
+     "correct_by_seed": [
+      270,
+      265,
+      260
+     ],
+     "mean_accuracy": 0.8833,
+     "correct_of_mean_scores": 269,
+     "recall_of_mean_scores": [
+      0.91,
+      0.9,
+      0.88
+     ]
+    },
+    "challenge": {
+     "n": 36,
+     "correct_by_seed": [
+      20,
+      18,
+      20
+     ],
+     "mean_accuracy": 0.537,
+     "correct_of_mean_scores": 19,
+     "recall_of_mean_scores": [
+      0.5,
+      0.75,
+      0.333
+     ]
+    },
+    "jsem-audit": {
+     "n": 36,
+     "correct_by_seed": [
+      26,
+      23,
+      24
+     ],
+     "mean_accuracy": 0.6759,
+     "correct_of_mean_scores": 25,
+     "recall_of_mean_scores": [
+      0.833,
+      0.75,
+      0.5
+     ]
+    }
+   }
+  },
+  "mix4-logic-jsem": {
+   "tune_nll": {
+    "42": 0.2552,
+    "43": 0.2416,
+    "44": 0.2592
+   },
+   "evaluation": {
+    "jnli": {
+     "n": 2434,
+     "correct_by_seed": [
+      2201,
+      2176,
+      2194
+     ],
+     "mean_accuracy": 0.8999,
+     "correct_of_mean_scores": 2198,
+     "recall_of_mean_scores": [
+      0.705,
+      0.909,
+      0.951
+     ]
+    },
+    "reserved": {
+     "n": 256,
+     "correct_by_seed": [
+      228,
+      224,
+      225
+     ],
+     "mean_accuracy": 0.8815,
+     "correct_of_mean_scores": 227,
+     "recall_of_mean_scores": [
+      0.62,
+      0.882,
+      0.965
+     ]
+    },
+    "jsick": {
+     "n": 512,
+     "correct_by_seed": [
+      452,
+      453,
+      447
+     ],
+     "mean_accuracy": 0.8802,
+     "correct_of_mean_scores": 448,
+     "recall_of_mean_scores": [
+      0.806,
+      0.8,
+      0.918
+     ]
+    },
+    "janli": {
+     "n": 512,
+     "correct_by_seed": [
+      512,
+      511,
+      512
+     ],
+     "mean_accuracy": 0.9993,
+     "correct_of_mean_scores": 512,
+     "recall_of_mean_scores": [
+      1.0,
+      1.0
+     ]
+    },
+    "jamp": {
+     "n": 348,
+     "correct_by_seed": [
+      259,
+      261,
+      262
+     ],
+     "mean_accuracy": 0.749,
+     "correct_of_mean_scores": 264,
+     "recall_of_mean_scores": [
+      0.868,
+      0.776,
+      0.636
+     ]
+    },
+    "jsem": {
+     "n": 384,
+     "correct_by_seed": [
+      250,
+      240,
+      238
+     ],
+     "mean_accuracy": 0.6319,
+     "correct_of_mean_scores": 243,
+     "recall_of_mean_scores": [
+      0.844,
+      0.844,
+      0.211
+     ]
+    },
+    "jsem-fresh": {
+     "n": 96,
+     "correct_by_seed": [
+      69,
+      63,
+      64
+     ],
+     "mean_accuracy": 0.6806,
+     "correct_of_mean_scores": 67,
+     "recall_of_mean_scores": [
+      0.875,
+      0.656,
+      0.562
+     ]
+    },
+    "logic-held": {
+     "n": 300,
+     "correct_by_seed": [
+      258,
+      267,
+      262
+     ],
+     "mean_accuracy": 0.8744,
+     "correct_of_mean_scores": 265,
+     "recall_of_mean_scores": [
+      0.89,
+      0.89,
+      0.87
+     ]
+    },
+    "challenge": {
+     "n": 36,
+     "correct_by_seed": [
+      21,
+      21,
+      21
+     ],
+     "mean_accuracy": 0.5833,
+     "correct_of_mean_scores": 22,
+     "recall_of_mean_scores": [
+      0.583,
+      0.667,
+      0.583
+     ]
+    },
+    "jsem-audit": {
+     "n": 36,
+     "correct_by_seed": [
+      26,
+      27,
+      26
+     ],
+     "mean_accuracy": 0.7315,
+     "correct_of_mean_scores": 27,
+     "recall_of_mean_scores": [
+      0.833,
+      0.917,
+      0.5
+     ]
+    }
+   }
+  },
+  "mix4-logic-teacher-jsem": {
+   "tune_nll": {
+    "42": 0.2159,
+    "43": 0.2396,
+    "44": 0.2294
+   },
+   "evaluation": {
+    "jnli": {
+     "n": 2434,
+     "correct_by_seed": [
+      2196,
+      2208,
+      2211
+     ],
+     "mean_accuracy": 0.9059,
+     "correct_of_mean_scores": 2205,
+     "recall_of_mean_scores": [
+      0.742,
+      0.909,
+      0.947
+     ]
+    },
+    "reserved": {
+     "n": 256,
+     "correct_by_seed": [
+      228,
+      230,
+      223
+     ],
+     "mean_accuracy": 0.8867,
+     "correct_of_mean_scores": 228,
+     "recall_of_mean_scores": [
+      0.68,
+      0.853,
+      0.959
+     ]
+    },
+    "jsick": {
+     "n": 512,
+     "correct_by_seed": [
+      452,
+      451,
+      453
+     ],
+     "mean_accuracy": 0.8828,
+     "correct_of_mean_scores": 450,
+     "recall_of_mean_scores": [
+      0.843,
+      0.835,
+      0.903
+     ]
+    },
+    "janli": {
+     "n": 512,
+     "correct_by_seed": [
+      512,
+      512,
+      512
+     ],
+     "mean_accuracy": 1.0,
+     "correct_of_mean_scores": 512,
+     "recall_of_mean_scores": [
+      1.0,
+      1.0
+     ]
+    },
+    "jamp": {
+     "n": 348,
+     "correct_by_seed": [
+      268,
+      256,
+      264
+     ],
+     "mean_accuracy": 0.7548,
+     "correct_of_mean_scores": 264,
+     "recall_of_mean_scores": [
+      0.86,
+      0.802,
+      0.619
+     ]
+    },
+    "jsem": {
+     "n": 384,
+     "correct_by_seed": [
+      244,
+      251,
+      238
+     ],
+     "mean_accuracy": 0.6363,
+     "correct_of_mean_scores": 242,
+     "recall_of_mean_scores": [
+      0.859,
+      0.844,
+      0.188
+     ]
+    },
+    "jsem-fresh": {
+     "n": 96,
+     "correct_by_seed": [
+      68,
+      68,
+      64
+     ],
+     "mean_accuracy": 0.6944,
+     "correct_of_mean_scores": 65,
+     "recall_of_mean_scores": [
+      0.875,
+      0.688,
+      0.469
+     ]
+    },
+    "logic-held": {
+     "n": 300,
+     "correct_by_seed": [
+      268,
+      261,
+      263
+     ],
+     "mean_accuracy": 0.88,
+     "correct_of_mean_scores": 263,
+     "recall_of_mean_scores": [
+      0.89,
+      0.9,
+      0.84
+     ]
+    },
+    "challenge": {
+     "n": 36,
+     "correct_by_seed": [
+      22,
+      19,
+      21
+     ],
+     "mean_accuracy": 0.5741,
+     "correct_of_mean_scores": 20,
+     "recall_of_mean_scores": [
+      0.5,
+      0.75,
+      0.417
+     ]
+    },
+    "jsem-audit": {
+     "n": 36,
+     "correct_by_seed": [
+      25,
+      25,
+      25
+     ],
+     "mean_accuracy": 0.6944,
+     "correct_of_mean_scores": 26,
+     "recall_of_mean_scores": [
+      0.833,
+      0.917,
+      0.417
+     ]
+    }
+   }
+  }
+ },
+ "jnli_entailment_predictions_of_mean_scores": {
+  "base": [
+   262,
+   69,
+   18
+  ],
+  "prev": [
+   224,
+   12,
+   113
+  ],
+  "mix4": [
+   243,
+   15,
+   91
+  ],
+  "mix4-logic": [
+   247,
+   15,
+   87
+  ],
+  "mix4-logic-jsem": [
+   246,
+   13,
+   90
+  ],
+  "mix4-logic-teacher": [
+   257,
+   12,
+   80
+  ],
+  "mix4-logic-teacher-jsem": [
+   259,
+   15,
+   75
+  ]
+ },
+ "fusion": {
+  "note": "Fixed shares 10% Laya, 45% + 45% direct judges; only the Laya share is replaced. Mixture correct counts by seed.",
+  "published": {
+   "jsem": 305,
+   "challenge": 33,
+   "jsem-fresh": 79
+  },
+  "judges_without_laya": {
+   "jsem": 305,
+   "challenge": 32,
+   "jsem-fresh": 78
+  },
+  "by_seed": {
+   "jsem": {
+    "mix4-logic-jsem": [
+     304,
+     305,
+     304
+    ],
+    "mix4-logic-teacher": [
+     304,
+     303,
+     304
+    ],
+    "mix4-logic-teacher-jsem": [
+     304,
+     304,
+     304
+    ]
+   },
+   "challenge": {
+    "mix4-logic-jsem": [
+     33,
+     33,
+     33
+    ],
+    "mix4-logic-teacher": [
+     33,
+     33,
+     33
+    ],
+    "mix4-logic-teacher-jsem": [
+     33,
+     33,
+     33
+    ]
+   },
+   "jsem-fresh": {
+    "mix4-logic-jsem": [
+     79,
+     79,
+     79
+    ],
+    "mix4-logic-teacher": [
+     79,
+     79,
+     79
+    ],
+    "mix4-logic-teacher-jsem": [
+     79,
+     79,
+     79
+    ]
+   }
+  }
+ },
+ "selected_seed": {
+  "mix4-logic-jsem": 43,
+  "mix4-logic-teacher-jsem": 42
+ }
+}
