@@ -138,6 +138,14 @@ def tune_loss(logits, items):
     return float(lora_nli.mixed_loss(logits, target, mask))
 
 
+def source_tune_loss(bench, model, items):
+    """Mean tuning loss of one source; distillation questions mix option counts, so they are scored per count."""
+    groups = {}
+    for it in items:
+        groups.setdefault(it["k"], []).append(it)
+    return sum(tune_loss(score(bench, model, g), g) * len(g) for g in groups.values()) / len(items)
+
+
 def evaluate(source, name, logits, rows):
     """Headline metrics per task; inference sets use the same measures as lora_nli.py."""
     y = torch.tensor([r[1] for r in rows])
@@ -283,7 +291,7 @@ def main():
         history = []
 
         def on_epoch_end(epoch, loss):
-            per = {s: tune_loss(score(bench, model, tune_items[s]), tune_items[s]) for s in tuned_on}
+            per = {s: source_tune_loss(bench, model, tune_items[s]) for s in tuned_on}
             mean = sum(per.values()) / len(per)
             history.append({"epoch": epoch + 1, "train_loss": loss, "tune_loss": mean, "per_source": per})
             print(regime, seed, history[-1], flush=True)
