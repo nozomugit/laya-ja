@@ -179,7 +179,7 @@ LAYA 単体の正答数は増えたが、10%の配分では併用の結果は変
 python predict.py lora-nli --adapter path/to/adapter.safetensors '月曜に資料を送り、水曜に返事を受け取った。' '資料を送ったのは返事を受け取る前だ。'
 ```
 
-Python からは `from lora import LoraReader`、`LoraReader("path/to/adapter.safetensors").predict(前提, 仮説)`。アダプターのファイルはこのリポジトリにまだ収録していない。下の手順で再学習して作成する。
+Python からは `from lora import LoraReader`、`LoraReader("path/to/adapter.safetensors").predict(前提, 仮説)`。アダプターと、LoRA を本体に織り込んだ完成版は [Hugging Face の Nozomu/laya-ja](https://huggingface.co/Nozomu/laya-ja) にある。下の手順で再学習して作成することもできる。
 
 ## 再現
 
