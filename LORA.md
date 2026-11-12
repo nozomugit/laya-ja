@@ -142,7 +142,7 @@ python lora_nli.py                               # 4コーパス混合、3シー
 python lora_nli.py --regimes mix4 jnli           # 同じ設定の JNLI 単独を対照に加える
 python lora_nli.py --entailment-weight 1.5 --out .cache/lora-nli-ew15 --result results/lora-nli-ew15.json
 python lora_nli.py --regimes mix4 mix4-logic    # 合成論理を加えた比較と、併用構成の差し替え確認
-bash tools/teacher/label_gpu.sh                  # 教師ラベルの作成（外部2モデル、GPU）
+bash tools/teacher/label_gpu.sh .cache/teacher               # 教師ラベルの作成（外部2モデル、GPU）
 python lora_nli.py --regimes mix4-logic mix4-logic-teacher mix4-logic-teacher-jsem --teacher .cache/teacher/teacher.jsonl
 python lora_nli.py --regimes mix4-logic mix4-logic-jsem   # JSeM の残りの問題を加える比較
 ```
