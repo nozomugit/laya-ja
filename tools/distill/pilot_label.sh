@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Measure the second teacher on the public dev problems, then label the pilot questions with both teachers.
 # Usage: bash tools/distill/pilot_label.sh PILOT_DIR OUT_DIR
+# Score questions take the second teacher's distribution alone: on the dev problems its error was 0.03 against 0.66.
 # Finished files are kept and partial ones resumed, so the script can be rerun after an interruption.
 set -uo pipefail
 PILOT="$1"; OUT="$2"
@@ -28,7 +29,7 @@ score "$B" "$WORK/teacher_input.jsonl" "$WORK/teacher-b.jsonl" && cp "$WORK/teac
 score "$A" "$WORK/teacher_input.jsonl" "$WORK/teacher-a.jsonl" && cp "$WORK/teacher-a.jsonl" "$OUT/"
 if [ -f "$WORK/teacher-a.jsonl" ] && [ -f "$WORK/teacher-b.jsonl" ] && [ ! -d "$WORK/scored" ]; then
   python tools/distill/combine_teachers.py "$WORK/teacher-a.jsonl" "$WORK/teacher-b.jsonl" \
-    --input "$WORK/teacher_input.jsonl" --documents "$WORK/documents.jsonl" --out "$WORK/scored" \
+    --input "$WORK/teacher_input.jsonl" --documents "$WORK/documents.jsonl" --out "$WORK/scored" --score-teacher b \
     && cp -r "$WORK/scored" "$OUT/" && cat "$WORK/scored/provenance.json"
 fi
 date +%H:%M:%S

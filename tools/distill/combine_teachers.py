@@ -23,6 +23,7 @@ def main():
     p.add_argument("--documents",type=Path,default=Path("documents.jsonl"))
     p.add_argument("--out",type=Path,default=Path("scored"))
     p.add_argument("--confidence",type=float,default=.9)
+    p.add_argument("--score-teacher",choices=["a","b"],help="use only this teacher's distribution for score questions")
     args=p.parse_args()
     if args.out.exists():raise FileExistsError(args.out)
     if not .5<args.confidence<=1:raise ValueError("confidence must be above .5 and at most 1")
@@ -50,6 +51,7 @@ def main():
             sets["conflicts"].append(dict(id=qid,teacher_probabilities=pp))
             continue
         probs=[(x+y)/2 for x,y in zip(p,q)]
+        if r["type"]=="score" and args.score_teacher:probs=list(p if args.score_teacher=="a" else q)
         typ={"nli":"choice","choice":"choice","noul":"noul","score":"score"}[r["type"]]
         if typ=="choice":criteria=dict.fromkeys(r["options"],"")
         elif typ=="noul":criteria=dict(zip(["false","true"],r["options"]))
@@ -65,6 +67,6 @@ def main():
         folder=Path(temp)/"deliver";folder.mkdir()
         for name,rows in sets.items():dump(folder/(name+".jsonl"),rows)
         dump(folder/"human_review.jsonl",audit)
-        (folder/"provenance.json").write_text(json.dumps(dict(models=identity,input_sha256=sha,confidence=args.confidence,counts={k:len(v) for k,v in sets.items()}),indent=2))
+        (folder/"provenance.json").write_text(json.dumps(dict(models=identity,input_sha256=sha,confidence=args.confidence,score_teacher=args.score_teacher,counts={k:len(v) for k,v in sets.items()}),indent=2))
         folder.rename(args.out)
 if __name__=="__main__":main()
