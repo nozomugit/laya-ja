@@ -1,7 +1,7 @@
 """List, and with --upload send, the all-layer LoRA weights to a private Hugging Face model repository.
 
 Without --upload nothing leaves the machine: the files, sizes and SHA-256 are printed. The repository is created
-private and is never made public here. The token is read from HF_TOKEN or, in Colab under %run, from a secret.
+private; --public is a separate step that only changes its visibility. The token is read from HF_TOKEN or, in Colab under %run, from a secret.
 """
 
 import argparse
@@ -36,6 +36,18 @@ def plan(runs, seeds):
     return [(p, name) for p, name in out if p.exists()]
 
 
+def token_from(secret):
+    token = os.environ.get("HF_TOKEN")
+    if not token:
+        try:
+            from google.colab import userdata
+
+            token = userdata.get(secret)
+        except Exception as error:
+            raise SystemExit(f"Set HF_TOKEN, or the Colab secret {secret}: {type(error).__name__}") from None
+    return token
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--runs", type=Path, required=True, help="folder holding tasks/ and logic/")
@@ -44,8 +56,18 @@ def main():
     ap.add_argument("--seeds", nargs="+", type=int, default=[42, 43, 44])
     ap.add_argument("--secret", default="HuggingFaceAccessToken")
     ap.add_argument("--upload", action="store_true")
+    ap.add_argument("--public", action="store_true", help="make the existing repository public and send nothing")
     ap.add_argument("--card-only", action="store_true", help="with --upload, send only the model card")
     args = ap.parse_args()
+    if args.public:
+        from huggingface_hub import HfApi
+
+        api = HfApi(token=token_from(args.secret))
+        repo = f"{api.whoami()['name']}/{args.name}"
+        api.update_repo_settings(repo, private=False)
+        info = api.model_info(repo)
+        print(f"https://huggingface.co/{repo} private={info.private} revision={info.sha}")
+        return
     files = plan(args.runs, args.seeds)
     sums = [(sha256(p), name, p.stat().st_size) for p, name in files]
     for digest, name, size in sums:
@@ -60,14 +82,7 @@ def main():
         raise SystemExit("Nothing to upload, or the model card is missing.")
     from huggingface_hub import HfApi
 
-    token = os.environ.get("HF_TOKEN")
-    if not token:
-        try:
-            from google.colab import userdata
-
-            token = userdata.get(args.secret)
-        except Exception as error:
-            raise SystemExit(f"Set HF_TOKEN, or the Colab secret {args.secret}: {type(error).__name__}") from None
+    token = token_from(args.secret)
     api = HfApi(token=token)
     repo = f"{api.whoami()['name']}/{args.name}"
     api.create_repo(repo, repo_type="model", private=True, exist_ok=True)
