@@ -1,0 +1,129 @@
+{
+ "source": "heldout_eval.py on 2026-11-12. laya-ja is the published unified checkpoint (seed 42); laya is the upstream base; jev is jev-latest answered by jev-1.14.0. Counts are [problems, correct]. Problems and answers were written by an AI and have not been independently verified. Per-category totals are kept outside the repository.",
+ "overlap_with_training_including_teacher_pairs": {
+  "test.jsonl": {
+   "flagged_at_0.5": 0,
+   "highest_similarity": 0.352
+  }
+ },
+ "dev.jsonl": {
+  "sha256": "239e273a4d29c58376fa55ba2bf058171f634421e9488dd01c1007811b0241db",
+  "laya-ja": {
+   "nli": [
+    144,
+    89
+   ],
+   "choice": [
+    24,
+    9
+   ],
+   "noul": [
+    16,
+    9
+   ],
+   "score": {
+    "n": 16,
+    "mae": 1.377,
+    "pearson": 0.422
+   }
+  },
+  "laya": {
+   "nli": [
+    144,
+    77
+   ],
+   "choice": [
+    24,
+    6
+   ],
+   "noul": [
+    16,
+    9
+   ],
+   "score": {
+    "n": 16,
+    "mae": 1.655,
+    "pearson": -0.019
+   }
+  },
+  "jev": {
+   "nli": [
+    144,
+    134
+   ],
+   "choice": [
+    24,
+    24
+   ],
+   "noul": [
+    16,
+    16
+   ],
+   "score": {
+    "n": 16,
+    "mae": 0.032,
+    "pearson": 1.0
+   }
+  }
+ },
+ "test.jsonl": {
+  "sha256": "e6f0a65d2f0526d75fec20f570ac51fd69843867b344f4803c6c575f9adb82ae",
+  "laya-ja": {
+   "nli": [
+    576,
+    344
+   ],
+   "choice": [
+    96,
+    39
+   ],
+   "noul": [
+    64,
+    35
+   ],
+   "score": {
+    "n": 64,
+    "mae": 1.497,
+    "pearson": 0.21
+   }
+  },
+  "laya": {
+   "nli": [
+    576,
+    310
+   ],
+   "choice": [
+    96,
+    28
+   ],
+   "noul": [
+    64,
+    34
+   ],
+   "score": {
+    "n": 64,
+    "mae": 1.561,
+    "pearson": 0.119
+   }
+  },
+  "jev": {
+   "nli": [
+    576,
+    549
+   ],
+   "choice": [
+    96,
+    89
+   ],
+   "noul": [
+    64,
+    64
+   ],
+   "score": {
+    "n": 64,
+    "mae": 0.14,
+    "pearson": 0.971
+   }
+  }
+ }
+}
