@@ -36,7 +36,14 @@
 
 ## 試す
 
-下のコマンドは、初版から公開している判定層のみの重みを読み込みます。上の表の全層LoRAの重みはまだ配布していません。[LORA.md](LORA.md) の手順で再学習すると `python predict.py lora-nli --adapter ...` で使えます。
+上の表の Laya-JA の重みは [Hugging Face の Nozomu/laya-ja](https://huggingface.co/Nozomu/laya-ja) で公開しています。下の環境を用意したあと、推論は次のように試せます。
+
+```bash
+ADAPTER=$(python -c "from huggingface_hub import hf_hub_download; print(hf_hub_download('Nozomu/laya-ja', 'adapters/unified-s42.safetensors'))")
+python predict.py lora-nli --adapter "$ADAPTER" '月曜に資料を送り、水曜に返事を受け取った。' '資料を送ったのは返事を受け取る前だ。'
+```
+
+その下の `jnli` などのコマンドは、初版から公開している判定層のみの重みを読み込みます。
 
 Python 3.12 と CPU で実行できます。初回は Hugging Face から約644 MBの重みとトークナイザーを取得します。公開モデルの利用に API キーは不要です。
 
