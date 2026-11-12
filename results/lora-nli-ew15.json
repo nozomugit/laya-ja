@@ -1,0 +1,489 @@
+{
+  "source": "Colab A100 run of notebooks/laya_ja_nli_multicorpus_colab.ipynb with ENTAILMENT_WEIGHT = 1.5 (2026-11-12). Same data, seeds and settings as results/lora-nli.json otherwise. Scored on GPU in float32; recall and loss rounded to four decimals, accuracy recomputed from the counts.",
+  "base": "convaiinnovations/laya-multilingual",
+  "base_revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+  "config": {
+    "epochs": 2,
+    "encoder_lr": 0.0001,
+    "head_lr": 0.0001,
+    "micro_batch": 16,
+    "grad_accum": 2,
+    "extra_cap": 4000,
+    "entailment_weight": 1.5,
+    "max_train": null,
+    "lora": [
+      16,
+      32,
+      0.05
+    ]
+  },
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "regimes": [
+    "mix4"
+  ],
+  "counts": {
+    "train": {
+      "jnli": 18618,
+      "jsick": 4000,
+      "janli": 4000,
+      "jamp": 4000
+    },
+    "eval": {
+      "jnli": 2434,
+      "reserved": 256,
+      "jsick": 512,
+      "janli": 512,
+      "jamp": 348,
+      "jsem": 384,
+      "challenge": 36
+    }
+  },
+  "models": {
+    "mix4": {
+      "jnli": {
+        "correct": 2218,
+        "n": 2434,
+        "accuracy": 0.911257,
+        "balanced_accuracy": 0.873,
+        "recall": {
+          "entailment": 0.7479,
+          "contradiction": 0.9252,
+          "neutral": 0.9459
+        },
+        "nll": 0.246
+      },
+      "reserved": {
+        "correct": 229,
+        "n": 256,
+        "accuracy": 0.894531,
+        "balanced_accuracy": 0.85,
+        "recall": {
+          "entailment": 0.72,
+          "contradiction": 0.8824,
+          "neutral": 0.9477
+        },
+        "nll": 0.3105
+      },
+      "jsick": {
+        "correct": 455,
+        "n": 512,
+        "accuracy": 0.888672,
+        "balanced_accuracy": 0.8748,
+        "recall": {
+          "entailment": 0.8981,
+          "contradiction": 0.8235,
+          "neutral": 0.9028
+        },
+        "nll": 0.2733
+      },
+      "janli": {
+        "correct": 512,
+        "n": 512,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "recall": {
+          "entailment": 1.0,
+          "non_entailment": 1.0
+        },
+        "nll": 0.002
+      },
+      "jamp": {
+        "correct": 264,
+        "n": 348,
+        "accuracy": 0.758621,
+        "balanced_accuracy": 0.76,
+        "recall": {
+          "entailment": 0.8684,
+          "contradiction": 0.7845,
+          "neutral": 0.6271
+        },
+        "nll": 1.3607
+      },
+      "jsem": {
+        "correct": 225,
+        "n": 384,
+        "accuracy": 0.585938,
+        "balanced_accuracy": 0.586,
+        "recall": {
+          "entailment": 0.7813,
+          "contradiction": 0.7891,
+          "neutral": 0.1875
+        },
+        "nll": 2.112
+      },
+      "challenge": {
+        "correct": 16,
+        "n": 36,
+        "accuracy": 0.444444,
+        "balanced_accuracy": 0.4444,
+        "recall": {
+          "entailment": 0.4167,
+          "contradiction": 0.5833,
+          "neutral": 0.3333
+        },
+        "nll": 2.2155
+      }
+    }
+  },
+  "model_notes": {
+    "mix4": "mean of the three seeds' option scores"
+  },
+  "runs": {
+    "mix4": {
+      "42": {
+        "epoch": 2,
+        "tune_nll": 0.163,
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.3926,
+            "tune_nll": 0.1928,
+            "tune_accuracy": {
+              "jnli": 0.8906,
+              "jsick": 0.8854,
+              "janli": 0.9948,
+              "jamp": 0.9479
+            }
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.1878,
+            "tune_nll": 0.163,
+            "tune_accuracy": {
+              "jnli": 0.8854,
+              "jsick": 0.8906,
+              "janli": 0.9948,
+              "jamp": 0.9792
+            }
+          }
+        ],
+        "train_items": 30618,
+        "evaluation": {
+          "jnli": {
+            "correct": 2199,
+            "n": 2434,
+            "accuracy": 0.903451,
+            "balanced_accuracy": 0.8588,
+            "recall": {
+              "entailment": 0.7135,
+              "contradiction": 0.9184,
+              "neutral": 0.9444
+            },
+            "nll": 0.2593
+          },
+          "reserved": {
+            "correct": 226,
+            "n": 256,
+            "accuracy": 0.882812,
+            "balanced_accuracy": 0.8269,
+            "recall": {
+              "entailment": 0.68,
+              "contradiction": 0.8529,
+              "neutral": 0.9477
+            },
+            "nll": 0.3404
+          },
+          "jsick": {
+            "correct": 455,
+            "n": 512,
+            "accuracy": 0.888672,
+            "balanced_accuracy": 0.8728,
+            "recall": {
+              "entailment": 0.8889,
+              "contradiction": 0.8235,
+              "neutral": 0.906
+            },
+            "nll": 0.2815
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": {
+              "entailment": 1.0,
+              "non_entailment": 1.0
+            },
+            "nll": 0.0029
+          },
+          "jamp": {
+            "correct": 263,
+            "n": 348,
+            "accuracy": 0.755747,
+            "balanced_accuracy": 0.7571,
+            "recall": {
+              "entailment": 0.8684,
+              "contradiction": 0.7672,
+              "neutral": 0.6356
+            },
+            "nll": 1.3736
+          },
+          "jsem": {
+            "correct": 220,
+            "n": 384,
+            "accuracy": 0.572917,
+            "balanced_accuracy": 0.5729,
+            "recall": {
+              "entailment": 0.7656,
+              "contradiction": 0.75,
+              "neutral": 0.2031
+            },
+            "nll": 2.1792
+          },
+          "challenge": {
+            "correct": 18,
+            "n": 36,
+            "accuracy": 0.5,
+            "balanced_accuracy": 0.5,
+            "recall": {
+              "entailment": 0.4167,
+              "contradiction": 0.5833,
+              "neutral": 0.5
+            },
+            "nll": 2.2936
+          }
+        }
+      },
+      "43": {
+        "epoch": 2,
+        "tune_nll": 0.1826,
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.3939,
+            "tune_nll": 0.1892,
+            "tune_accuracy": {
+              "jnli": 0.8958,
+              "jsick": 0.8854,
+              "janli": 0.9896,
+              "jamp": 0.9427
+            }
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.1888,
+            "tune_nll": 0.1826,
+            "tune_accuracy": {
+              "jnli": 0.8958,
+              "jsick": 0.9063,
+              "janli": 0.9896,
+              "jamp": 0.9531
+            }
+          }
+        ],
+        "train_items": 30618,
+        "evaluation": {
+          "jnli": {
+            "correct": 2215,
+            "n": 2434,
+            "accuracy": 0.910025,
+            "balanced_accuracy": 0.8796,
+            "recall": {
+              "entailment": 0.7794,
+              "contradiction": 0.9224,
+              "neutral": 0.937
+            },
+            "nll": 0.2546
+          },
+          "reserved": {
+            "correct": 231,
+            "n": 256,
+            "accuracy": 0.902344,
+            "balanced_accuracy": 0.8634,
+            "recall": {
+              "entailment": 0.76,
+              "contradiction": 0.8824,
+              "neutral": 0.9477
+            },
+            "nll": 0.3216
+          },
+          "jsick": {
+            "correct": 451,
+            "n": 512,
+            "accuracy": 0.880859,
+            "balanced_accuracy": 0.8678,
+            "recall": {
+              "entailment": 0.8981,
+              "contradiction": 0.8118,
+              "neutral": 0.8934
+            },
+            "nll": 0.2824
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": {
+              "entailment": 1.0,
+              "non_entailment": 1.0
+            },
+            "nll": 0.0023
+          },
+          "jamp": {
+            "correct": 265,
+            "n": 348,
+            "accuracy": 0.761494,
+            "balanced_accuracy": 0.7628,
+            "recall": {
+              "entailment": 0.8509,
+              "contradiction": 0.8103,
+              "neutral": 0.6271
+            },
+            "nll": 1.3834
+          },
+          "jsem": {
+            "correct": 222,
+            "n": 384,
+            "accuracy": 0.578125,
+            "balanced_accuracy": 0.5781,
+            "recall": {
+              "entailment": 0.7656,
+              "contradiction": 0.7891,
+              "neutral": 0.1797
+            },
+            "nll": 2.3326
+          },
+          "challenge": {
+            "correct": 17,
+            "n": 36,
+            "accuracy": 0.472222,
+            "balanced_accuracy": 0.4722,
+            "recall": {
+              "entailment": 0.4167,
+              "contradiction": 0.6667,
+              "neutral": 0.3333
+            },
+            "nll": 2.3255
+          }
+        }
+      },
+      "44": {
+        "epoch": 2,
+        "tune_nll": 0.1789,
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.3989,
+            "tune_nll": 0.2079,
+            "tune_accuracy": {
+              "jnli": 0.8802,
+              "jsick": 0.8854,
+              "janli": 0.9896,
+              "jamp": 0.9427
+            }
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.1897,
+            "tune_nll": 0.1789,
+            "tune_accuracy": {
+              "jnli": 0.8906,
+              "jsick": 0.9063,
+              "janli": 0.9948,
+              "jamp": 0.974
+            }
+          }
+        ],
+        "train_items": 30618,
+        "evaluation": {
+          "jnli": {
+            "correct": 2204,
+            "n": 2434,
+            "accuracy": 0.905505,
+            "balanced_accuracy": 0.8645,
+            "recall": {
+              "entailment": 0.7335,
+              "contradiction": 0.9156,
+              "neutral": 0.9444
+            },
+            "nll": 0.2702
+          },
+          "reserved": {
+            "correct": 229,
+            "n": 256,
+            "accuracy": 0.894531,
+            "balanced_accuracy": 0.8406,
+            "recall": {
+              "entailment": 0.68,
+              "contradiction": 0.8824,
+              "neutral": 0.9593
+            },
+            "nll": 0.3119
+          },
+          "jsick": {
+            "correct": 457,
+            "n": 512,
+            "accuracy": 0.892578,
+            "balanced_accuracy": 0.8712,
+            "recall": {
+              "entailment": 0.8981,
+              "contradiction": 0.8,
+              "neutral": 0.9154
+            },
+            "nll": 0.2953
+          },
+          "janli": {
+            "correct": 512,
+            "n": 512,
+            "accuracy": 1.0,
+            "balanced_accuracy": 1.0,
+            "recall": {
+              "entailment": 1.0,
+              "non_entailment": 1.0
+            },
+            "nll": 0.003
+          },
+          "jamp": {
+            "correct": 263,
+            "n": 348,
+            "accuracy": 0.755747,
+            "balanced_accuracy": 0.7571,
+            "recall": {
+              "entailment": 0.8509,
+              "contradiction": 0.8017,
+              "neutral": 0.6186
+            },
+            "nll": 1.4369
+          },
+          "jsem": {
+            "correct": 221,
+            "n": 384,
+            "accuracy": 0.575521,
+            "balanced_accuracy": 0.5755,
+            "recall": {
+              "entailment": 0.7656,
+              "contradiction": 0.7734,
+              "neutral": 0.1875
+            },
+            "nll": 2.0571
+          },
+          "challenge": {
+            "correct": 16,
+            "n": 36,
+            "accuracy": 0.444444,
+            "balanced_accuracy": 0.4444,
+            "recall": {
+              "entailment": 0.4167,
+              "contradiction": 0.5833,
+              "neutral": 0.3333
+            },
+            "nll": 2.086
+          }
+        }
+      }
+    }
+  },
+  "entailment_predictions": {
+    "mix4": [
+      261,
+      17,
+      71
+    ]
+  },
+  "selected_seed": 42
+}
