@@ -29,7 +29,7 @@ JaNLI — Hitomi Yanaka and Koji Mineshima, Assessing the Generalization Capacit
 https://github.com/verypluming/JaNLI
 Jamp — Tomoki Sugimoto, Yasumasa Onoe and Hitomi Yanaka, Jamp: Controlled Japanese Temporal Inference Dataset for Evaluating Generalization Capacity of Language Models (2023), CC BY-SA 4.0.
 https://github.com/tomo-ut/temporalNLI_dataset
-JSeM — Japanese Semantics test suite, Ai Kawazoe, Ribeka Tanaka, Koji Mineshima and Daisuke Bekki; distributed by the JSeM project, BSD 3-Clause. Evaluation only.
+JSeM — Japanese Semantics test suite, Ai Kawazoe, Ribeka Tanaka, Koji Mineshima and Daisuke Bekki; distributed by the JSeM project, BSD 3-Clause. Evaluation; the all-layer LoRA also trains on JSeM problems that share no sentence with the evaluation problems.
 https://github.com/DaisukeBekki/JSeM
 JSQuAD — JGLUE contributors, based on Japanese Wikipedia. Experiments construct five candidate answers from a single article. This is a modified task.
 https://github.com/yahoojapan/JGLUE/tree/main/datasets/jsquad-v1.3
@@ -64,3 +64,10 @@ https://huggingface.co/unsloth/gemma-4-26B-A4B-it-GGUF
 The dense direct comparison uses a separate pinned upstream Qwen3.6-27B
 quantization. Its weights are fetched on demand.
 https://huggingface.co/unsloth/Qwen3.6-27B-GGUF
+
+The all-layer LoRA weights (LORA.md) are offered under CC BY-SA 4.0 under the attributions in this notice.
+They are also trained on Japanese MultiNLI pairs from cl-nagoya/nu-mnli (Nagoya University; a translation of
+MultiNLI by Adina Williams, Nikita Nangia and Samuel R. Bowman, 2018), with soft labels given by the
+Qwen3.6-27B and Qwen3.6-35B-A3B judges credited above. The dataset card lists CC BY 3.0, CC BY-SA 3.0, MIT
+and one further license for its source genres.
+https://huggingface.co/datasets/cl-nagoya/nu-mnli
