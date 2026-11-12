@@ -36,6 +36,8 @@ def main():
     config_args=dict(revision=a.revision,device_map="auto",torch_dtype="auto")
     if a.four_bit:
         config_args["quantization_config"]=BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type="nf4",bnb_4bit_compute_dtype=torch.bfloat16)
+        # "auto" sizes the placement before quantization and refuses models that only fit once quantized.
+        config_args["device_map"]={"":0}
     if type(config) in AutoModelForCausalLM._model_mapping:
         loader=AutoModelForCausalLM
     else:
