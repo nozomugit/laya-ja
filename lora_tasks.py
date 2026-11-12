@@ -1,6 +1,7 @@
 """All-layer LoRA for commonsense choice, similarity score and acceptability, alone and in one model with inference."""
 
 import argparse
+import hashlib
 import json
 import random
 from pathlib import Path
@@ -22,7 +23,7 @@ from safetensors.torch import save_file
 import lora_nli
 from corpus_experiment import measures
 from experiment import partition
-from laya_ja import BASE, REVISION
+from laya_ja import BASE, REVISION, nli_request
 from lora import add_lora, apply_adapter, merge_lora, trainable_state
 from scoring import diagnostic, metrics
 from typed import SOURCES, load_split
@@ -87,6 +88,27 @@ def task_items(bench, task, rows, weights=None, train=False):
                 "qtype": QTYPES[q["t"]],
                 "k": len(target),
             }
+        if item is not None:
+            out.append(item)
+    return out
+
+
+def distill_items(bench, path, train=False):
+    """Questions labeled by the two teachers (tools/distill/combine_teachers.py); the target is their mean probability.
+
+    Inference questions are re-asked in the wording every other inference source uses, so the model sees one format.
+    """
+    out = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        r = json.loads(line)
+        question, target, state = r["question"], [float(v) for v in r["target"]], r["state"]
+        if question["type"] == "choice" and list(question["criteria"]) == ["含意", "矛盾", "判断できない"]:
+            premise, hypothesis = state.removeprefix("前提：").rsplit("\n仮説：", 1)
+            out += bench.items([(nli_request(premise, hypothesis), tuple(target), "distill", r["id"])], train=train)
+            continue
+        q = to_internal("decision", question)
+        state_ids = encode_state(bench.tok, state, bench.max_len)
+        item, _ = make_item(bench.tok, q, target, state_ids, bench.head_max_len, bench.max_len)
         if item is not None:
             out.append(item)
     return out
@@ -168,6 +190,7 @@ def main():
     ap.add_argument("--teacher", type=Path)
     ap.add_argument("--teacher-cap", type=int, default=8000)
     ap.add_argument("--teacher-all", action="store_true")
+    ap.add_argument("--distill", type=Path, help="folder written by tools/distill/combine_teachers.py")
     ap.add_argument("--max-train", type=int)
     ap.add_argument("--summary", type=Path)
     ap.add_argument("--model-path")
@@ -200,6 +223,10 @@ def main():
             eval_sets[("nli", name)] = (rows, bench.items(rows))
     sources_of = {t: [t] for t in TASKS}
     sources_of["unified"] = [*TASKS, *nli_sources]
+    if args.distill:
+        train_items["distill"] = distill_items(bench, args.distill / "train.jsonl", train=True)
+        tune_items["distill"] = distill_items(bench, args.distill / "tune.jsonl")
+        sources_of["unified"].append("distill")
     run_config = {
         k: getattr(args, k)
         for k in (
@@ -216,6 +243,8 @@ def main():
             "teacher_cap",
         )
     }
+    if args.distill:
+        run_config["distill"] = hashlib.sha256((args.distill / "train.jsonl").read_bytes()).hexdigest()
 
     def score_all(model, regime):
         wanted = set(sources_of[regime]) | ({"nli"} if regime == "unified" else set())
